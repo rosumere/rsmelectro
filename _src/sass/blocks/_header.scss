@@ -1,0 +1,15 @@
+.header {
+  border-bottom: 1px solid rgba(256, 256, 256, 0.12);
+  position: relative;
+  z-index: 2;
+
+  &__inner {
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    align-self: center;
+  }
+}

@@ -1,0 +1,45 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  background-color: $color-accent;
+  color: $color-body;
+  text-decoration: none;
+  padding: 0.6rem 1.1rem;
+  transition:
+    background-color $transition,
+    color $transition;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: $color-primary;
+      color: #fff;
+    }
+  }
+
+  &--outline {
+    background-color: inherit;
+    border-color: $color-primary;
+  }
+
+  &--dark {
+    background-color: $color-primary;
+    color: #fff;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: $color-accent;
+        color: $color-body;
+      }
+    }
+  }
+}

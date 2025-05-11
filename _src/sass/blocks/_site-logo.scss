@@ -1,0 +1,21 @@
+.site-logo {
+  &__desktop {
+    display: none;
+
+    @media (min-width: $screen-md) {
+      display: block;
+      width: 148px;
+      height: 40px;
+    }
+  }
+
+  &__mobile {
+    display: block;
+    width: 32px;
+    height: 32px;
+
+    @media (min-width: $screen-md) {
+      display: none;
+    }
+  }
+}
