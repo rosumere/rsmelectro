@@ -1,0 +1,69 @@
+.header-menu-toggle {
+  $block-name: &;
+
+  position: relative;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 64px;
+  z-index: 10;
+  transition: background-color $transition;
+
+  @media (min-width: $screen-xl) {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: $color-accent-light;
+    }
+
+    &:hover #{$block-name}__line {
+      background-color: $color-accent;
+    }
+  }
+
+  &__line {
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition:
+      transform $transition,
+      background-color $transition,
+      opacity $transition;
+  }
+
+  &__line:first-child {
+    top: 50%;
+    transform: translateY(-5px);
+    transition: $transition;
+  }
+
+  &__line:last-child {
+    top: 50%;
+    transform: translateY(5px);
+    transition: $transition;
+  }
+
+  &--active {
+    background-color: $color-accent-light;
+  }
+
+  &--active #{$block-name}__line:first-child {
+    transform: translateY(0) rotate(45deg);
+    transform-origin: center;
+    background-color: $color-accent;
+  }
+
+  &--active #{$block-name}__line:last-child {
+    transform: translateY(0) rotate(-45deg);
+    transform-origin: center;
+    background-color: $color-accent;
+  }
+}

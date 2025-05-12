@@ -1,6 +1,6 @@
 .home-hero {
   height: auto;
-  min-height: 800px;
+  min-height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
@@ -18,5 +18,89 @@
     height: 100%;
     background: rgba(24, 26, 28, 0.7), linear-gradient(180deg, rgba(24, 26, 28, 0.6) 0%, rgba(24, 26, 28, 0.6) 100%);
     z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    padding-bottom: 40px;
+  }
+
+  &__title {
+    margin-bottom: 8px;
+
+    @media (min-width: $screen-md) {
+      max-width: 630px;
+    }
+
+    @media (min-width: $screen-xl) {
+      max-width: 870px;
+    }
+
+    & span {
+      display: flex;
+
+      @media (min-width: $screen-sm) {
+        display: inline-flex;
+      }
+    }
+  }
+
+  &__subtitle {
+    max-width: 240px;
+    font-size: 15px;
+    color: rgba(256, 256, 256, 0.75);
+    margin-bottom: 28px;
+
+    @media (min-width: $screen-md) {
+      max-width: 424px;
+    }
+
+    & span {
+      display: flex;
+
+      @media (min-width: $screen-sm) {
+        display: inline-flex;
+      }
+    }
+
+    @media (min-width: $screen-sm) {
+      font-size: 16px;
+    }
+
+    @media (min-width: $screen-md) {
+      font-size: 18px;
+    }
+
+    @media (min-width: $screen-xl) {
+      font-size: 22px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+
+    @media (min-width: $screen-xl) {
+      font-size: 18px;
+    }
+
+    & img {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

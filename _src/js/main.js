@@ -1,40 +1,46 @@
 document.addEventListener('DOMContentLoaded', function () {
-  /*
- ** Главная навигация в header
- */
-  const headerNavOpen = document.querySelector('.header__nav-open');
-  const headerNavClose = document.querySelector('.header__nav-close');
-  const headerMenu = document.querySelector('.header__nav');
-  const bodyTag = document.querySelector('body');
+  /**
+   * Главная навигация header
+   */
 
-  function headerMenuToggle() {
-    headerMenu.classList.toggle('header__nav--open');
-    bodyTag.classList.toggle('body--menu-active');
+  const header = document.querySelector('.header');
+  const headerMenuToggle = document.querySelector('.header-menu-toggle');
+  const headerMenu = document.querySelector('.header-menu');
+
+  if (header && headerMenuToggle && headerMenu && window.matchMedia('(max-width: 1199.98px)').matches) {
+
+    headerMenuToggle.addEventListener('click', function () {
+      this.classList.toggle('header-menu-toggle--active');
+      header.classList.toggle('header--active');
+    });
+
+    headerMenuToggle.addEventListener('click', () => {
+      if (headerMenu.classList.contains('header-menu--active')) {
+        // Закрытие
+        headerMenu.style.height = `${headerMenu.scrollHeight}px`;
+        requestAnimationFrame(() => {
+          headerMenu.style.height = '0px';
+          headerMenu.classList.remove('header-menu--active');
+        });
+      } else {
+        // Открытие
+        headerMenu.classList.add('header-menu--active');
+        const fullHeight = headerMenu.scrollHeight;
+        headerMenu.style.height = '0px';
+        requestAnimationFrame(() => {
+          headerMenu.style.height = `${fullHeight}px`;
+        });
+      }
+    });
   }
 
-  headerNavOpen.addEventListener('click', function (e) {
-    e.stopPropagation();
-    headerMenuToggle();
-  });
-
-  headerNavClose.addEventListener('click', function (e) {
-    e.stopPropagation();
-    headerMenuToggle();
-  });
-
-  headerMenu.addEventListener('click', function (e) {
-    if (headerMenu.classList.contains('header__nav--open') &&
-      e.target.classList.contains('header-nav__link')) {
-      headerMenuToggle();
+  // Очистить инлайн стиль после окончания transition
+  headerMenu.addEventListener('transitionend', () => {
+    if (headerMenu.classList.contains('header-menu--active')) {
+      headerMenu.style.height = 'auto';
     }
   });
 
-  document.addEventListener('click', function (e) {
-    if (headerMenu.classList.contains('header__nav--open') &&
-      !e.target.classList.contains('header__nav-open')) {
-      headerMenuToggle();
-    }
-  });
 
   /**
    * Инициализация Glightbox

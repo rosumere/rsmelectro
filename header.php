@@ -26,7 +26,40 @@
           <?php endif; ?>
         </a>
         <div class="header-menu">
+          <div class="container header-menu__inner">
 
+
+            <?php
+
+            wp_nav_menu([
+              'theme_location'  => 'header_menu',
+              'menu'            => '',
+              'container'       => 'nav',
+              'container_class' => 'header-menu__nav',
+              'container_id'    => '',
+              'menu_class'      => 'header-menu__list',
+              'menu_id'         => '',
+              'echo'            => true,
+              'fallback_cb'     => false, // Отключаем стандартный fallback
+              'before'          => '',
+              'after'           => '',
+              'link_before'     => '',
+              'link_after'      => '',
+              'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
+              'depth'           => 0,
+              'walker'          => new Rsmelectro_Header_Nav(),
+            ]);
+            ?>
+            <div class="header-menu__contacts">
+              <?php if (get_field('contacts_phone_link', 'option') && get_field('contacts_phone_human', 'option')): ?>
+                <a href="tel:<?php the_field('contacts_phone_link', 'option'); ?>" class="link header-menu__contacts-link header-menu__contacts-link--phone"><?php the_field('contacts_phone_human', 'option'); ?>
+                </a>
+              <?php endif; ?>
+              <?php if (get_field('contacts_mail', 'option')): ?>
+                <a href="mailto:<?php the_field('contacts_mail', 'option'); ?>" class="link header-menu__contacts-link header-menu__contacts-link--mail"><?php the_field('contacts_mail', 'option'); ?></a>
+              <?php endif; ?>
+            </div>
+          </div>
         </div>
         <div class="header__contacts header-contacts">
           <div class="header-contacts__info">
@@ -41,7 +74,8 @@
 
           <button class="btn btn--dark header-contacts__cta" data-form="true">Связаться с нами</button>
           <button class="btn header-menu-toggle">
-            =
+            <span class="header-menu-toggle__line"></span>
+            <span class="header-menu-toggle__line"></span>
           </button>
         </div>
 

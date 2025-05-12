@@ -1,0 +1,78 @@
+.header-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition:
+    height 0.4s ease,
+    opacity 0.3s ease;
+  z-index: 15; // Под шапкой, но над контентом
+  padding: 40px 0;
+
+  &--active {
+    opacity: 1;
+    height: auto;
+  }
+
+  @media (min-width: $screen-xl) {
+    position: static;
+    height: auto;
+    opacity: 1;
+    padding: 0;
+    background-color: inherit;
+    display: flex;
+    align-items: center;
+  }
+
+  &__inner {
+    @media (min-width: $screen-xl) {
+      padding: 0;
+    }
+  }
+
+  &__list {
+    @include list-reset;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+
+    @media (min-width: $screen-xl) {
+      flex-direction: row;
+      gap: 20px;
+      margin-bottom: 0;
+    }
+
+    @media (min-width: $screen-xxl) {
+      gap: 24px;
+    }
+  }
+
+  &__link {
+    color: $color-primary;
+    font-size: 18px;
+
+    @media (min-width: $screen-xl) {
+      font-size: 16px;
+      color: rgba(256, 256, 256, 0.75);
+    }
+  }
+
+  &__contacts {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $screen-xl) {
+      display: none;
+    }
+  }
+
+  &__contacts-link--phone {
+    font-size: 20px;
+    font-weight: 500;
+  }
+}

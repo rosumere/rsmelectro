@@ -1,11 +1,12 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111114');
+  define('_VER', '0.111111115');
 }
 
 // Add theme support
 add_action('after_setup_theme', 'rsmtheme_setup');
+
 function rsmtheme_setup()
 {
   add_theme_support('menus');
@@ -41,7 +42,7 @@ function rsmtheme_scripts()
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.min.js', array(), _VER, true);
 }
 
-// require_once(get_template_directory() . '/inc/class-rsmtheme-header-nav.php');
+require_once(get_template_directory() . '/inc/class-rsmelectro-header-nav.php');
 
 
 /**

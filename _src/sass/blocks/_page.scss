@@ -1,5 +1,29 @@
 .page {
-  &__subtitle {
-    margin-bottom: 2rem;
+  &__title {
+    font-family: "Geologica", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: -1%;
+
+    @media (min-width: $screen-sm) {
+      font-size: 34px;
+    }
+
+    @media (min-width: $screen-md) {
+      font-size: 38px;
+    }
+
+    @media (min-width: $screen-lg) {
+      font-size: 44px;
+    }
+
+    @media (min-width: $screen-xl) {
+      font-size: 52px;
+    }
+
+    @media (min-width: $screen-xxl) {
+      font-size: 68px;
+    }
   }
 }
