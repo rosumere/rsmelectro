@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Очистить инлайн стиль после окончания transition
-  headerMenu.addEventListener('transitionend', () => {
-    if (headerMenu.classList.contains('header-menu--active')) {
-      headerMenu.style.height = 'auto';
-    }
-  });
+  // headerMenu.addEventListener('transitionend', () => {
+  //   if (headerMenu.classList.contains('header-menu--active')) {
+  //     headerMenu.style.height = 'auto';
+  //   }
+  // });
 
 
   /**

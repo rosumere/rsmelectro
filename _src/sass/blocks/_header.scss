@@ -3,6 +3,10 @@
   position: relative;
   z-index: 20;
   transition: background-color $transition;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 
   &--active {
     background-color: #fff;

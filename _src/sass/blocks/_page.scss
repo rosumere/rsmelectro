@@ -3,8 +3,8 @@
     font-family: "Geologica", sans-serif;
     font-size: 30px;
     font-weight: bold;
+    letter-spacing: -1px;
     text-transform: uppercase;
-    letter-spacing: -1%;
 
     @media (min-width: $screen-sm) {
       font-size: 34px;
@@ -24,6 +24,32 @@
 
     @media (min-width: $screen-xxl) {
       font-size: 68px;
+    }
+  }
+
+  &__subtitle {
+    font-family: "Geologica", sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 26px;
+    letter-spacing: -1px;
+    padding-left: 84px;
+
+    @media (min-width: $screen-md) {
+      font-size: 32px;
+    }
+
+    @media (min-width: $screen-lg) {
+      font-size: 38px;
+      padding-left: 0;
+    }
+
+    @media (min-width: $screen-xl) {
+      font-size: 46px;
+    }
+
+    @media (min-width: $screen-xxl) {
+      font-size: 52px;
     }
   }
 }

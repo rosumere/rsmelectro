@@ -1,0 +1,97 @@
+.home-about {
+  padding: 100px 0 50px 0;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @media (min-width: $screen-lg) {
+      position: relative;
+      display: grid;
+      gap: 22px;
+      grid-template-columns: 1fr 2fr 1fr;
+      padding-top: 80px;
+    }
+
+    @media (min-width: $screen-xl) {
+      gap: 36px;
+      font-size: 18px;
+    }
+
+    @media (min-width: $screen-xxl) {
+      grid-template-columns: 400px 1fr 200px;
+      padding-top: 0;
+    }
+  }
+
+  &__title {
+    @media (min-width: $screen-lg) {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+    }
+
+    @media (min-width: $screen-xxl) {
+      transform: none;
+      left: 0;
+    }
+  }
+
+  &__descr {
+    padding-left: 84px;
+
+    @media (min-width: $screen-lg) {
+      padding-left: 0;
+    }
+
+    @media (min-width: $screen-xxl) {
+      align-self: end;
+    }
+  }
+
+  &__cover {
+    max-width: none;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+
+    @media (min-width: $screen-sm) {
+      width: unset;
+      max-width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  &__list {
+    @include list-reset;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    @media (min-width: $screen-lg) {
+      order: -2;
+    }
+
+    @media (min-width: $screen-xxl) {
+      padding-top: 145px;
+      justify-content: flex-end;
+    }
+  }
+
+  &__item {
+    position: relative;
+    padding-left: 18px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background-color: $color-accent;
+    }
+  }
+}

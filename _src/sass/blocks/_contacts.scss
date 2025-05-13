@@ -1,0 +1,15 @@
+.contacts {
+  &__list {
+    @include list-reset;
+  }
+
+  &__label {
+    color: $color-accent;
+  }
+
+  &__value {
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-primary;
+  }
+}

@@ -1,6 +1,6 @@
 .link {
   text-decoration: none;
-  color: $color-primary;
+  color: $color-accent;
   display: inline-block;
   transition:
     color $transition,
@@ -9,7 +9,7 @@
   @media (hover: hover) {
     &:hover {
       &:hover {
-        color: $color-accent;
+        color: $color-accent-dark;
       }
     }
   }
