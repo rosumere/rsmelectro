@@ -1,0 +1,52 @@
+.footer-menu {
+  &__inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+
+    @media (min-width: $screen-xl) {
+      gap: 0;
+      height: 100%;
+    }
+  }
+
+  &__list {
+    @include list-reset;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__link {
+    color: rgba(256, 256, 256, 0.75);
+
+    @media (min-width: $screen-xl) {
+      font-size: 18px;
+    }
+  }
+
+  &__block {
+    position: relative;
+    padding: 40px 0;
+
+    @media (min-width: $screen-xl) {
+      padding: 40px 24px;
+      padding-top: 120px;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 100%;
+        background-color: $color-white-light;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+}

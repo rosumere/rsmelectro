@@ -33,7 +33,7 @@
     font-weight: bold;
     font-size: 26px;
     letter-spacing: -1px;
-    padding-left: 84px;
+    padding-left: 22%;
 
     @media (min-width: $screen-md) {
       font-size: 32px;
@@ -41,7 +41,7 @@
 
     @media (min-width: $screen-lg) {
       font-size: 38px;
-      padding-left: 0;
+      padding-left: 32%;
     }
 
     @media (min-width: $screen-xl) {
@@ -50,6 +50,29 @@
 
     @media (min-width: $screen-xxl) {
       font-size: 52px;
+    }
+  }
+
+  &--product {
+    padding-top: 112px;
+  }
+
+  &--home {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 24%;
+      width: 1px;
+      height: 100%;
+      background-color: $color-gray-light;
+      z-index: 1;
+
+      @media (min-width: $screen-lg) {
+        left: 34%;
+      }
     }
   }
 }

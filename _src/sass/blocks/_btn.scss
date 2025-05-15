@@ -30,6 +30,11 @@
     border-color: $color-primary;
   }
 
+  &--white {
+    background-color: #fff;
+    color: $color-primary;
+  }
+
   &--outline-white {
     background-color: inherit;
     border-color: #fff;

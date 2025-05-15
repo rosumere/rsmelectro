@@ -1,0 +1,96 @@
+.footer-social {
+  position: relative;
+
+  @media (min-width: $screen-xl) {
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background-color: $color-white-light;
+    }
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $screen-xl) {
+      height: 100%;
+    }
+  }
+
+  &__list {
+    order: -1;
+    position: relative;
+    @include list-reset;
+    display: grid;
+    grid-template-columns: 22% 1fr 1fr;
+    @media (min-width: $screen-md) {
+      order: 1;
+    }
+
+    @media (min-width: $screen-xl) {
+      margin-top: auto;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $color-white-light;
+
+      @media (min-width: $screen-xl) {
+        right: 0;
+        width: 100vw;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $color-white-light;
+
+      @media (min-width: $screen-xl) {
+        content: none;
+      }
+    }
+  }
+
+  &__item:not(:last-child) {
+    border-right: 1px solid $color-white-light;
+  }
+
+  &__item:first-child {
+    border-left: 1px solid $color-white-light;
+  }
+
+  &__item:last-child {
+    border-right: 1px solid $color-white-light;
+
+    @media (min-width: $screen-xl) {
+      border-right: 0;
+    }
+  }
+
+  &__link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

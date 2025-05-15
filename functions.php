@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111115');
+  define('_VER', '0.111111117');
 }
 
 // Add theme support
@@ -43,7 +43,7 @@ function rsmtheme_scripts()
 }
 
 require_once(get_template_directory() . '/inc/class-rsmelectro-header-nav.php');
-
+require_once(get_template_directory() . '/inc/register-post-type.php');
 
 /**
  * ACF Options page

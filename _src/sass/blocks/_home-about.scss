@@ -29,19 +29,18 @@
     @media (min-width: $screen-lg) {
       position: absolute;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0.4%;
       width: auto;
     }
 
     @media (min-width: $screen-xxl) {
-      transform: none;
       left: 0;
+      padding-left: 0;
     }
   }
 
   &__descr {
-    padding-left: 84px;
+    padding-left: 22%;
 
     @media (min-width: $screen-lg) {
       padding-left: 0;

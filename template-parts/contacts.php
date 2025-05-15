@@ -13,8 +13,8 @@
             </li>
           <?php endif; ?>
           <?php if (get_field('contacts_mail', 'option')): ?>
-            <div class="contacts__label">Почта</div>
             <li class="contacts__item contacts__item--mail">
+              <div class="contacts__label">Почта</div>
               <a href="mailto:<?php the_field('contacts_mail', 'option'); ?>" class="link contacts__value">
                 <?php the_field('contacts_mail', 'option'); ?>
               </a>
@@ -35,7 +35,9 @@
         </ul>
       </div>
       <div class="contacts__form">
-
+        <div class="contact-form">
+          <?php echo do_shortcode('[contact-form-7 id="119c600" title="form-contact"]'); ?>
+        </div>
       </div>
     </div>
   </div>

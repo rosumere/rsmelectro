@@ -1,0 +1,35 @@
+.contact-form {
+  &__inner {
+    position: relative;
+  }
+
+  & .wpcf7-spinner {
+    display: none;
+  }
+
+  & .wpcf7 form .wpcf7-response-output {
+    margin: 1rem 0.5rem;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__privacy {
+    font-size: 15px;
+
+    & a {
+      display: inline;
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
+
+  & input,
+  & textarea {
+    position: relative;
+    z-index: 1;
+  }
+}

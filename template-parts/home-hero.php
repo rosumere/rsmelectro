@@ -1,4 +1,5 @@
 <section class="home-hero" style="background-image: url('<?php echo esc_url(get_field('home_hero_cover')); ?>');">
+  <div class="home-hero__bgr"></div>
   <div class="container">
 
     <div class="home-hero__content">

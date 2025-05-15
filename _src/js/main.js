@@ -41,6 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
   //   }
   // });
 
+  /**
+   * Отступ margin-top hero__content homepage от header для полосок
+   */
+
+  // const heroContent = document.querySelector('.home-hero');
+  // if (heroContent) {
+  //   heroContent.style.marginTop = "20px";
+  // }
+
 
   /**
    * Инициализация Glightbox

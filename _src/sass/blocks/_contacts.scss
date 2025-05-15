@@ -1,15 +1,67 @@
 .contacts {
+  padding: 90px 0;
+
+  &__title {
+    @media (min-width: $screen-xl) {
+      padding-left: 0;
+    }
+  }
+
+  &__inner {
+    @media (min-width: $screen-lg) {
+      display: grid;
+      grid-template-columns: 312px 1fr;
+      gap: 136px;
+    }
+  }
+
   &__list {
     @include list-reset;
+    display: grid;
+    gap: 20px;
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__content {
+    margin-bottom: 24px;
   }
 
   &__label {
     color: $color-accent;
+    hyphens: auto;
   }
 
   &__value {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
     color: $color-primary;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 22% 1fr;
+    // gap: 9px;
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+
+  &__form {
+    & .contact-form__descr {
+      padding-left: 22%;
+
+      @media (min-width: $screen-lg) {
+        padding-left: 0;
+      }
+    }
+
+    @media (min-width: $screen-lg) {
+      order: -1;
+    }
   }
 }
