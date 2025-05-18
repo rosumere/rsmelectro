@@ -1,4 +1,8 @@
 .page {
+  &--home {
+    padding-top: 0;
+  }
+
   &__title {
     font-family: "Geologica", sans-serif;
     font-size: 30px;
@@ -53,10 +57,6 @@
     }
   }
 
-  &--product {
-    padding-top: 112px;
-  }
-
   &--home {
     position: relative;
 
@@ -74,5 +74,9 @@
         left: 34%;
       }
     }
+  }
+
+  &__toc {
+    display: none;
   }
 }

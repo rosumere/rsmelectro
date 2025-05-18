@@ -1,8 +1,4 @@
 .contact-form {
-  &__inner {
-    position: relative;
-  }
-
   & .wpcf7-spinner {
     display: none;
   }
@@ -11,7 +7,26 @@
     margin: 1rem 0.5rem;
   }
 
+  &__general {
+    display: grid;
+    gap: 12px;
+
+    @media (min-width: $screen-lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__submit {
+    display: grid;
+
+    @media (min-width: $screen-xl) {
+      grid-template-columns: 312px 1fr;
+      gap: 24px;
+    }
+  }
+
   &__inner {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;

@@ -1,0 +1,36 @@
+.page-catalog {
+  &__content {
+    border-bottom: 1px solid $color-gray-light;
+  }
+
+  &__list {
+    @include list-reset;
+    display: grid;
+    gap: 32px;
+    margin-bottom: 50px;
+
+    @media (min-width: $screen-sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: $screen-xl) {
+      grid-template-columns: repeat(4, 1fr);
+      margin-bottom: 90px;
+    }
+  }
+
+  &__item {
+    @media (hover: hover) {
+      &:hover {
+        & .catalog-card__cta {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

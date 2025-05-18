@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111117');
+  define('_VER', '0.111111118');
 }
 
 // Add theme support
@@ -103,3 +103,32 @@ function true_move_admin_bar()
 
 //add_action( 'admin_head', 'true_move_admin_bar' ); // в админке
 add_action('wp_head', 'true_move_admin_bar'); // на сайте
+
+/**
+ * Изменим текст в хлебных крошках Yoast SEO для каталога продукции с "Каталог продукции" на "Каталог"
+ */
+
+add_filter('wpseo_breadcrumb_links', 'change_catalog_breadcrumb_label_everywhere', 10, 1);
+
+function change_catalog_breadcrumb_label_everywhere($links)
+{
+  // Меняем текст на странице архива
+  if (is_post_type_archive('catalog')) {
+    foreach ($links as $key => $link) {
+      if (isset($link['ptarchive']) && $link['ptarchive'] === 'catalog') {
+        $links[$key]['text'] = 'Каталог';
+      }
+    }
+  }
+
+  // Меняем текст на странице одиночной записи типа catalog
+  if (is_singular('catalog')) {
+    foreach ($links as $key => $link) {
+      if (isset($link['ptarchive']) && $link['ptarchive'] === 'catalog') {
+        $links[$key]['text'] = 'Каталог';
+      }
+    }
+  }
+
+  return $links;
+}

@@ -1,0 +1,16 @@
+.breadcrumbs {
+  color: $color-gray-medium;
+  margin: 20px 0 32px 0;
+
+  @media (min-width: $screen-xl) {
+    margin: 40px 0;
+  }
+
+  & a {
+    color: $color-gray-medium;
+  }
+
+  & .breadcrumb_last {
+    color: $color-accent;
+  }
+}

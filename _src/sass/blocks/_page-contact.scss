@@ -1,0 +1,33 @@
+.page-contact {
+  padding-top: 50px;
+  padding-bottom: 100px;
+
+  @media (min-width: $screen-xl) {
+    padding-top: 90px;
+  }
+
+  &__inner {
+    display: grid;
+
+    @media (min-width: $screen-lg) {
+      gap: 32px;
+      grid-template-columns: 380px 1fr;
+    }
+
+    @media (min-width: $screen-xl) {
+      gap: 68px;
+      grid-template-columns: 380px 1fr;
+    }
+  }
+
+  &__title {
+    @media (min-width: $screen-lg) {
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: $screen-xl) {
+      font-size: 40px;
+    }
+  }
+}

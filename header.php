@@ -11,11 +11,16 @@
   <?php wp_head(); ?>
 </head>
 
-<body class="body">
-  <header class="header">
+<?php
+$header_type;
+if (is_front_page()) {
+  $header_type = 'header--absolute';
+}
+?>
+
+<body <?php body_class(); ?>>
+  <header class="header <?php echo esc_attr($header_type); ?>">
     <div class="container">
-
-
       <div class="header__inner">
         <a href="<?php echo home_url(); ?>" class="header__logo site-logo">
           <?php if (get_field('logo_mobile', 'option')): ?>

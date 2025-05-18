@@ -5,9 +5,9 @@ function register_post_types()
 {
 
   register_post_type('catalog', [
-    'label'  => 'Каталог продукции',
+    'label'  => 'Каталог',
     'labels' => [
-      'name'               => 'Каталог продукции',
+      'name'               => 'Каталог',
       'singular_name'      => 'Продукт',
       'add_new'            => 'Добавить продукт',
       'add_new_item'       => 'Добавление продукта',
@@ -18,7 +18,7 @@ function register_post_types()
       'not_found'          => 'Не найдено',
       'not_found_in_trash' => 'Не найдено в корзине',
       'parent_item_colon'  => '',
-      'menu_name'          => 'Каталог продукции ',
+      'menu_name'          => 'Каталог ',
     ],
     'description'            => '',
     'public'                 => true,

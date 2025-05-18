@@ -1,11 +1,23 @@
 .header {
-  border-bottom: 1px solid rgba(256, 256, 256, 0.12);
+  position: relative;
+  border-bottom: 1px solid $color-gray-light;
   z-index: 20;
   transition: background-color $transition;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+
+  &--absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    & .header-menu__link {
+      color: $color-primary;
+
+      @media (min-width: $screen-xl) {
+        color: rgba(256, 256, 256, 0.75);
+      }
+    }
+  }
 
   &--active {
     background-color: #fff;

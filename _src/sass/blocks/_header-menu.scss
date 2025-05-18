@@ -12,9 +12,11 @@
     opacity 0.3s ease;
   z-index: 15; // Под шапкой, но над контентом
   padding: 40px 0;
+  visibility: hidden;
 
   &--active {
     opacity: 1;
+    visibility: visible;
     height: auto;
   }
 
@@ -26,6 +28,7 @@
     background-color: inherit;
     display: flex;
     align-items: center;
+    visibility: visible;
   }
 
   &__inner {
@@ -53,12 +56,11 @@
   }
 
   &__link {
-    color: $color-primary;
     font-size: 18px;
 
     @media (min-width: $screen-xl) {
       font-size: 16px;
-      color: rgba(256, 256, 256, 0.75);
+      color: $color-body;
     }
   }
 

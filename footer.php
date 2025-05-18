@@ -102,7 +102,7 @@
       <div class="container">
         <div class="footer-copy__inner">
           <div class="footer-copy__info">&#xA9; <?php echo date('Y'); ?> Все права защищены</div>
-          <a href="/privacy-police/" class="link footer-copy__link footer-copy__link--privacy">Политика конциденциальности</a>
+          <a href="/privacy-policy" class="link footer-copy__link footer-copy__link--privacy">Политика конциденциальности</a>
         </div>
       </div>
     </div>

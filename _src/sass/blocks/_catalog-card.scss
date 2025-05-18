@@ -1,0 +1,52 @@
+.catalog-card {
+  $block-name: &;
+  position: relative;
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: $color-primary;
+  }
+
+  &__cover {
+    background-color: $color-accent-light;
+    aspect-ratio: 312 / 280;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      transition: $transition;
+    }
+  }
+
+  &__content {
+    padding-top: 12px;
+  }
+
+  &__cta {
+    position: absolute;
+    left: 0;
+    bottom: 60px;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity $transition,
+      visibility $transition;
+  }
+
+  &__title {
+    font-family: "Inter Tight", sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 2px;
+  }
+
+  &__property {
+    color: $color-body;
+  }
+}

@@ -52,6 +52,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   /**
+   * Правильный отступ для catalog-card__cta. Установим для неё инлайново bottom равное высоте catalog-card__content
+   */
+
+  const cards = document.querySelectorAll('.catalog-card');
+
+  cards.forEach(card => {
+    const content = card.querySelector('.catalog-card__content');
+    const cta = card.querySelector('.catalog-card__cta');
+
+    if (content && cta) {
+      const updatePosition = () => {
+        const height = content.getBoundingClientRect().height;
+        cta.style.bottom = `${height}px`;
+      };
+
+      updatePosition();
+
+      // Следим за изменениями размера
+      const ro = new ResizeObserver(updatePosition);
+      ro.observe(content);
+    }
+  });
+
+
+
+  /**
    * Инициализация Glightbox
    */
 
