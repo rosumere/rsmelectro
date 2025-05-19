@@ -1,5 +1,128 @@
-.produсt-main {
+.product-main {
+  &__inner {
+    display: grid;
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: $screen-lg) {
+      grid-template-rows: auto auto;
+      gap: 20px;
+      grid-template-areas:
+        "cover head"
+        "cover char";
+    }
+
+    @media (min-width: $screen-xl) {
+      grid-template-columns: 40% 1fr;
+    }
+  }
+
+  &__head {
+    position: relative;
+    padding: 16px;
+    order: -1;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+      height: 100%;
+      background-color: $color-accent-light;
+      z-index: -1;
+
+      @media (min-width: $screen-lg) {
+        content: none;
+      }
+    }
+
+    @media (min-width: $screen-md) {
+      grid-column: -1 / 1;
+    }
+
+    @media (min-width: $screen-lg) {
+      grid-area: head;
+    }
+  }
+
+  &__parameters {
+    font-family: "Geologica", sans-serif;
+    color: $color-accent;
+    font-weight: 500;
+    font-size: 24px;
+  }
+
   &__cover {
-    background-color: $color-accent-light;
+    aspect-ratio: 360 / 324;
+
+    @media (min-width: $screen-sm) {
+      aspect-ratio: 5 / 3;
+    }
+
+    @media (min-width: $screen-md) {
+      aspect-ratio: 1 / 1;
+    }
+
+    @media (min-width: $screen-lg) {
+      background-color: $color-accent-light;
+      grid-area: cover;
+      aspect-ratio: unset;
+    }
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__title {
+    margin-bottom: 0;
+  }
+
+  &__char {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $screen-lg) {
+      grid-area: char;
+    }
+  }
+
+  &__char-list {
+    @include list-reset;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__char-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    border-bottom: 1px solid $color-gray-light;
+    padding: 12px;
+  }
+
+  &__char-label {
+    text-align: left;
+    color: $color-body;
+  }
+
+  &__char-value {
+    order: -1;
+    color: $color-primary;
+  }
+
+  &__char-cta {
+    width: 100%;
+    order: -1;
+
+    @media (min-width: $screen-md) {
+      order: unset;
+    }
   }
 }

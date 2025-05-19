@@ -1,0 +1,30 @@
+.application-area {
+  padding: 40px 0 20px 0;
+
+  &__title {
+    color: $color-accent-dark;
+    text-transform: uppercase;
+  }
+
+  &__list {
+    @include list-reset;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__item {
+    position: relative;
+    padding-left: 18px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background-color: $color-accent;
+    }
+  }
+}
