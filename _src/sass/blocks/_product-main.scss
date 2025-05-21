@@ -15,7 +15,7 @@
     }
 
     @media (min-width: $screen-xl) {
-      grid-template-columns: 40% 1fr;
+      grid-template-columns: 33% 1fr;
     }
   }
 
@@ -90,6 +90,8 @@
 
     @media (min-width: $screen-lg) {
       grid-area: char;
+      gap: 24px;
+      align-items: flex-start;
     }
   }
 
@@ -104,7 +106,12 @@
     display: grid;
     grid-template-columns: 80px 1fr;
     border-bottom: 1px solid $color-gray-light;
-    padding: 12px;
+    padding: 12px 0;
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: 1fr 80px;
+      gap: 12px;
+    }
   }
 
   &__char-label {
@@ -115,6 +122,11 @@
   &__char-value {
     order: -1;
     color: $color-primary;
+
+    @media (min-width: $screen-md) {
+      order: 1;
+      text-align: right;
+    }
   }
 
   &__char-cta {
@@ -123,6 +135,8 @@
 
     @media (min-width: $screen-md) {
       order: unset;
+      width: auto;
+      min-width: 195px;
     }
   }
 }

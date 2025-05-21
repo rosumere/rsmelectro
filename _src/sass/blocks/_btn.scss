@@ -30,14 +30,20 @@
     border-color: $color-primary;
   }
 
-  &--white {
-    background-color: #fff;
-    color: $color-primary;
-  }
-
   &--outline-white {
     background-color: inherit;
     border-color: #fff;
+  }
+
+  &--outline-accent {
+    background-color: inherit;
+    border-color: $color-accent;
+    color: $color-accent;
+  }
+
+  &--white {
+    background-color: #fff;
+    color: $color-primary;
   }
 
   &--dark {

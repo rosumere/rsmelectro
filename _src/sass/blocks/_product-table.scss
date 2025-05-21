@@ -1,0 +1,27 @@
+.product-table {
+  @include list-reset;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  &__item {
+    display: grid;
+    padding: 12px 0;
+    grid-template-columns: 1fr 80px;
+    gap: 12px;
+  }
+
+  &__item:not(:last-child) {
+    border-bottom: 1px solid $color-gray-light;
+  }
+
+  &__label {
+    text-align: left;
+    color: $color-body;
+  }
+
+  &__value {
+    color: $color-primary;
+    text-align: right;
+  }
+}
