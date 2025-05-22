@@ -1,10 +1,13 @@
 .product-parameters {
+  padding: 40px 0 90px 0;
+
   @media (min-width: $screen-xl) {
     display: grid;
     grid-template-columns: 33% 1fr;
-    gap: 20px;
+    gap: 28px;
     padding: 90px 0;
   }
+
   &__passport {
     width: 100%;
 
@@ -37,6 +40,7 @@
       @media (min-width: $screen-xl) {
         display: flex;
         flex-direction: column;
+        gap: 90px;
       }
     }
   }

@@ -1,6 +1,16 @@
 .page-product {
+  position: relative;
+
   &__subtitle {
     color: #2874b2;
     text-transform: uppercase;
+  }
+
+  & .section-line {
+    display: none;
+
+    @media (min-width: $screen-xxl) {
+      display: block;
+    }
   }
 }

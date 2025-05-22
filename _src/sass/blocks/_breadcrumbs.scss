@@ -1,9 +1,9 @@
 .breadcrumbs {
   color: $color-gray-medium;
-  margin: 20px 0;
+  padding: 20px 0;
 
   @media (min-width: $screen-xl) {
-    margin: 40px 0;
+    padding: 40px 0;
   }
 
   & a {
@@ -12,5 +12,17 @@
 
   & .breadcrumb_last {
     color: $color-accent;
+  }
+
+  &__row {
+    margin: 0;
+
+    & span:not(:first-child) {
+      padding-left: 10px;
+    }
+
+    & span:not(:last-child) {
+      padding-right: 10px;
+    }
   }
 }

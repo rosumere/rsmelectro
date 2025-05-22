@@ -3,7 +3,7 @@
   <div class="footer__wrapper">
     <div class="container">
       <div class="footer__inner">
-        <div class="footer__social footer-social">
+        <div class="footer__col footer__social footer-social">
           <div class="footer-social__inner">
             <a href="<?php echo home_url(); ?>" class="footer__logo">
               <?php if (get_field('logo_desktop', 'option')): ?>
@@ -44,7 +44,7 @@
           </div>
 
         </div>
-        <div class="footer__contacts footer-contacts">
+        <div class="footer__col footer__contacts footer-contacts">
           <div class="footer-contacts__inner">
             <button class="btn footer-contacts__cta-btn btn--white" data-form="true">Связаться с нами</button>
             <?php if (get_field('contacts_phone_link', 'option')): ?>
@@ -64,7 +64,7 @@
             <?php endif; ?>
           </div>
         </div>
-        <div class="footer__menus footer-menu">
+        <div class="footer__col footer__menus footer-menu">
           <div class="footer-menu__inner">
             <div class="footer-menu__block">
               <h3 class="footer-menu__title">Продукция</h3>

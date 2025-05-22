@@ -4,7 +4,7 @@ get_header();
 
 ?>
 
-<main class="main page page--product page-product">
+<main class="main page page--product page-product section-light">
 
   <?php while (have_posts()) : the_post(); ?>
     <div class="container">
@@ -12,18 +12,25 @@ get_header();
         <div class="breadcrumbs">
           <?php
           if (function_exists('yoast_breadcrumb')) {
-            yoast_breadcrumb('<p class="breadcrumbs__row" id="breadcrumbs-row">', '</p>');
+            yoast_breadcrumb('<div class="breadcrumbs__row" id="breadcrumbs-row">', '</div>');
           }
           ?>
         </div>
         <div class="product-main__inner">
           <div class="product-main__cover">
             <?php
-            $image_id = get_field('product_image');
-            if ($image_id) {
-              echo wp_get_attachment_image($image_id, 'full', false, array('class' => 'product-main__cover-img'));
-            }
+            $image_id = get_field('product_image'); // Получаем ID изображения
+            $image_url = wp_get_attachment_image_url($image_id, 'full');
+
+            if ($image_id && $image_url):
             ?>
+              <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-main">
+                <?php echo wp_get_attachment_image($image_id, 'full', false, array(
+                  'class' => 'product-main__cover-img',
+                  'alt' => 'Главное изображение товара',
+                )); ?>
+              </a>
+            <?php endif; ?>
           </div>
           <div class="product-main__head">
             <div class="product-main__parameters">
@@ -99,38 +106,47 @@ get_header();
               <a href="<?php the_field('product_passport'); ?>" class="product-parameters__passport btn btn--outline-accent glightbox" data-gallery="passport">Открыть паспорт</a>
             <?php endif; ?>
             <div class="product-charts">
+
               <?php
               $image_live_on_depth = get_field('live_on_depth_disharge_img');
-              if ($image_live_on_depth): ?>
+              $image_url = wp_get_attachment_image_url($image_live_on_depth, 'full');
+
+              if ($image_live_on_depth && $image_url):
+              ?>
                 <div class="product-charts__title">Зависимость срока службы от глубины разряда:</div>
-                <?php
-                echo wp_get_attachment_image($image_live_on_depth, 'full', false, array(
-                  'class' => 'product-charts__img',
-                  'alt'   => 'Изображение зависимости срока службы от глубины зарзряда', // Передаём значение ACF-поля
-                ));
-                ?>
+                <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-tables">
+                  <?php echo wp_get_attachment_image($image_live_on_depth, 'full', false, array(
+                    'class' => 'product-charts__img',
+                    'alt' => 'Изображение зависимости срока службы от глубины зарзряда',
+                  )); ?>
+                </a>
               <?php endif;
 
               $charge_char = get_field('charging_characteristics_img');
-              if ($charge_char): ?>
+              $image_url = wp_get_attachment_image_url($charge_char, 'full');
+              if ($charge_char && $image_url):
+              ?>
                 <div class="product-charts__title">Зарядные характеристики:</div>
-                <?php
-                echo wp_get_attachment_image($charge_char, 'full', false, array(
-                  'class' => 'product-charts__img',
-                  'alt'   => 'Изображение зарядных характеристик', // Передаём значение ACF-поля
-                ));
-                ?>
+                <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-tables">
+                  <?php echo wp_get_attachment_image($charge_char, 'full', false, array(
+                    'class' => 'product-charts__img',
+                    'alt' => 'Изображение зарядных характеристик',
+                  )); ?>
+                </a>
               <?php endif;
-              $discharge_char = get_field('discharging_characteristics_img');
-              if ($discharge_char): ?>
-                <div class="product-charts__title">Зарядные характеристики:</div>
 
-                <?php
-                echo wp_get_attachment_image($discharge_char, 'full', false, array(
-                  'class' => 'product-charts__img',
-                  'alt'   => 'Изображение зарядных характеристик', // Передаём значение ACF-поля
-                ));
-                ?>
+              $discharge_char = get_field('discharging_characteristics_img');
+              $image_url = wp_get_attachment_image_url($discharge_char, 'full');
+              if ($discharge_char && $image_url):
+              ?>
+                <div class="product-charts__title">Разрядные характеристики:</div>
+                <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-tables">
+                  <?php echo wp_get_attachment_image($discharge_char, 'full', false, array(
+                    'class' => 'product-charts__img',
+                    'alt' => 'Изображение разрядных характеристик',
+                  )); ?>
+                </a>
+
               <?php endif; ?>
 
 
@@ -347,47 +363,54 @@ get_header();
                 <div class="product-sizes__cover">
                   <?php
                   $image_id = get_field('product_sizes_img'); // Получаем ID изображения
+                  $image_url = wp_get_attachment_image_url($image_id, 'full');
 
-                  if ($image_id) {
-                    echo wp_get_attachment_image($image_id, 'full', false, array(
-                      'class' => 'product-sizes__img',
-                      'alt'   => 'Конструкция и размеры - изображение', // Передаём значение ACF-поля
-                    ));
-                  }
+                  if ($image_id && $image_url):
                   ?>
+                    <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-sizes">
+                      <?php echo wp_get_attachment_image($image_id, 'full', false, array(
+                        'class' => 'product-sizes__img',
+                        'alt' => 'Конструкция и размеры - изображение',
+                      )); ?>
+                    </a>
+                  <?php endif; ?>
                 </div>
               </div>
             </section>
             <?php
-            $image_disharge_current = get_field('direct_current_discharge_img');
-            if ($image_disharge_current): ?>
+            $image_disharge_current = get_field('direct_current_discharge_img'); // Получаем ID изображения
+            $image_url = wp_get_attachment_image_url($image_disharge_current, 'full');
+
+            if ($image_disharge_current && $image_url): ?>
               <section class="discharge-current">
                 <h2 class="page-product__subtitle">РАЗРЯД ПОСТОЯННЫМ ТОКОМ (A, 25°C):</h2>
-                <?php
-                echo wp_get_attachment_image($image_disharge_current, 'full', false, array(
-                  'class' => 'discharge-current__img',
-                  'alt'   => 'Изображение с характеристиками разряда постоянным током', // Передаём значение ACF-поля
-                ));
-                ?>
+                <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-d-current">
+                  <?php echo wp_get_attachment_image($image_disharge_current, 'full', false, array(
+                    'class' => 'discharge-current__img',
+                    'alt' => 'Изображение с характеристиками разряда постоянным током',
+                  )); ?>
+                </a>
               </section>
-            <?php endif; ?>
-            <?php
-            $image_disharge_current = get_field('direct_current_discharge_img');
-            if ($image_disharge_current): ?>
+            <?php endif;
+
+            $image_disharge_power = get_field('direct_power_discharge_img'); // Получаем ID изображения
+            $image_url = wp_get_attachment_image_url($image_disharge_power, 'full');
+
+            if ($image_disharge_power && $image_url): ?>
               <section class="discharge-power">
-                <h2 class="page-product__subtitle">РАЗРЯД ПОСТОЯННЫМ ТОКОМ (A, 25°C):</h2>
-                <?php
-                echo wp_get_attachment_image($image_disharge_current, 'full', false, array(
-                  'class' => 'discharge-power__img',
-                  'alt'   => 'Изображение с характеристиками разряда постоянной мощностью  ', // Передаём значение ACF-поля
-                ));
-                ?>
+                <h2 class="page-product__subtitle">РАЗРЯД ПОСТОЯННОЙ МОЩНОСТЬЮ (ВТ, 25°C):</h2>
+                <a href="<?php echo $image_url; ?>" class="link glightbox" data-gallery="product-d-power">
+                  <?php echo wp_get_attachment_image($image_disharge_power, 'full', false, array(
+                    'class' => 'discharge-power__img',
+                    'alt' => 'Изображение с характеристиками разряда постоянной мощностью',
+                  )); ?>
+                </a>
               </section>
             <?php endif; ?>
           </div>
         </div>
       </div>
-
+      <div class="section-line"></div>
     </div>
 
   <?php endwhile; ?>

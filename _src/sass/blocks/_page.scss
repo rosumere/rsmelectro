@@ -7,7 +7,6 @@
     font-family: "Geologica", sans-serif;
     font-size: 30px;
     font-weight: bold;
-    letter-spacing: -1px;
     text-transform: uppercase;
 
     @media (min-width: $screen-sm) {
@@ -37,42 +36,27 @@
     font-weight: bold;
     font-size: 26px;
     letter-spacing: -1px;
-    padding-left: 22%;
+    padding-left: $padding-left-sm;
+    word-wrap: break-word;
 
     @media (min-width: $screen-md) {
       font-size: 32px;
+      padding-left: $padding-left-md;
     }
 
     @media (min-width: $screen-lg) {
       font-size: 38px;
-      padding-left: 32%;
+      padding-left: $padding-left-lg;
     }
 
     @media (min-width: $screen-xl) {
       font-size: 46px;
+      padding-left: $padding-left-xl;
     }
 
     @media (min-width: $screen-xxl) {
       font-size: 52px;
-    }
-  }
-
-  &--home {
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 24%;
-      width: 1px;
-      height: 100%;
-      background-color: $color-gray-light;
-      z-index: 1;
-
-      @media (min-width: $screen-lg) {
-        left: 34%;
-      }
+      padding-left: $padding-left-xxl;
     }
   }
 

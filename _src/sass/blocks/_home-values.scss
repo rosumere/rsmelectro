@@ -1,21 +1,28 @@
 .home-values {
   background: $color-primary;
-  color: #fff;
-  padding: 80px 0;
+  &__wrapper {
+    color: #fff;
+    padding: 80px 0;
+  }
 
   &__title {
     @media (min-width: $screen-xl) {
       margin-bottom: 0;
       text-align: left;
       padding-left: 0;
+      padding-right: 24px;
     }
   }
 
   &__inner {
     @media (min-width: $screen-xl) {
       display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 48px;
+      grid-template-columns: $padding-left-xl 1fr;
+    }
+
+    @media (min-width: $screen-xxl) {
+      display: grid;
+      grid-template-columns: $padding-left-xxl 1fr;
     }
   }
 
@@ -23,6 +30,10 @@
     @include list-reset;
     display: grid;
     gap: 20px;
+
+    @media (min-width: $screen-md) {
+      gap: 32px;
+    }
 
     @media (min-width: $screen-lg) {
       grid-template-columns: repeat(3, 1fr);
@@ -33,11 +44,27 @@
     }
   }
 
+  &__item {
+    @media (min-width: $screen-md) {
+      display: flex;
+      gap: 22px;
+    }
+
+    @media (min-width: $screen-xl) {
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
   &__item-img {
     width: 32px;
     height: 32px;
-    margin-left: 22%;
+    margin-left: $padding-left-sm;
     margin-bottom: 12px;
+
+    @media (min-width: $screen-md) {
+      margin-left: 46px;
+    }
 
     @media (min-width: $screen-lg) {
       margin-left: 0;

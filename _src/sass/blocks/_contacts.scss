@@ -1,8 +1,10 @@
 .contacts {
-  padding: 90px 0;
+  &__wrapper {
+    padding: 90px 0;
+  }
 
   &__title {
-    @media (min-width: $screen-xl) {
+    @media (min-width: $screen-lg) {
       padding-left: 0;
     }
   }
@@ -10,8 +12,15 @@
   &__inner {
     @media (min-width: $screen-lg) {
       display: grid;
-      grid-template-columns: 312px 1fr;
-      gap: 136px;
+      grid-template-columns: $padding-left-lg 1fr;
+    }
+
+    @media (min-width: $screen-xl) {
+      grid-template-columns: $padding-left-xl 1fr;
+    }
+
+    @media (min-width: $screen-xxl) {
+      grid-template-columns: $padding-left-xxl 1fr;
     }
   }
 
@@ -42,8 +51,8 @@
 
   &__item {
     display: grid;
-    grid-template-columns: 22% 1fr;
-    // gap: 9px;
+    grid-template-columns: 80px 1fr;
+    gap: 4px;
 
     @media (min-width: $screen-md) {
       grid-template-columns: 1fr;
@@ -52,8 +61,17 @@
   }
 
   &__form {
+    @media (min-width: $screen-lg) {
+      padding-right: 24px;
+      max-width: 312px;
+    }
+
     & .contact-form__descr {
-      padding-left: 22%;
+      padding-left: $padding-left-sm;
+
+      @media (min-width: $screen-md) {
+        padding-left: $padding-left-md;
+      }
 
       @media (min-width: $screen-lg) {
         padding-left: 0;

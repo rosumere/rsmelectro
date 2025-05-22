@@ -27,9 +27,11 @@
     position: relative;
     @include list-reset;
     display: grid;
-    grid-template-columns: 22% 1fr 1fr;
+    grid-template-columns: $padding-left-sm 1fr 1fr;
+
     @media (min-width: $screen-md) {
       order: 1;
+      grid-template-columns: repeat(3, 1fr);
     }
 
     @media (min-width: $screen-xl) {

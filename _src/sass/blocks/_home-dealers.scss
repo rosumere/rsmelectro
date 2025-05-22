@@ -1,9 +1,5 @@
 .home-dealers {
-  padding: 50px 0;
-
-  &__title {
-    @media (min-width: $screen-xl) {
-      text-align: center;
-    }
+  &__wrapper {
+    padding: 50px 0;
   }
 }

@@ -5,7 +5,7 @@
     gap: 8px;
 
     @media (min-width: $screen-xl) {
-      gap: 0;
+      gap: 24px;
       height: 100%;
     }
   }
@@ -30,7 +30,6 @@
     padding: 40px 0;
 
     @media (min-width: $screen-xl) {
-      padding: 40px 24px;
       padding-top: 120px;
 
       &::after {

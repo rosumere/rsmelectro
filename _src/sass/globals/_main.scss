@@ -158,3 +158,41 @@ textarea::placeholder {
 select {
   border: 1px solid #f3f3f3;
 }
+
+section {
+  position: relative;
+}
+
+.section-line {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100px;
+  width: 1px;
+  height: 100%;
+  z-index: 1;
+
+  @media (min-width: $screen-md) {
+    left: 116px;
+  }
+
+  @media (min-width: $screen-lg) {
+    left: 314px;
+  }
+
+  @media (min-width: $screen-xl) {
+    left: 336px;
+  }
+
+  @media (min-width: $screen-xxl) {
+    left: 448px;
+  }
+}
+
+.section-dark .section-line {
+  background-color: rgba(256, 256, 256, 0.18);
+}
+
+.section-light .section-line {
+  background-color: $color-gray-light;
+}
