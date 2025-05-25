@@ -18,6 +18,10 @@
         color: rgba(256, 256, 256, 0.75);
       }
     }
+
+    & .header-contacts__link {
+      color: #fff;
+    }
   }
 
   &--active {

@@ -1,0 +1,35 @@
+.page-large-line {
+  @media (min-width: $screen-xl) {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100px;
+    width: 1px;
+    height: 100%;
+    z-index: 1;
+
+    @media (min-width: $screen-md) {
+      left: 116px;
+    }
+
+    @media (min-width: $screen-lg) {
+      left: 314px;
+    }
+
+    @media (min-width: $screen-xl) {
+      left: 336px;
+    }
+
+    @media (min-width: $screen-xxl) {
+      left: 448px;
+    }
+  }
+}
+
+.page-line-dark .page-large-line {
+  background-color: rgba(256, 256, 256, 0.18);
+}
+
+.page-line-light .page-large-line {
+  background-color: $color-gray-light;
+}

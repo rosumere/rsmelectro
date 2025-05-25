@@ -39,6 +39,12 @@
     background-color: inherit;
     border-color: $color-accent;
     color: $color-accent;
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: $color-primary;
+      }
+    }
   }
 
   &--white {

@@ -69,7 +69,18 @@ get_header();
                 </li>
               <?php endif; ?>
             </ul>
-            <button class="btn product-main__char-cta" data-form="true">Оставить заявку</button>
+            <div class="product-main__char-buttons">
+              <button class="btn product-main__char-cta" data-form="true">Оставить заявку</button>
+              <?php if (get_field('product_passport')): ?>
+                <a download href="<?php the_field('product_passport'); ?>" class="product-main__char-passport btn btn--outline-accent">
+                  <svg aria-hidden="true">
+                    <use href="<?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.2#icon-doc'; ?>"></use>
+                  </svg>
+                  Скачать паспорт
+                </a>
+              <?php endif; ?>
+            </div>
+
           </div>
         </div>
         <div class="product-parameters">
@@ -103,7 +114,11 @@ get_header();
               </section>
             <?php endif; ?>
             <?php if (get_field('product_passport')): ?>
-              <a href="<?php the_field('product_passport'); ?>" class="product-parameters__passport btn btn--outline-accent glightbox" data-gallery="passport">Открыть паспорт</a>
+              <a download href="<?php the_field('product_passport'); ?>" class="product-parameters__passport btn btn--outline-accent">
+                <svg aria-hidden="true">
+                  <use href="<?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.2#icon-doc'; ?>"></use>
+                </svg>
+                Открыть паспорт</a>
             <?php endif; ?>
             <div class="product-charts">
 
