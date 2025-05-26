@@ -33,6 +33,10 @@
     gap: 24px;
     justify-content: space-between;
     margin: 0 -1rem 0 0;
+
+    @media (min-width: $screen-sm) {
+      margin-right: 0;
+    }
   }
 
   &__logo {

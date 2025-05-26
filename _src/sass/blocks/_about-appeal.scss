@@ -1,0 +1,122 @@
+.about-appeal {
+  @media (min-width: $screen-md) {
+    border-bottom: 1px solid $color-gray-light;
+  }
+
+  &__inner {
+    padding: 100px 0 50px 0;
+
+    @media (min-width: $screen-lg) {
+      display: grid;
+      grid-template-columns: 297px 1fr;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "sidebar head"
+        "sidebar content";
+    }
+
+    @media (min-width: $screen-xl) {
+      grid-template-columns: 320px 1fr;
+    }
+
+    @media (min-width: $screen-xxl) {
+      grid-template-columns: 422px 1fr;
+    }
+  }
+
+  &__sidebar {
+    @media (min-width: $screen-lg) {
+      padding-right: 24px;
+      grid-area: sidebar;
+    }
+  }
+
+  &__title {
+    text-transform: uppercase;
+    padding-left: $padding-left-sm;
+
+    @media (min-width: $screen-md) {
+      padding-left: $padding-left-md;
+      font-size: 32px;
+    }
+
+    @media (min-width: $screen-lg) {
+      grid-area: head;
+      padding-left: 24px;
+    }
+
+    @media (min-width: $screen-xl) {
+      font-size: 52px;
+    }
+  }
+
+  &__cover {
+    position: relative;
+    z-index: 2;
+
+    @media (min-width: $screen-sm) {
+      padding-left: $padding-left-sm;
+      max-width: 410px;
+    }
+
+    @media (min-width: $screen-md) {
+      padding-left: $padding-left-md;
+      max-width: 410px;
+    }
+
+    @media (min-width: $screen-lg) {
+      max-width: auto;
+      padding-left: 0;
+      margin-bottom: 24px;
+    }
+
+    & img {
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: 0 30%;
+
+      @media (min-width: $screen-lg) {
+        aspect-ratio: 4 / 6;
+        object-position: 50% 50%;
+      }
+    }
+  }
+
+  &__position {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 24px;
+
+    & span {
+      display: block;
+      font-size: 15px;
+      color: $color-accent;
+      @include responsive-padding-left($padding-left-sm, $padding-left-md, $padding-left-lg);
+
+      @media (min-width: $screen-lg) {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &__content {
+    @media (min-width: $screen-lg) {
+      padding-left: 24px;
+      grid-area: content;
+    }
+
+    & span {
+      color: $color-accent;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    & .row {
+      @media (min-width: $screen-lg) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 48px;
+      }
+    }
+  }
+}

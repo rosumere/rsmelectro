@@ -34,6 +34,72 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /**
+   * Меняем background-color на .about-info__item при наведении на .about-info__head
+   */
+
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  if (canHover) {
+    const heads = document.querySelectorAll('.about-info__head');
+
+    heads.forEach(head => {
+      head.addEventListener('mouseenter', () => {
+        const parentItem = head.closest('.about-info__item');
+        if (parentItem) {
+          parentItem.classList.add('about-info__item--hovered');
+        }
+      });
+
+      head.addEventListener('mouseleave', () => {
+        const parentItem = head.closest('.about-info__item');
+        if (parentItem) {
+          parentItem.classList.remove('about-info__item--hovered');
+        }
+      });
+    });
+  }
+
+
+
+  const buttons = document.querySelectorAll('.tabs__btn');
+  const contents = document.querySelectorAll('.tabs__content');
+
+  // По умолчанию активен "Паспорта"
+  const defaultTab = 'passport';
+
+  function activateTab(tabName) {
+    contents.forEach(content => {
+      if (content.dataset.tab === tabName) {
+        content.classList.add('active');
+      } else {
+        content.classList.remove('active');
+      }
+    });
+
+    buttons.forEach(btn => {
+      if (btn.dataset.tab === tabName) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.tab;
+      activateTab(target);
+    });
+  });
+
+  // Инициализация
+  activateTab(defaultTab);
+
+
+
+
+
   // Очистить инлайн стиль после окончания transition
   // headerMenu.addEventListener('transitionend', () => {
   //   if (headerMenu.classList.contains('header-menu--active')) {
@@ -103,4 +169,40 @@ document.addEventListener('DOMContentLoaded', function () {
     autoplayVideos: true
   });
 
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll(".about-info__item");
+
+  function collapseAll() {
+    items.forEach(item => {
+      const content = item.querySelector(".about-info__content");
+      item.classList.remove("about-info__item--active");
+      content.style.maxHeight = "0px";
+    });
+  }
+
+  items.forEach(item => {
+    const header = item.querySelector(".about-info__head");
+    const content = item.querySelector(".about-info__content");
+
+    // Установим max-height на активный по умолчанию
+    if (item.classList.contains("about-info__item--active")) {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+
+    header.addEventListener("click", function () {
+      const isActive = item.classList.contains("about-info__item--active");
+
+      collapseAll(); // Скрыть все
+
+      if (!isActive) {
+        item.classList.add("about-info__item--active");
+        const scrollHeight = content.scrollHeight;
+        content.style.maxHeight = scrollHeight + "px";
+      }
+    });
+  });
 });

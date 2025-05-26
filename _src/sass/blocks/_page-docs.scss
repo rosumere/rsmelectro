@@ -1,0 +1,25 @@
+.page-docs {
+  &__sidebar {
+    padding-right: 0;
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+
+    @media (min-width: $screen-lg) {
+      z-index: 1;
+    }
+  }
+
+  &__content {
+    padding-left: 0;
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    padding-top: 16px;
+
+    @media (min-width: $screen-lg) {
+      padding-top: 0;
+      z-index: 1;
+    }
+  }
+}

@@ -5,8 +5,8 @@
  */
 get_header();
 ?>
-<main class="main page-privacy page-large page-line-light">
-  <div class="page-large__wrapper">
+<main class="main page-privacy page-standart page-standart--light">
+  <div class="page-standart__wrapper">
     <div class="container">
       <?php while (have_posts()) : the_post(); ?>
         <div class="breadcrumbs">
@@ -16,8 +16,8 @@ get_header();
           }
           ?>
         </div>
-        <div class="page-large__inner page-privacy__inner">
-          <div class="page-large__sidebar">
+        <div class="page-standart__inner page-privacy__inner">
+          <div class="page-standart__sidebar">
             <?php
             // Сначала загружаем весь контент в переменную
             $content = apply_filters('the_content', get_the_content());
@@ -30,14 +30,14 @@ get_header();
               <?php echo $toc; ?>
             </div>
           </div>
-          <div class="page-large__content">
-            <h1 class="page-large__title"><?php the_title(); ?></h1>
+          <div class="page-standart__content">
+            <h1 class="page-standart__title"><?php the_title(); ?></h1>
             <div class="user-content page-privacy__content">
               <?php echo $content; ?>
             </div>
           </div>
         </div>
-        <div class="page-large-line"></div>
+        <div class="page-standart__line"></div>
     </div>
   <?php endwhile; ?>
   </div>

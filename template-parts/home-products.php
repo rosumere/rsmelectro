@@ -22,7 +22,7 @@
           <?php
           $image_id = get_field('home_products_img');
           if ($image_id) {
-            echo wp_get_attachment_image($image_id, 'full', false, array('class' => 'home-products__cover-img'));
+            echo wp_get_attachment_image($image_id, 'full', false, array('class' => 'home-products__cover-img', 'alt' => 'Изображение продукции'));
           }
           ?>
         </div>

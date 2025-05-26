@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111122');
+  define('_VER', '0.111111124');
 }
 
 // Add theme support
@@ -85,24 +85,25 @@ add_action('get_header', 'my_filter_head');
  */
 function true_move_admin_bar()
 {
-  echo '
-	<style type="text/css">
-	html{margin-bottom:32px !important}
-	* html body{margin-bottom:32px !important}
-	#wpadminbar{top:auto !important;bottom:0}
-	#wpadminbar .menupop .ab-sub-wrapper{bottom:32px;-moz-box-shadow:2px -2px 5px rgba(0,0,0,.2);-webkit-box-shadow:2px -2px 5px rgba(0,0,0,.2);box-shadow:2px -2px 5px rgba(0,0,0,.2)}
-	@media screen and ( max-width:782px ){
-		html{margin-bottom:46px !important}
-		* html body{margin-bottom:46px !important}
-		#wpadminbar{position:fixed}
-		#wpadminbar .menupop .ab-sub-wrapper{bottom:46px}
-	}
-	</style>
-	';
+  if (is_admin_bar_showing()) { // проверяем, показывается ли админ-бар
+    echo '
+        <style type="text/css">
+        html{margin-bottom:32px !important}
+        * html body{margin-bottom:32px !important}
+        #wpadminbar{top:auto !important;bottom:0}
+        #wpadminbar .menupop .ab-sub-wrapper{bottom:32px;-moz-box-shadow:2px -2px 5px rgba(0,0,0,.2);-webkit-box-shadow:2px -2px 5px rgba(0,0,0,.2);box-shadow:2px -2px 5px rgba(0,0,0,.2)}
+        @media screen and ( max-width:782px ){
+            html{margin-bottom:46px !important}
+            * html body{margin-bottom:46px !important}
+            #wpadminbar{position:fixed}
+            #wpadminbar .menupop .ab-sub-wrapper{bottom:46px}
+        }
+        </style>
+        ';
+  }
 }
 
-//add_action( 'admin_head', 'true_move_admin_bar' ); // в админке
-add_action('wp_head', 'true_move_admin_bar'); // на сайте
+add_action('wp_head', 'true_move_admin_bar');
 
 /**
  * Изменим текст в хлебных крошках Yoast SEO для каталога продукции с "Каталог продукции" на "Каталог"

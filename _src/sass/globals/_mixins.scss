@@ -18,3 +18,15 @@
     background-color: inherit;
   }
 }
+
+@mixin responsive-padding-left($sm, $md, $lg) {
+  padding-left: $sm;
+
+  @media (min-width: 768px) {
+    padding-left: $md;
+  }
+
+  @media (min-width: 992px) {
+    padding-left: $lg;
+  }
+}

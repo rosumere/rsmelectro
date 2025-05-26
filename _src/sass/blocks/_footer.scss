@@ -18,12 +18,12 @@
     }
 
     @media (min-width: $screen-xl) {
-      grid-template-columns: 321px 1fr 1fr;
+      grid-template-columns: 319px 1fr 1fr;
       gap: 24px;
     }
 
     @media (min-width: $screen-xxl) {
-      grid-template-columns: 433px 1fr 1fr;
+      grid-template-columns: 422px 1fr 1fr;
       gap: 24px;
     }
   }

@@ -13,7 +13,7 @@
 
 <?php
 $header_type;
-if (is_front_page()) {
+if (is_front_page() || get_field('is_show_hero')) {
   $header_type = 'header--absolute';
 }
 ?>
