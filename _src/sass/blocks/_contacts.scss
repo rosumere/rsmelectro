@@ -30,7 +30,15 @@
     gap: 20px;
 
     @media (min-width: $screen-md) {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 312px 1fr;
+    }
+
+    @media (min-width: $screen-xxl) {
+      gap: 24px;
+    }
+
+    &--page {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -47,6 +55,14 @@
     font-size: 18px;
     font-weight: 600;
     color: $color-primary;
+
+    @media (min-width: $screen-xl) {
+      font-size: 20px;
+    }
+
+    @media (min-width: $screen-xxl) {
+      font-size: 24px;
+    }
   }
 
   &__item {

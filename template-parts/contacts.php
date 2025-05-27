@@ -13,6 +13,12 @@
                 </a>
               </li>
             <?php endif; ?>
+            <?php if (get_field('contacts_adress', 'option')): ?>
+              <li class="contacts__item contacts__item--adress">
+                <div class="contacts__label">Адрес</div>
+                <div class="contacts__value"><?php the_field('contacts_adress', 'option'); ?></div>
+              </li>
+            <?php endif; ?>
             <?php if (get_field('contacts_mail', 'option')): ?>
               <li class="contacts__item contacts__item--mail">
                 <div class="contacts__label">Почта</div>
@@ -21,12 +27,7 @@
                 </a>
               </li>
             <?php endif; ?>
-            <?php if (get_field('contacts_adress', 'option')): ?>
-              <li class="contacts__item contacts__item--adress">
-                <div class="contacts__label">Адрес</div>
-                <div class="contacts__value"><?php the_field('contacts_adress', 'option'); ?></div>
-              </li>
-            <?php endif; ?>
+
             <?php if (get_field('contacts_name', 'option')): ?>
               <li class="contacts__item contacts__item--name">
                 <div class="contacts__label">Наименование</div>

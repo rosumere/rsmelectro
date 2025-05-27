@@ -60,8 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-
-
   const buttons = document.querySelectorAll('.tabs__btn');
   const contents = document.querySelectorAll('.tabs__content');
 
@@ -96,26 +94,44 @@ document.addEventListener('DOMContentLoaded', function () {
   // Инициализация
   activateTab(defaultTab);
 
-
-
-
-
-  // Очистить инлайн стиль после окончания transition
-  // headerMenu.addEventListener('transitionend', () => {
-  //   if (headerMenu.classList.contains('header-menu--active')) {
-  //     headerMenu.style.height = 'auto';
-  //   }
-  // });
-
   /**
-   * Отступ margin-top hero__content homepage от header для полосок
+   * Аккордеон для вакансий
    */
 
-  // const heroContent = document.querySelector('.home-hero');
-  // if (heroContent) {
-  //   heroContent.style.marginTop = "20px";
-  // }
+  function initAccordeons() {
+    const accordions = document.querySelectorAll('.job-accordeon');
 
+    accordions.forEach(accordeon => {
+      const items = accordeon.querySelectorAll('.job-accordeon__item');
+
+      items.forEach((item, index) => {
+        const btn = item.querySelector('.job-accordeon__btn');
+        const content = item.querySelector('.job-accordeon__content');
+
+        // Инициализация: открываем первый
+        if (index === 0) {
+          item.classList.add('open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          content.style.maxHeight = 0;
+        }
+
+        btn.addEventListener('click', () => {
+          const isOpen = item.classList.contains('open');
+
+          if (isOpen) {
+            // Закрываем
+            item.classList.remove('open');
+            content.style.maxHeight = 0;
+          } else {
+            // Открываем
+            item.classList.add('open');
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      });
+    });
+  }
 
   /**
    * Правильный отступ для catalog-card__cta. Установим для неё инлайново bottom равное высоте catalog-card__content
@@ -141,37 +157,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-
-
   /**
    * Инициализация Glightbox
    */
 
-  const cfForm = GLightbox({
-    elements: [{
-      'content': document.getElementById('contact-form'),
-    },],
-    width: '600',
-    height: 'auto',
-  });
-
-  let contactFormBtns = document.querySelectorAll('[data-form="true"]');
-  for (let i = 0; i < contactFormBtns.length; i++) {
-    contactFormBtns[i].addEventListener('click', function () {
-      cfForm.open();
-    });
-  }
-
-
   const lightbox = GLightbox({
     touchNavigation: true,
-    loop: true,
-    autoplayVideos: true
+    loop: false,
+    autoplayVideos: false
   });
 
+  // Glightbox для вакансий
+  const lightboxJob = GLightbox({
+    selector: '.glightbox-job',
+    touchNavigation: true,
+    loop: false,
+  });
+
+  // После загрузки всплывающего окна с вакансией
+  lightboxJob.on('slide_after_load', (current) => {
+    const { slideNode } = current;
+
+    // Инициализируем аккордеон
+    initAccordeons();
+
+    // Находим кнопку "Отправить резюме" в текущем слайде
+    const formBtn = slideNode.querySelector('[data-job-form="true"]');
+    if (formBtn) {
+      formBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        console.log('Кнопка резюме нажата'); // для отладки
+
+        // Закрыть lightbox вакансии
+        lightboxJob.close();
+
+        // Открыть форму после небольшой задержки через эмуляцию клика
+        setTimeout(() => {
+          console.log('Пытаемся открыть форму'); // для отладки
+          const triggerLink = document.querySelector('.open-job-form');
+          if (triggerLink) {
+            console.log('Ссылка найдена:', triggerLink); // для отладки
+            // Попробуем несколько способов эмуляции клика
+            try {
+              triggerLink.click();
+            } catch (error) {
+              console.log('Ошибка при клике:', error);
+              // Альтернативный способ
+              const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+              });
+              triggerLink.dispatchEvent(clickEvent);
+            }
+          } else {
+            console.log('Ссылка не найдена!');
+          }
+        }, 1000);
+      });
+    }
+  });
 });
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".about-info__item");

@@ -1,0 +1,70 @@
+.job-accordeon {
+  &__btn {
+    @include btn-reset;
+    position: relative;
+    color: $color-primary;
+    font-size: 22px;
+    width: 100%;
+    text-align: left;
+    padding-right: 32px;
+    transition: $transition;
+    padding: 16px 0;
+
+    &::after {
+      content: "+";
+      position: absolute;
+      color: $color-accent-dark;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.3s ease;
+    }
+  }
+
+  &__item {
+    &.open .job-accordeon__btn::after {
+      content: "–";
+    }
+
+    &.open .job-accordeon__content {
+      // padding-top: 1em;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-gray-light;
+    }
+  }
+
+  &__content {
+    overflow: hidden;
+    padding-top: 0;
+    transition: $transition;
+
+    & p {
+      margin-top: 0;
+    }
+
+    & ul {
+      @include list-reset;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    & ul li {
+      position: relative;
+      padding-left: 26px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 0;
+        width: 14px;
+        height: 14px;
+        background-color: $color-accent;
+      }
+    }
+  }
+}

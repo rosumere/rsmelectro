@@ -6,13 +6,7 @@
 get_header();
 
 ?>
-<style>
-  .page-hero__content {
-    position: relative;
-    min-height: 200px;
-    /* или подстрой под контент */
-  }
-</style>
+
 <main class="main page-docs page-hero">
   <?php while (have_posts()) : the_post(); ?>
     <div class="page-hero__cover section-dark" style="background-image: url('<?php echo esc_url(get_field('page_hero_img')); ?>');">

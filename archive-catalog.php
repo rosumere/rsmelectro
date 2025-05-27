@@ -47,21 +47,7 @@
         </ul>
       </div>
     </div>
-    <section class="page-contact">
-      <div class="container">
-        <div class="page-contact__inner">
-          <div class="page-contact__head">
-            <h2 class="page__subtitle page-contact__title">Форма обратной связи</h2>
-            <div class="page-contact__info">
-              Оставьте заявку и наш сотрудник свяжется с Вами в ближайшее время
-            </div>
-          </div>
-          <div class="page-contact__form">
-            <?php echo do_shortcode('[contact-form-7 id="67fc3c1" title="form-page"]'); ?>
-          </div>
-        </div>
-      </div>
-    </section>
+    <?php get_template_part('template-parts/contact-section'); ?>
   <?php
   else :
     _e('Извините, записей не найдено.', 'textdomain');

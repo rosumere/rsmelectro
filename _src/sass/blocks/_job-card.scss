@@ -1,0 +1,49 @@
+.job-card {
+  &__link {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: $color-accent-dark;
+    padding: 32px;
+    color: #fff;
+    transition: $transition;
+    text-decoration: none;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: $color-accent;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 24px;
+    margin: 0;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__content-title {
+    font-size: 24px;
+    color: $color-accent-dark;
+    background-color: $color-accent-light;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 28px;
+
+    @media (min-width: $screen-xl) {
+      padding: 32px 48px;
+    }
+  }
+}

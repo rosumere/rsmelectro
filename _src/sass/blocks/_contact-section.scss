@@ -1,0 +1,48 @@
+.contact-section {
+  &__inner {
+    display: grid;
+    padding-top: 50px;
+    padding-bottom: 100px;
+
+    @media (min-width: $screen-lg) {
+      display: grid;
+      grid-template-columns: 297px 1fr;
+    }
+
+    @media (min-width: $screen-xl) {
+      grid-template-columns: 320px 1fr;
+      padding: 90px 0 100px 0;
+    }
+
+    @media (min-width: $screen-xxl) {
+      grid-template-columns: 422px 1fr;
+    }
+  }
+
+  &__head {
+    @media (min-width: $screen-lg) {
+      padding-right: 24px;
+    }
+  }
+
+  &__info {
+    margin-bottom: 16px;
+  }
+
+  &__form {
+    @media (min-width: $screen-lg) {
+      padding-left: 24px;
+    }
+  }
+
+  &__title {
+    @media (min-width: $screen-lg) {
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: $screen-xl) {
+      font-size: 40px;
+    }
+  }
+}
