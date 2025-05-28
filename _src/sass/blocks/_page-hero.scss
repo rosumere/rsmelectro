@@ -131,15 +131,16 @@
   }
 
   &__inner {
-    padding: 100px 0;
+    padding: 50px 0;
+    display: grid;
 
     @media (min-width: $screen-lg) {
-      display: grid;
       grid-template-columns: 297px 1fr;
     }
 
     @media (min-width: $screen-xl) {
       grid-template-columns: 320px 1fr;
+      padding: 100px 0;
     }
 
     @media (min-width: $screen-xxl) {

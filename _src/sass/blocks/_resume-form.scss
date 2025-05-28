@@ -1,0 +1,80 @@
+.resume-form {
+  &__inner {
+    display: grid;
+    gap: 24px;
+    text-align: center;
+  }
+
+  &__fields {
+    display: grid;
+    gap: 12px;
+
+    @media (min-width: $screen-lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__submit-btn {
+    margin-bottom: 8px;
+    & input {
+      width: auto;
+    }
+  }
+
+  &__item {
+    &--doc {
+      & input[type="file"] {
+        background-color: #fff;
+      }
+    }
+  }
+
+  &__privacy {
+    color: $color-body;
+    font-size: 15px;
+
+    & a {
+      color: $color-body;
+      text-decoration: underline;
+    }
+  }
+
+  & .wpcf7-spinner {
+    display: none;
+  }
+}
+
+.resume-upload-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.resume-upload-input {
+  display: none;
+}
+
+.resume-upload-label {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+  color: $color-accent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.resume-upload-label:hover {
+  color: $color-body;
+}
+
+.resume-upload-icon svg {
+  width: 20px;
+  height: 20px;
+  margin-top: 6px;
+  color: $color-accent;
+}

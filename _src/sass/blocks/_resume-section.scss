@@ -1,0 +1,17 @@
+.resume-section {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__head {
+    order: -1;
+
+    @media (min-width: $screen-lg) {
+      order: unset;
+    }
+  }
+}

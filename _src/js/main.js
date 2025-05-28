@@ -158,20 +158,79 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /**
+  * Инициализация swiper slider для страницы вакансий
+  */
+
+  const swiper = new Swiper('.page-job__slider', {
+    slidesPerView: 1.3,
+    spaceBetween: 8,
+    breakpoints: {
+      576: {
+        slidesPerView: 2,
+      },
+      768: {
+        slidesPerView: 3,
+
+      },
+      1200: {
+        slidesPerView: 4,
+        spaceBetween: 24
+
+      }
+    },
+
+    loop: false,
+    navigation: {
+      nextEl: '.page-job__nav--next',
+      prevEl: '.page-job__nav--prev',
+    },
+    a11y: {
+      prevSlideMessage: 'Предыдущая вакансия',
+      nextSlideMessage: 'Следующая вакансия',
+    },
+    speed: 1400,
+    autoHeight: false,
+  });
+
+  /**
    * Инициализация Glightbox
    */
+
+  const cfForm = GLightbox({
+    elements: [{
+      'content': document.getElementById('contact-form'),
+    },],
+    width: '600',
+    height: 'auto',
+  });
+
+  let contactFormBtns = document.querySelectorAll('[data-form="true"]');
+  for (let i = 0; i < contactFormBtns.length; i++) {
+    contactFormBtns[i].addEventListener('click', function () {
+      cfForm.open();
+    });
+  }
+
+  let resumeFormBtns = document.querySelectorAll('[data-resume="true"]');
+  for (let i = 0; i < resumeFormBtns.length; i++) {
+    resumeFormBtns[i].addEventListener('click', function () {
+      jobForm.open();
+    });
+  }
 
   const lightbox = GLightbox({
     touchNavigation: true,
     loop: false,
-    autoplayVideos: false
+    autoplayVideos: false,
+    height: 'auto',
   });
 
-  // Glightbox для вакансий
+  // Инициализация Glightbox для вакансий
   const lightboxJob = GLightbox({
     selector: '.glightbox-job',
     touchNavigation: true,
     loop: false,
+    height: 'auto',
   });
 
   // После загрузки всплывающего окна с вакансией
@@ -183,42 +242,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Находим кнопку "Отправить резюме" в текущем слайде
     const formBtn = slideNode.querySelector('[data-job-form="true"]');
+
+    // Если кнопка "Отправить резюме" найдена, то по нажатию мы закроем всплывающее окно вакансии и откроем в новом всплывающем окне форму отправки резюме
     if (formBtn) {
       formBtn.addEventListener('click', function (e) {
+        // Отменим действие по умолчанию, чтобы форма не закрылась раньше времени
         e.preventDefault();
-
-        console.log('Кнопка резюме нажата'); // для отладки
 
         // Закрыть lightbox вакансии
         lightboxJob.close();
 
-        // Открыть форму после небольшой задержки через эмуляцию клика
+        // Открыть форму отправки резюме с задержкой 800мс. Если задержку не давать - скрипты не успеют нормально отработать и форма отправки резюме не откроется - будет бесконечно крутиться спинер закгрузки
         setTimeout(() => {
-          console.log('Пытаемся открыть форму'); // для отладки
-          const triggerLink = document.querySelector('.open-job-form');
-          if (triggerLink) {
-            console.log('Ссылка найдена:', triggerLink); // для отладки
-            // Попробуем несколько способов эмуляции клика
-            try {
-              triggerLink.click();
-            } catch (error) {
-              console.log('Ошибка при клике:', error);
-              // Альтернативный способ
-              const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true
-              });
-              triggerLink.dispatchEvent(clickEvent);
-            }
-          } else {
-            console.log('Ссылка не найдена!');
-          }
-        }, 1000);
+          jobForm.open();
+        }, 800);
       });
     }
   });
+
+  // Инициализируем саму форму отправки резюме
+  const jobForm = GLightbox({
+    elements: [{
+      'content': document.getElementById('job-form'),
+    },],
+    width: '870',
+    loop: false,
+    height: 'auto',
+  });
+
+  /**
+   * Отображение имени файла для формы загрузкуи резюме
+   */
+
+  const fileInput = document.getElementById('file1');
+  const labelText = document.querySelector('.resume-upload-text');
+
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files.length > 0) {
+      const fileName = fileInput.files[0].name;
+      labelText.textContent = `Файл "${fileName}" прикреплён`;
+    } else {
+      labelText.textContent = 'Добавьте ваше резюме';
+    }
+  });
+
+
 });
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".about-info__item");

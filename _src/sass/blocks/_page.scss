@@ -58,6 +58,12 @@
       font-size: 52px;
       padding-left: $padding-left-xxl;
     }
+
+    &--noml {
+      @media (min-width: $screen-lg) {
+        padding-left: 0;
+      }
+    }
   }
 
   &__toc {

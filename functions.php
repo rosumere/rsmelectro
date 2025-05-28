@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111125');
+  define('_VER', '0.111111126');
 }
 
 // Add theme support
@@ -32,11 +32,11 @@ function rsmtheme_setup()
 add_action('wp_enqueue_scripts', 'rsmtheme_scripts');
 function rsmtheme_scripts()
 {
-  wp_enqueue_style('swiper', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css', array(), '11.2.5');
+  wp_enqueue_style('swiper', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css', array(), '11.2.8');
   wp_enqueue_style('glightbox', get_stylesheet_directory_uri() . '/assets/css/glightbox.min.css', array(), '3.3.1');
   wp_enqueue_style('main', get_stylesheet_directory_uri() . '/assets/css/style.min.css', array(), _VER);
 
-  wp_enqueue_script('swiper', get_template_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '11.2.5', true);
+  wp_enqueue_script('swiper', get_template_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '11.2.8', true);
 
   wp_enqueue_script('glightbox', get_template_directory_uri() . '/assets/js/glightbox.min.js', array(), '3.3.1', true);
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.min.js', array(), _VER, true);

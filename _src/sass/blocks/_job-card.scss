@@ -1,6 +1,10 @@
 .job-card {
+  &__accordeon {
+    margin-bottom: 24px;
+  }
+
   &__link {
-    min-height: 400px;
+    min-height: 320px;
     display: flex;
     flex-direction: column;
     background-color: $color-accent-dark;
@@ -8,6 +12,10 @@
     color: #fff;
     transition: $transition;
     text-decoration: none;
+
+    @media (min-width: $screen-xl) {
+      min-height: 400px;
+    }
 
     @media (hover: hover) {
       &:hover {
@@ -17,8 +25,12 @@
   }
 
   &__title {
-    font-size: 24px;
+    font-size: 20px;
     margin: 0;
+
+    @media (min-width: $screen-xl) {
+      font-size: 24px;
+    }
   }
 
   &__more {
@@ -40,10 +52,14 @@
     padding: 12px;
     text-align: center;
     font-weight: 600;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 
     @media (min-width: $screen-xl) {
       padding: 32px 48px;
     }
+  }
+
+  &__cta {
+    text-align: center;
   }
 }
