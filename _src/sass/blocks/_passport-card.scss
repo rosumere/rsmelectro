@@ -1,0 +1,17 @@
+.passport-card {
+  &__content {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  &__title {
+    margin-bottom: 0;
+    font-size: 22px;
+  }
+}

@@ -190,6 +190,13 @@ section {
   }
 }
 
+.section-line--xl {
+  display: none;
+  @media (min-width: $screen-xl) {
+    display: block;
+  }
+}
+
 .section-dark .section-line {
   background-color: rgba(256, 256, 256, 0.18);
 }

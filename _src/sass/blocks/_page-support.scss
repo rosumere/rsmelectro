@@ -1,0 +1,65 @@
+.page-support {
+  &__list {
+    position: relative;
+    z-index: 2;
+    @include list-reset;
+    padding: 90px 0;
+    display: grid;
+    gap: 24px;
+
+    @media (min-width: $screen-lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: $screen-xxl) {
+      grid-template-columns: 421px 1fr 1fr;
+    }
+  }
+
+  &__link {
+    background-color: $color-accent-dark;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    text-decoration: none;
+    padding: 24px;
+    height: 100%;
+    justify-content: space-between;
+    gap: 20px;
+    transition: $transition;
+
+    @media (min-width: $screen-xl) {
+      padding: 32px;
+      gap: 83px;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: $color-accent;
+      }
+    }
+  }
+
+  &__cover {
+    width: 40px;
+    height: 40px;
+
+    @media (min-width: $screen-xl) {
+      width: 52px;
+      height: 52px;
+    }
+  }
+
+  &__link-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

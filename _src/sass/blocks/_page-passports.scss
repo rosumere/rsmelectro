@@ -1,0 +1,16 @@
+.page-passports {
+  &__list {
+    @include list-reset;
+    display: grid;
+    gap: 12px;
+    margin-bottom: 50px;
+
+    @media (min-width: $screen-sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

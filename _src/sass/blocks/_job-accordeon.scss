@@ -9,6 +9,16 @@
     padding-right: 32px;
     transition: $transition;
     padding: 16px 0;
+    padding-right: 50px;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus {
+      background-color: unset;
+    }
+
+    &:active {
+      background-color: unset;
+    }
 
     &::after {
       content: "+";
@@ -22,6 +32,8 @@
   }
 
   &__item {
+    background-color: #fff;
+
     &.open .job-accordeon__btn::after {
       content: "–";
     }
@@ -32,9 +44,16 @@
   }
 
   &__content {
+    position: relative;
     overflow: hidden;
     padding-top: 0;
     transition: $transition;
+
+    &::after {
+      content: "";
+      display: block;
+      height: 20px;
+    }
 
     & p {
       margin-top: 0;

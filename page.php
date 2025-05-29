@@ -62,10 +62,10 @@ if (get_field('is_show_hero')) {
           </div>
           <div class="page-standart__inner">
             <div class="page-standart__sidebar">
-
+              <h1 class="page-standart__title"><?php the_title(); ?></h1>
             </div>
             <div class="page-standart__content">
-              <h1 class="page-standart__title"><?php the_title(); ?></h1>
+
               <div class="user-content">
                 <?php the_content(); ?>
               </div>

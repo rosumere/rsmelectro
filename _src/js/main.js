@@ -60,39 +60,45 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /**
+   * Табы для страницы документация
+   */
   const buttons = document.querySelectorAll('.tabs__btn');
   const contents = document.querySelectorAll('.tabs__content');
 
-  // По умолчанию активен "Паспорта"
-  const defaultTab = 'passport';
+  if (buttons && contents) {
 
-  function activateTab(tabName) {
-    contents.forEach(content => {
-      if (content.dataset.tab === tabName) {
-        content.classList.add('active');
-      } else {
-        content.classList.remove('active');
-      }
+    // По умолчанию активен "Паспорта"
+    const defaultTab = 'passport';
+
+    function activateTab(tabName) {
+      contents.forEach(content => {
+        if (content.dataset.tab === tabName) {
+          content.classList.add('active');
+        } else {
+          content.classList.remove('active');
+        }
+      });
+
+      buttons.forEach(btn => {
+        if (btn.dataset.tab === tabName) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.tab;
+        activateTab(target);
+      });
     });
 
-    buttons.forEach(btn => {
-      if (btn.dataset.tab === tabName) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+    // Инициализация
+    activateTab(defaultTab);
   }
-
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      const target = button.dataset.tab;
-      activateTab(target);
-    });
-  });
-
-  // Инициализация
-  activateTab(defaultTab);
 
   /**
    * Аккордеон для вакансий
@@ -132,6 +138,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+
+  initAccordeons();
 
   /**
    * Правильный отступ для catalog-card__cta. Установим для неё инлайново bottom равное высоте catalog-card__content
@@ -277,14 +285,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const fileInput = document.getElementById('file1');
   const labelText = document.querySelector('.resume-upload-text');
 
-  fileInput.addEventListener('change', function () {
-    if (fileInput.files.length > 0) {
-      const fileName = fileInput.files[0].name;
-      labelText.textContent = `Файл "${fileName}" прикреплён`;
-    } else {
-      labelText.textContent = 'Добавьте ваше резюме';
-    }
-  });
+  if (fileInput && labelText) {
+
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        labelText.textContent = `Файл "${fileName}" прикреплён`;
+      } else {
+        labelText.textContent = 'Добавьте ваше резюме';
+      }
+    });
+  }
 
 
 });

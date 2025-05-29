@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111126');
+  define('_VER', '0.111111131');
 }
 
 // Add theme support
@@ -132,4 +132,117 @@ function change_catalog_breadcrumb_label_everywhere($links)
   }
 
   return $links;
+}
+
+
+// Регистрируем шорткод формы
+add_shortcode('catalog_filter_form', 'render_catalog_filter_form');
+function render_catalog_filter_form()
+{
+  ob_start();
+?>
+  <form id="catalog-filter-form">
+    <select name="voltage" id="voltage">
+      <option value="">Напряжение</option>
+      <?php foreach (get_unique_acf_values('product_rated_voltage') as $value): ?>
+        <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+      <?php endforeach; ?>
+    </select>
+
+    <select name="power" id="power">
+      <option value="">Ёмкость</option>
+      <?php foreach (get_unique_acf_values('product_rated_power') as $value): ?>
+        <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+      <?php endforeach; ?>
+    </select>
+
+    <select name="tech" id="tech">
+      <option value="">Технология</option>
+      <?php foreach (get_unique_acf_values('product_technology') as $value): ?>
+        <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+      <?php endforeach; ?>
+    </select>
+
+    <button type="submit">Подобрать</button>
+  </form>
+
+  <div id="catalog-results"></div>
+<?php
+  return ob_get_clean();
+}
+
+// Получение уникальных значений ACF
+function get_unique_acf_values($field_name)
+{
+  global $wpdb;
+
+  $results = $wpdb->get_col($wpdb->prepare("
+        SELECT DISTINCT meta_value FROM $wpdb->postmeta
+        WHERE meta_key = %s AND meta_value != ''
+    ", $field_name));
+
+  return array_filter(array_unique($results));
+}
+
+// Регистрируем AJAX обработчик
+add_action('wp_ajax_filter_catalog', 'handle_catalog_filter');
+add_action('wp_ajax_nopriv_filter_catalog', 'handle_catalog_filter');
+function handle_catalog_filter()
+{
+  $args = [
+    'post_type' => 'catalog',
+    'posts_per_page' => -1,
+    'meta_query' => ['relation' => 'AND'],
+  ];
+
+  if (!empty($_POST['voltage'])) {
+    $args['meta_query'][] = [
+      'key' => 'product_rated_voltage',
+      'value' => sanitize_text_field($_POST['voltage']),
+    ];
+  }
+
+  if (!empty($_POST['power'])) {
+    $args['meta_query'][] = [
+      'key' => 'product_rated_power',
+      'value' => sanitize_text_field($_POST['power']),
+    ];
+  }
+
+  if (!empty($_POST['tech'])) {
+    $args['meta_query'][] = [
+      'key' => 'product_technology',
+      'value' => sanitize_text_field($_POST['tech']),
+    ];
+  }
+
+  $query = new WP_Query($args);
+
+  if ($query->have_posts()) {
+    while ($query->have_posts()) {
+      $query->the_post();
+      echo '<div class="catalog-item">';
+      echo '<h4>' . get_the_title() . '</h4>';
+      echo '<p>Напряжение: ' . get_field('product_rated_voltage') . '</p>';
+      echo '<p>Ёмкость: ' . get_field('product_rated_power') . '</p>';
+      echo '<p>Технология: ' . get_field('product_technology') . '</p>';
+      echo '</div>';
+    }
+  } else {
+    echo '<p>Ничего не найдено.</p>';
+  }
+
+  wp_die();
+}
+
+
+add_action('wp_enqueue_scripts', 'enqueue_catalog_filter_scripts');
+function enqueue_catalog_filter_scripts()
+{
+  wp_enqueue_script('catalog-filter-js', get_template_directory_uri() . '/assets/js/catalog-filter.js', ['jquery'], null, true);
+
+  // Передаём ajax_url в скрипт
+  wp_localize_script('catalog-filter-js', 'catalog_filter_vars', [
+    'ajax_url' => admin_url('admin-ajax.php')
+  ]);
 }

@@ -27,15 +27,53 @@ get_header();
     </div>
     <div class="page-hero__wrapper section-light">
       <div class="container">
-        <div class="page-hero__inner">
-          <div class="page-hero__sidebar">
 
-          </div>
-          <div class="page-hero__content">
 
-          </div>
-          <div class="section-line"></div>
-        </div>
+        <?php
+        $parent_page = get_page_by_path('page-support');
+        $parent_id = get_the_ID();
+        $args = [
+          'post_type'      => 'page',
+          'posts_per_page' => -1, // вывести все
+          'post_parent'    => $parent_id, // ID родительской страницы
+          'order'          => 'ASC', // сортировка
+          'orderby'        => 'menu_order' // по порядку в меню (или 'title', 'date')
+        ];
+
+        $query = new WP_Query($args); ?>
+
+        <?php if ($query->have_posts()) : ?>
+          <ul class="page-support__list">
+
+            <?php while ($query->have_posts()) : $query->the_post(); ?>
+              <li class="page-support__item">
+                <a href="<?php the_permalink(); ?>" class="page-support__link">
+                  <?php if (get_field('service_inner_icon')): ?>
+                    <img class="page-support__cover" src="<?php the_field('service_inner_icon'); ?>" alt="<?php echo 'Иконка - ' . get_the_title(); ?>">
+                  <?php endif; ?>
+                  <div class="page-support__link-head">
+                    <h2><?php the_title(); ?></h2>
+                    <?php if (get_field('service_inner_descr')): ?>
+                      <div class="page-support__link-descr">
+                        <?php the_field('service_inner_descr'); ?>
+                      </div>
+                    <?php endif; ?>
+                  </div>
+                  <span class="page-support__link-more">Подробнее
+                    <svg aria-hidden="true">
+                      <use href="<?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.2#arrow-right-double'; ?>"></use>
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            <?php endwhile; ?>
+
+            <?php wp_reset_postdata(); ?>
+
+          </ul>
+        <?php endif; ?>
+        <div class="section-line"></div>
+
       </div>
     </div>
 
