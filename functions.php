@@ -141,33 +141,43 @@ function render_catalog_filter_form()
 {
   ob_start();
 ?>
-  <form id="catalog-filter-form">
-    <select name="voltage" id="voltage">
-      <option value="">Напряжение</option>
-      <?php foreach (get_unique_acf_values('product_rated_voltage') as $value): ?>
-        <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
-      <?php endforeach; ?>
-    </select>
+  <section class="selection">
+    <h2 class="selection__title">Заполните условия выбора</h2>
 
-    <select name="power" id="power">
-      <option value="">Ёмкость</option>
-      <?php foreach (get_unique_acf_values('product_rated_power') as $value): ?>
-        <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
-      <?php endforeach; ?>
-    </select>
+    <form id="catalog-filter-form" class="selection__form">
+      <div class=" selection__item-wrapper">
+        <select name="voltage" id="voltage">
+          <option value="">Напряжение</option>
+          <?php foreach (get_unique_acf_values('product_rated_voltage') as $value): ?>
+            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
 
-    <select name="tech" id="tech">
-      <option value="">Технология</option>
-      <?php foreach (get_unique_acf_values('product_technology') as $value): ?>
-        <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
-      <?php endforeach; ?>
-    </select>
+      <div class="selection__item-wrapper">
+        <select name="power" id="power">
+          <option value="">Ёмкость</option>
+          <?php foreach (get_unique_acf_values('product_rated_power') as $value): ?>
+            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
 
-    <button type="submit">Подобрать</button>
-  </form>
+      <div class="selection__item-wrapper">
+        <select name="tech" id="tech">
+          <option value="">Срок службы</option>
+          <?php foreach (get_unique_acf_values('product_service_life') as $value): ?>
+            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <button class="btn selection__btn-submit" type="submit">Подобрать</button>
+    </form>
+  </section>
 
   <div id="catalog-results"></div>
-<?php
+  <?php
   return ob_get_clean();
 }
 
@@ -209,30 +219,54 @@ function handle_catalog_filter()
     ];
   }
 
-  if (!empty($_POST['tech'])) {
+  if (!empty($_POST['service-life'])) {
     $args['meta_query'][] = [
-      'key' => 'product_technology',
-      'value' => sanitize_text_field($_POST['tech']),
+      'key' => 'product_service_life',
+      'value' => sanitize_text_field($_POST['service-life']),
     ];
   }
 
   $query = new WP_Query($args);
 
-  if ($query->have_posts()) {
-    while ($query->have_posts()) {
-      $query->the_post();
-      echo '<div class="catalog-item">';
-      echo '<h4>' . get_the_title() . '</h4>';
-      echo '<p>Напряжение: ' . get_field('product_rated_voltage') . '</p>';
-      echo '<p>Ёмкость: ' . get_field('product_rated_power') . '</p>';
-      echo '<p>Технология: ' . get_field('product_technology') . '</p>';
-      echo '</div>';
-    }
-  } else {
-    echo '<p>Ничего не найдено.</p>';
-  }
+  if ($query->have_posts()) : ?>
+    <ul class="selection__product-list">
+      <?php while ($query->have_posts()) : ?>
+        <?php
+        $query->the_post();
+        $image = get_field('product_image');
+        $voltage = get_field('product_rated_voltage');
+        $power = get_field('product_rated_power');
+        ?>
+        <li class="page-catalog__item catalog-card">
+          <a href="<?php the_permalink(); ?>" class="catalog-card__link">
+            <div class="catalog-card__cover">
+              <?php
+              if ($image) {
+                echo wp_get_attachment_image($image, 'full', false, array('class' => 'catalog-card__image'));
+              }
+              ?>
+            </div>
+            <div class="catalog-card__content">
+              <h2 class="catalog-card__title">
+                <?php the_title(); ?>
+              </h2>
+              <div class="catalog-card__property">
+                <?php echo $voltage . ' В ' . $power . ' Ач'; ?>
+              </div>
+            </div>
+          </a>
+        </li>
+      <?php endwhile; ?>
+    </ul>
+  <?php else : ?>
+    <p>Ничего не найдено.</p>
+  <?php endif; ?>
 
-  wp_die();
+
+
+
+
+<?php wp_die();
 }
 
 

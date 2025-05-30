@@ -46,19 +46,21 @@ get_header();
         <div class="section-line"></div>
       </div>
     </div>
-    <section class="page-hero__wrapper section-light">
-      <div class="container">
-        <div class="page-job__inner">
 
-          <?php
-          $args = array(
-            'posts_per_page' => -1,
-            'post_type' => 'jobs',
-          );
+    <?php
+    $args = array(
+      'posts_per_page' => -1,
+      'post_type' => 'jobs',
+    );
 
-          $query = new WP_Query($args); ?>
+    $query = new WP_Query($args); ?>
 
-          <?php if ($query->have_posts()) : ?>
+    <?php if ($query->have_posts()) : ?>
+      <section class="page-hero__wrapper section-light">
+        <div class="container">
+          <div class="page-job__inner">
+
+
             <h2 class="page__subtitle">Открытые вакансии</h2>
             <div class="page-job__slider-nav">
               <button class="page-job__nav button page-job__nav--prev">
@@ -134,15 +136,15 @@ get_header();
               <?php wp_reset_postdata(); ?>
 
             </div>
-          <?php else : ?>
-            <p><?php esc_html_e('Нет постов по вашим критериям.'); ?></p>
-          <?php endif; ?>
 
 
+
+
+          </div>
+          <div class="section-line"></div>
         </div>
-        <div class="section-line"></div>
-      </div>
-    </section>
+      </section>
+    <?php endif; ?>
     <?php
     $params = [
       'section-type' => 'section-light',
