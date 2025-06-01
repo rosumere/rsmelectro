@@ -107,6 +107,10 @@
       </div>
     </div>
   </div>
+  <div class="contact-form" id="contact-form" style="display:none">
+    <h2 class="contact-form__title">Форма обратной связи</h2>
+    <?php echo do_shortcode('[contact-form-7 id="119c600" title="form-contact"]'); ?>
+  </div>
 </footer>
 
 <?php wp_footer(); ?>

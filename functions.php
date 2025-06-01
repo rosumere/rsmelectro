@@ -149,7 +149,7 @@ function render_catalog_filter_form()
         <select name="voltage" id="voltage">
           <option value="">Напряжение</option>
           <?php foreach (get_unique_acf_values('product_rated_voltage') as $value): ?>
-            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) . ' В'; ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -158,7 +158,7 @@ function render_catalog_filter_form()
         <select name="power" id="power">
           <option value="">Ёмкость</option>
           <?php foreach (get_unique_acf_values('product_rated_power') as $value): ?>
-            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
+            <option value="<?= esc_attr($value) ?>"><?= esc_html($value) . ' Ач'; ?></option>
           <?php endforeach; ?>
         </select>
       </div>

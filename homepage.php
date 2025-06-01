@@ -12,7 +12,7 @@ get_header();
   get_template_part('template-parts/home-products');
   get_template_part('template-parts/home-values');
   get_template_part('template-parts/home-about');
-  get_template_part('template-parts/home-dealers');
+  // get_template_part('template-parts/home-dealers');
   get_template_part('template-parts/contacts');
   ?>
 </main>
