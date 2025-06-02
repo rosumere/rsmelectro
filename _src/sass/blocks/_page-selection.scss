@@ -1,0 +1,7 @@
+.page-selection {
+  & .page-catalog__list {
+    @media (min-width: $screen-xl) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

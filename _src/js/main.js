@@ -300,20 +300,42 @@ document.addEventListener('DOMContentLoaded', function () {
    * Инициализация Glightbox
    */
 
+  let lastClickedButton = null;
+
   const cfForm = GLightbox({
     elements: [{
       'content': document.getElementById('contact-form'),
-    },],
-    width: '600',
+    }],
+    width: '600px',
     height: 'auto',
   });
 
-  let contactFormBtns = document.querySelectorAll('[data-form="true"]');
-  for (let i = 0; i < contactFormBtns.length; i++) {
-    contactFormBtns[i].addEventListener('click', function () {
+  // Назначаем обработчики на все кнопки с data-form="true"
+  document.querySelectorAll('[data-form="true"]').forEach(button => {
+    button.addEventListener('click', function () {
+      lastClickedButton = button; // Запоминаем кнопку
       cfForm.open();
     });
-  }
+  });
+
+  cfForm.on('open', () => {
+    setTimeout(() => {
+      const form = document.querySelector('#contact-form .wpcf7 form');
+      if (!form || !lastClickedButton) return;
+
+      const pageTitle = document.title;
+      const productTitle = lastClickedButton.getAttribute('data-title') || '';
+      const productInfo = lastClickedButton.getAttribute('data-info') || '';
+
+      const pageTitleInput = form.querySelector('input[name="page_title"]');
+      const productInfoInput = form.querySelector('input[name="product_info"]');
+
+      if (pageTitleInput) pageTitleInput.value = pageTitle;
+      if (productInfoInput) productInfoInput.value = productTitle && productInfo
+        ? `${productTitle} – ${productInfo}`
+        : productTitle || productInfo || 'Не указано';
+    }, 100); // даем Glightbox немного времени на отрисовку
+  });
 
   let resumeFormBtns = document.querySelectorAll('[data-resume="true"]');
   for (let i = 0; i < resumeFormBtns.length; i++) {
@@ -392,6 +414,42 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  /**
+   * Кнопка показать / скрыть форму фильтрации на странице каталога товаров
+   */
+
+  const toggleButton = document.querySelector(".page-catalog__filters-btn");
+  const filterForm = document.querySelector(".page-catalog__filters-form");
+  const btnText = toggleButton.querySelector(".page-catalog__filters-btn-text");
+
+  let isOpen = false;
+
+  toggleButton.addEventListener("click", () => {
+    if (!isOpen) {
+      const fullHeight = filterForm.scrollHeight + "px";
+      filterForm.style.height = fullHeight;
+      filterForm.classList.add("open");
+      toggleButton.classList.add("active");
+      btnText.textContent = "Скрыть фильтры";
+    } else {
+      filterForm.style.height = filterForm.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        filterForm.style.height = "0";
+      });
+      filterForm.classList.remove("open");
+      toggleButton.classList.remove("active");
+      btnText.textContent = "Показать фильтры";
+    }
+    isOpen = !isOpen;
+  });
+
+  filterForm.addEventListener("transitionend", () => {
+    if (isOpen) {
+      filterForm.style.height = "auto";
+    }
+  });
+
 
 
 });

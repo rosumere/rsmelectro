@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('catalog-filter-form');
   const resetButton = document.getElementById('reset-filters');
   const resultsContainer = document.getElementById('catalog-results');
+  const originalCatalogList = document.getElementById('original-catalog-list');
 
   if (!form) return;
 
@@ -19,6 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(response => response.text())
       .then(data => {
         resultsContainer.innerHTML = data;
+        // Скрываем оригинальный список и показываем результаты фильтрации
+        if (originalCatalogList) {
+          originalCatalogList.style.display = 'none';
+        }
+        resultsContainer.style.display = 'block';
+
         updateFilterOptions(collectFormData());
         checkResetButtonVisibility();
       })
@@ -50,7 +57,14 @@ document.addEventListener('DOMContentLoaded', function () {
       form.reset();
       const formData = collectFormData();
       updateFilterOptions(formData);
+
+      // Очищаем результаты фильтрации и показываем оригинальный список
       resultsContainer.innerHTML = '';
+      resultsContainer.style.display = 'none';
+      if (originalCatalogList) {
+        originalCatalogList.style.display = 'block';
+      }
+
       checkResetButtonVisibility();
     });
 

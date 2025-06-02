@@ -33,4 +33,33 @@
       }
     }
   }
+
+  &__filters-btn {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: $transition;
+    font-size: 18px;
+
+    & svg {
+      width: 20px;
+      height: 20px;
+      transition: $transition;
+    }
+
+    &.active svg {
+      transform: scaleY(-1);
+    }
+  }
+
+  &__filters-form {
+    overflow: hidden;
+    height: 0;
+    transition: $transition;
+
+    &.open {
+      height: auto;
+    }
+  }
 }

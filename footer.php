@@ -46,7 +46,8 @@
         </div>
         <div class="footer__col footer__contacts footer-contacts">
           <div class="footer-contacts__inner">
-            <button class="btn footer-contacts__cta-btn btn--white" data-form="true">Связаться с нами</button>
+            <button class="btn footer-contacts__cta-btn btn--white" data-form="true" data-title="<?php echo esc_attr(wp_get_document_title()); ?>" data-info="Заявка с кнопки в подвале сайта">Связаться с нами</button>
+
             <?php if (get_field('contacts_phone_link', 'option')): ?>
               <a href="tel:<?php the_field('contacts_phone_link', 'option'); ?>" class="link footer-contacts__link footer-contacts__link--phone">
                 <?php the_field('contacts_phone_human', 'option'); ?>

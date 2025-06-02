@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111133');
+  define('_VER', '0.111111135');
 }
 
 // Add theme support
@@ -136,9 +136,6 @@ function change_catalog_breadcrumb_label_everywhere($links)
   return $links;
 }
 
-/**
- * Форма подбора АКБ
- */
 /**
  * Форма подбора АКБ
  */
@@ -315,7 +312,7 @@ function handle_catalog_filter()
   $posts = $query->posts;
 
   if (!empty($posts)) : ?>
-    <ul class="selection__product-list">
+    <ul class="page-catalog__list">
       <?php global $post; ?>
       <?php foreach ($posts as $post) : setup_postdata($post); ?>
         <li class="page-catalog__item catalog-card">
@@ -335,6 +332,8 @@ function handle_catalog_filter()
               </div>
             </div>
           </a>
+          <button class="btn catalog-card__cta" data-form="true" data-title="<?php echo esc_attr(get_the_title()); ?>"
+            data-info="<?php echo esc_attr($voltage . ' В ' . $power . ' Ач'); ?>">Оставить заявку</button>
         </li>
       <?php endforeach; ?>
       <?php wp_reset_postdata(); ?>
