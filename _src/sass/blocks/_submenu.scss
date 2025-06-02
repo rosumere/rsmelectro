@@ -1,0 +1,20 @@
+.submenu {
+  @include list-reset;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fff;
+  transition: $transition;
+
+  &__item {
+    padding: 10px;
+
+    @media (min-width: $screen-xl) {
+      padding: 8px 0;
+    }
+  }
+
+  @media (min-width: $screen-xl) {
+    display: flex;
+    padding: 12px;
+  }
+}

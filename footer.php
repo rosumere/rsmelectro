@@ -68,31 +68,49 @@
           <div class="footer-menu__inner">
             <div class="footer-menu__block">
               <h3 class="footer-menu__title">Продукция</h3>
-              <ul class="footer-menu__list">
-                <li class="footer-menu__item">
-                  <a href="#" class="footer-menu__link link">Electro Batt 12 V</a>
-                </li>
-              </ul>
+              <?php
+              wp_nav_menu([
+                'theme_location'  => 'footer_production',
+                'menu'            => '',
+                'container'       => '',
+                'container_class' => '',
+                'container_id'    => '',
+                'menu_class'      => 'footer-menu__list',
+                'menu_id'         => '',
+                'echo'            => true,
+                'fallback_cb'     => 'wp_page_menu',
+                'before'          => '',
+                'after'           => '',
+                'link_before'     => '',
+                'link_after'      => '',
+                'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                'depth'           => 0,
+                'walker'          => '',
+              ]);
+              ?>
             </div>
             <div class="footer-menu__block">
               <h3 class="footer-menu__title">О нас</h3>
-              <ul class="footer-menu__list">
-                <li class="footer-menu__item">
-                  <a href="#" class="footer-menu__link link">О компании</a>
-                </li>
-                <li class="footer-menu__item">
-                  <a href="#" class="footer-menu__link link">Документация</a>
-                </li>
-                <li class="footer-menu__item">
-                  <a href="#" class="footer-menu__link link">Вакансии</a>
-                </li>
-                <li class="footer-menu__item">
-                  <a href="#" class="footer-menu__link link">Сервис</a>
-                </li>
-                <li class="footer-menu__item">
-                  <a href="#" class="footer-menu__link link">Контакты</a>
-                </li>
-              </ul>
+              <?php
+              wp_nav_menu([
+                'theme_location'  => 'footer_menu',
+                'menu'            => '',
+                'container'       => '',
+                'container_class' => '',
+                'container_id'    => '',
+                'menu_class'      => 'footer-menu__list',
+                'menu_id'         => '',
+                'echo'            => true,
+                'fallback_cb'     => 'wp_page_menu',
+                'before'          => '',
+                'after'           => '',
+                'link_before'     => '',
+                'link_after'      => '',
+                'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                'depth'           => 0,
+                'walker'          => '',
+              ]);
+              ?>
             </div>
           </div>
         </div>

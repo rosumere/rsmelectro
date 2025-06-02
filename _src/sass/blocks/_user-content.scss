@@ -1,0 +1,24 @@
+.user-content {
+  & ul {
+    @include list-reset;
+    padding: 18px 0;
+    display: grid;
+    gap: 16px;
+    margin-left: 16px;
+  }
+
+  & ul li {
+    position: relative;
+    padding-left: 18px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background-color: $color-accent;
+    }
+  }
+}

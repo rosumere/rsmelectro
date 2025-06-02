@@ -29,6 +29,7 @@
     display: flex;
     align-items: center;
     visibility: visible;
+    overflow: visible;
   }
 
   &__inner {
@@ -52,6 +53,86 @@
 
     @media (min-width: $screen-xxl) {
       gap: 24px;
+    }
+  }
+
+  &__item {
+    &--submenu {
+      align-self: flex-start;
+      position: relative;
+      padding-right: 24px;
+      cursor: pointer;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 2px;
+        background-color: $color-body;
+        right: 12px;
+        top: 13px;
+        transition: all 0.3s ease;
+      }
+
+      &::before {
+        transform: translateY(-50%) rotate(45deg);
+        right: 10px;
+      }
+
+      &::after {
+        transform: translateY(-50%) rotate(-45deg);
+        right: 5px;
+      }
+
+      @media (min-width: $screen-xl) {
+        &:hover::before {
+          transform: translateY(-50%) rotate(-45deg);
+          background-color: $color-accent-dark;
+        }
+
+        &:hover::after {
+          transform: translateY(-50%) rotate(45deg);
+          background-color: $color-accent-dark;
+        }
+
+        &:hover .header-menu__link {
+          color: $color-accent-dark;
+        }
+
+        &:hover .header-menu__submenu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  &__submenu {
+    overflow: hidden;
+    height: 0;
+    transition: height $transition;
+
+    @media (min-width: $screen-xl) {
+      overflow: visible;
+      height: auto;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      min-width: 200px;
+      top: 100%;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: $transition;
+      transform-origin: top;
+
+      &--active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
     }
   }
 

@@ -12,7 +12,7 @@
         <h3 class="home-products__subtitle"><?php the_field('home_products_info_title'); ?></h3>
         <div class="home-products__info-descr">
           <?php the_field('home_products_info_descr'); ?>
-          <a href="#" class="link home-products__link">В каталог
+          <a href="/catalog" class="link home-products__link">В каталог
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.8333 5.83337L15 10L10.8333 14.1667M5 5.83337L9.16667 10L5 14.1667" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
             </svg>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Страница - подбор АКБ
+ * Template name: Страница - подбор АКБ
  */
 
 get_header();
@@ -24,9 +24,7 @@ get_header();
             <h1 class="page-standart__title"><?php the_title(); ?></h1>
           </div>
           <div class="page-standart__content">
-            <div class="page-section__content">
-
-            </div>
+            <?php the_content(); ?>
           </div>
         </div>
         <div class="section-line"></div>

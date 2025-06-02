@@ -19,6 +19,13 @@
       }
     }
 
+    @media (min-width: $screen-xl) {
+      & .header-menu__item::before,
+      & .header-menu__item::after {
+        background-color: $color-wihite-dark;
+      }
+    }
+
     & .header-contacts__link {
       color: #fff;
     }

@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111131');
+  define('_VER', '0.111111133');
 }
 
 // Add theme support
@@ -14,6 +14,8 @@ function rsmtheme_setup()
   register_nav_menus(
     [
       'header_menu' => 'Меню в шапке',
+      'footer_production' => 'Продукция в футере',
+      'footer_menu' => 'Меню в футере общее',
     ]
   );
 
@@ -134,6 +136,48 @@ function change_catalog_breadcrumb_label_everywhere($links)
   return $links;
 }
 
+/**
+ * Форма подбора АКБ
+ */
+
+function get_unique_acf_values($field_name)
+{
+  global $wpdb;
+
+  $results = $wpdb->get_col($wpdb->prepare("
+    SELECT DISTINCT meta_value FROM $wpdb->postmeta
+    WHERE meta_key = %s AND meta_value != ''
+  ", $field_name));
+
+  return array_filter(array_unique($results));
+}
+
+// Получение уникальных значений ACF Repeater-поля
+function get_unique_repeater_values($post_type, $repeater_field, $sub_field)
+{
+  $unique_values = [];
+
+  $posts = get_posts([
+    'post_type'      => $post_type,
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+  ]);
+
+  foreach ($posts as $post) {
+    if (have_rows($repeater_field, $post->ID)) {
+      while (have_rows($repeater_field, $post->ID)) {
+        the_row();
+        $value = get_sub_field($sub_field);
+        if (!empty($value)) {
+          $unique_values[] = $value;
+        }
+      }
+    }
+  }
+
+  return array_unique($unique_values);
+}
+
 
 // Регистрируем шорткод формы
 add_shortcode('catalog_filter_form', 'render_catalog_filter_form');
@@ -145,7 +189,7 @@ function render_catalog_filter_form()
     <h2 class="selection__title">Заполните условия выбора</h2>
 
     <form id="catalog-filter-form" class="selection__form">
-      <div class=" selection__item-wrapper">
+      <div class="selection__item-wrapper">
         <select name="voltage" id="voltage">
           <option value="">Напряжение</option>
           <?php foreach (get_unique_acf_values('product_rated_voltage') as $value): ?>
@@ -164,7 +208,7 @@ function render_catalog_filter_form()
       </div>
 
       <div class="selection__item-wrapper">
-        <select name="tech" id="tech">
+        <select name="service-life" id="service-life">
           <option value="">Срок службы</option>
           <?php foreach (get_unique_acf_values('product_service_life') as $value): ?>
             <option value="<?= esc_attr($value) ?>"><?= esc_html($value) ?></option>
@@ -172,7 +216,22 @@ function render_catalog_filter_form()
         </select>
       </div>
 
+      <div class="selection__item-wrapper selection__item-wrapper--fullwidth">
+        <label for="application_area">Сферы применения:</label>
+        <select name="application_area[]" id="application_area" multiple size="6">
+          <?php
+          $areas = get_unique_repeater_values('catalog', 'product_application_areas', 'product_application_areas_item');
+          foreach ($areas as $value):
+            $escaped_value = esc_attr($value);
+          ?>
+            <option value="<?= $escaped_value ?>"><?= esc_html($value) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
       <button class="btn selection__btn-submit" type="submit">Подобрать</button>
+      <button type="button" id="reset-filters" style="display: none;">Сбросить параметры</button>
+
     </form>
   </section>
 
@@ -181,24 +240,14 @@ function render_catalog_filter_form()
   return ob_get_clean();
 }
 
-// Получение уникальных значений ACF
-function get_unique_acf_values($field_name)
-{
-  global $wpdb;
-
-  $results = $wpdb->get_col($wpdb->prepare("
-        SELECT DISTINCT meta_value FROM $wpdb->postmeta
-        WHERE meta_key = %s AND meta_value != ''
-    ", $field_name));
-
-  return array_filter(array_unique($results));
-}
-
-// Регистрируем AJAX обработчик
+// Ajax обработка фильтра
 add_action('wp_ajax_filter_catalog', 'handle_catalog_filter');
 add_action('wp_ajax_nopriv_filter_catalog', 'handle_catalog_filter');
 function handle_catalog_filter()
 {
+
+
+
   $args = [
     'post_type' => 'catalog',
     'posts_per_page' => -1,
@@ -226,47 +275,46 @@ function handle_catalog_filter()
     ];
   }
 
+
+
   $query = new WP_Query($args);
 
-  if ($query->have_posts()) : ?>
+  if (!empty($_POST['application_area']) && is_array($_POST['application_area'])) {
+    $filtered_posts = filter_by_application_area($query->posts, $_POST['application_area']);
+  } else {
+    $filtered_posts = $query->posts;
+  }
+
+  if (!empty($filtered_posts)) : ?>
     <ul class="selection__product-list">
-      <?php while ($query->have_posts()) : ?>
-        <?php
-        $query->the_post();
-        $image = get_field('product_image');
-        $voltage = get_field('product_rated_voltage');
-        $power = get_field('product_rated_power');
-        ?>
+      <?php global $post; ?>
+      <?php foreach ($filtered_posts as $post) : setup_postdata($post); ?>
         <li class="page-catalog__item catalog-card">
           <a href="<?php the_permalink(); ?>" class="catalog-card__link">
             <div class="catalog-card__cover">
               <?php
+              $image = get_field('product_image');
               if ($image) {
                 echo wp_get_attachment_image($image, 'full', false, array('class' => 'catalog-card__image'));
               }
               ?>
             </div>
             <div class="catalog-card__content">
-              <h2 class="catalog-card__title">
-                <?php the_title(); ?>
-              </h2>
+              <h2 class="catalog-card__title"><?php the_title(); ?></h2>
               <div class="catalog-card__property">
-                <?php echo $voltage . ' В ' . $power . ' Ач'; ?>
+                <?= get_field('product_rated_voltage') . ' В ' . get_field('product_rated_power') . ' Ач'; ?>
               </div>
             </div>
           </a>
         </li>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
+      <?php wp_reset_postdata(); ?>
     </ul>
   <?php else : ?>
     <p>Ничего не найдено.</p>
-  <?php endif; ?>
+<?php endif;
 
-
-
-
-
-<?php wp_die();
+  wp_die();
 }
 
 
@@ -274,9 +322,129 @@ add_action('wp_enqueue_scripts', 'enqueue_catalog_filter_scripts');
 function enqueue_catalog_filter_scripts()
 {
   wp_enqueue_script('catalog-filter-js', get_template_directory_uri() . '/assets/js/catalog-filter.js', ['jquery'], null, true);
-
-  // Передаём ajax_url в скрипт
   wp_localize_script('catalog-filter-js', 'catalog_filter_vars', [
-    'ajax_url' => admin_url('admin-ajax.php')
+    'ajax_url' => admin_url('admin-ajax.php'),
   ]);
 }
+
+function filter_by_application_area($posts, $selected_areas)
+{
+  if (empty($posts) || empty($selected_areas) || !is_array($selected_areas)) {
+    return $posts;
+  }
+
+  $selected_areas = array_map('sanitize_text_field', $selected_areas);
+  $filtered = [];
+
+  foreach ($posts as $post) {
+    $matched = false;
+
+    if (have_rows('product_application_areas', $post->ID)) {
+      while (have_rows('product_application_areas', $post->ID)) {
+        the_row();
+        $item = get_sub_field('product_application_areas_item');
+        if (in_array($item, $selected_areas)) {
+          $matched = true;
+          break;
+        }
+      }
+    }
+
+    if ($matched) {
+      $filtered[] = $post;
+    }
+  }
+
+  return $filtered;
+}
+
+add_action('wp_ajax_get_filter_options', 'handle_get_filter_options');
+add_action('wp_ajax_nopriv_get_filter_options', 'handle_get_filter_options');
+
+function handle_get_filter_options()
+{
+  $args = [
+    'post_type' => 'catalog',
+    'posts_per_page' => -1,
+    'meta_query' => ['relation' => 'AND'],
+  ];
+
+  // Добавляем фильтры только если они заполнены
+  if (!empty($_POST['voltage'])) {
+    $args['meta_query'][] = [
+      'key' => 'product_rated_voltage',
+      'value' => sanitize_text_field($_POST['voltage']),
+      'compare' => '=',
+    ];
+  }
+
+  if (!empty($_POST['power'])) {
+    $args['meta_query'][] = [
+      'key' => 'product_rated_power',
+      'value' => sanitize_text_field($_POST['power']),
+      'compare' => '=',
+    ];
+  }
+
+  if (!empty($_POST['service-life'])) {
+    $args['meta_query'][] = [
+      'key' => 'product_service_life',
+      'value' => sanitize_text_field($_POST['service-life']),
+      'compare' => '=',
+    ];
+  }
+
+  $query = new WP_Query($args);
+  $posts = $query->posts;
+
+  // Дополнительная фильтрация по сферам применения (если есть)
+  if (!empty($_POST['application_area']) && is_array($_POST['application_area'])) {
+    $posts = filter_by_application_area($posts, $_POST['application_area']);
+  }
+
+  // Сбор уникальных значений по найденным товарам
+  $voltage = [];
+  $power = [];
+  $life = [];
+  $areas = [];
+
+  foreach ($posts as $post) {
+    $voltage[] = get_field('product_rated_voltage', $post->ID);
+    $power[] = get_field('product_rated_power', $post->ID);
+    $life[] = get_field('product_service_life', $post->ID);
+
+    if (have_rows('product_application_areas', $post->ID)) {
+      while (have_rows('product_application_areas', $post->ID)) {
+        the_row();
+        $item = get_sub_field('product_application_areas_item');
+        if (!empty($item)) {
+          $areas[] = $item;
+        }
+      }
+    }
+  }
+
+  wp_send_json([
+    'voltage' => array_values(array_unique(array_filter($voltage))),
+    'power'   => array_values(array_unique(array_filter($power))),
+    'life'    => array_values(array_unique(array_filter($life))),
+    'areas'   => array_values(array_unique(array_filter($areas))),
+  ]);
+}
+
+
+
+
+/**
+ * Изменим выдачу на archive-catalog.php - отсортируем товары по кастомну полю product_rated_power от большего к меньшему
+ */
+
+function sort_catalog_by_power($query)
+{
+  if (!is_admin() && $query->is_main_query() && is_post_type_archive('catalog')) {
+    $query->set('meta_key', 'product_rated_power');
+    $query->set('orderby', 'meta_value_num');
+    $query->set('order', 'ASC');
+  }
+}
+add_action('pre_get_posts', 'sort_catalog_by_power');

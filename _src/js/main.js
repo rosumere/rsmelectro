@@ -3,27 +3,105 @@ document.addEventListener('DOMContentLoaded', function () {
    * Главная навигация header
    */
 
+  // const header = document.querySelector('.header');
+  // const headerMenuToggle = document.querySelector('.header-menu-toggle');
+  // const headerMenu = document.querySelector('.header-menu');
+
+  // if (header && headerMenuToggle && headerMenu && window.matchMedia('(max-width: 1199.98px)').matches) {
+
+  //   headerMenuToggle.addEventListener('click', function () {
+  //     this.classList.toggle('header-menu-toggle--active');
+  //     header.classList.toggle('header--active');
+  //   });
+
+  //   headerMenuToggle.addEventListener('click', () => {
+  //     if (headerMenu.classList.contains('header-menu--active')) {
+  //       // Закрытие
+  //       headerMenu.style.height = `${headerMenu.scrollHeight}px`;
+  //       requestAnimationFrame(() => {
+  //         headerMenu.style.height = '0px';
+  //         headerMenu.classList.remove('header-menu--active');
+  //       });
+  //     } else {
+  //       // Открытие
+  //       headerMenu.classList.add('header-menu--active');
+  //       const fullHeight = headerMenu.scrollHeight;
+  //       headerMenu.style.height = '0px';
+  //       requestAnimationFrame(() => {
+  //         headerMenu.style.height = `${fullHeight}px`;
+  //       });
+  //     }
+  //   });
+  // }
+
+  /**
+   * Раскрывающееся подменю в header-menu на мобильных
+   */
+
+  // const submenuItems = document.querySelectorAll('.header-menu__item--submenu');
+
+  // submenuItems.forEach(item => {
+  //   item.addEventListener('click', function (e) {
+  //     if (window.innerWidth < 992) {
+  //       e.preventDefault(); // отключим переход по ссылке
+
+  //       // Переключаем класс на самом li
+  //       item.classList.toggle('active');
+
+  //       // Переключаем класс на вложенном ul
+  //       const submenu = item.querySelector('.header-menu__submenu');
+  //       if (submenu) {
+  //         submenu.classList.toggle('header-menu__submenu--active');
+  //       }
+  //     }
+  //   });
+  // });
+
   const header = document.querySelector('.header');
   const headerMenuToggle = document.querySelector('.header-menu-toggle');
   const headerMenu = document.querySelector('.header-menu');
+  const submenuItems = document.querySelectorAll('.header-menu__item--submenu');
+
+  // Обновление высоты основного меню
+  function updateHeaderMenuHeight() {
+    if (headerMenu.classList.contains('header-menu--active')) {
+      headerMenu.style.height = `${headerMenu.scrollHeight}px`;
+    }
+  }
+
+  // Плавное раскрытие/сжатие submenu
+  function toggleSubmenu(submenu) {
+    const isOpen = submenu.classList.contains('active');
+    if (isOpen) {
+      submenu.style.height = `${submenu.scrollHeight}px`; // установка текущей высоты для начала анимации
+      requestAnimationFrame(() => {
+        submenu.style.height = '0px';
+        submenu.classList.remove('active');
+      });
+    } else {
+      submenu.classList.add('active');
+      const fullHeight = submenu.scrollHeight;
+      submenu.style.height = '0px';
+      requestAnimationFrame(() => {
+        submenu.style.height = `${fullHeight}px`;
+      });
+    }
+  }
 
   if (header && headerMenuToggle && headerMenu && window.matchMedia('(max-width: 1199.98px)').matches) {
 
+    // Тогглер основного меню
     headerMenuToggle.addEventListener('click', function () {
       this.classList.toggle('header-menu-toggle--active');
       header.classList.toggle('header--active');
-    });
 
-    headerMenuToggle.addEventListener('click', () => {
       if (headerMenu.classList.contains('header-menu--active')) {
-        // Закрытие
         headerMenu.style.height = `${headerMenu.scrollHeight}px`;
         requestAnimationFrame(() => {
           headerMenu.style.height = '0px';
           headerMenu.classList.remove('header-menu--active');
         });
       } else {
-        // Открытие
         headerMenu.classList.add('header-menu--active');
         const fullHeight = headerMenu.scrollHeight;
         headerMenu.style.height = '0px';
@@ -31,6 +109,24 @@ document.addEventListener('DOMContentLoaded', function () {
           headerMenu.style.height = `${fullHeight}px`;
         });
       }
+    });
+
+    // Обработка клика по подменю
+    submenuItems.forEach(item => {
+      item.addEventListener('click', function (e) {
+        if (window.innerWidth < 1200) {
+          e.preventDefault();
+
+          const submenu = item.querySelector('.header-menu__submenu');
+          if (!submenu) return;
+
+          item.classList.toggle('active');
+          toggleSubmenu(submenu);
+
+          // Пересчитать высоту основного меню
+          setTimeout(updateHeaderMenuHeight, 250); // подождать завершения анимации
+        }
+      });
     });
   }
 

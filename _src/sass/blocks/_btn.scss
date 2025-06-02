@@ -16,6 +16,7 @@
   padding: 16px 24px;
   transition:
     background-color $transition,
+    border-color $transition,
     color $transition;
 
   @media (hover: hover) {
@@ -43,6 +44,7 @@
     @media (hover: hover) {
       &:hover {
         border-color: $color-primary;
+        color: #fff;
       }
     }
   }
@@ -50,6 +52,13 @@
   &--white {
     background-color: #fff;
     color: $color-primary;
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: #fff;
+        color: #fff;
+      }
+    }
   }
 
   &--dark {
