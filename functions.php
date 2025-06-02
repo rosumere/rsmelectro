@@ -139,6 +139,9 @@ function change_catalog_breadcrumb_label_everywhere($links)
 /**
  * Форма подбора АКБ
  */
+/**
+ * Форма подбора АКБ
+ */
 
 function get_unique_acf_values($field_name)
 {
@@ -243,11 +246,9 @@ function render_catalog_filter_form()
 // Ajax обработка фильтра
 add_action('wp_ajax_filter_catalog', 'handle_catalog_filter');
 add_action('wp_ajax_nopriv_filter_catalog', 'handle_catalog_filter');
+
 function handle_catalog_filter()
 {
-
-
-
   $args = [
     'post_type' => 'catalog',
     'posts_per_page' => -1,
@@ -258,6 +259,7 @@ function handle_catalog_filter()
     $args['meta_query'][] = [
       'key' => 'product_rated_voltage',
       'value' => sanitize_text_field($_POST['voltage']),
+      'compare' => '=',
     ];
   }
 
@@ -265,6 +267,7 @@ function handle_catalog_filter()
     $args['meta_query'][] = [
       'key' => 'product_rated_power',
       'value' => sanitize_text_field($_POST['power']),
+      'compare' => '=',
     ];
   }
 
@@ -272,30 +275,56 @@ function handle_catalog_filter()
     $args['meta_query'][] = [
       'key' => 'product_service_life',
       'value' => sanitize_text_field($_POST['service-life']),
+      'compare' => '=',
     ];
   }
 
+  // Исправленная фильтрация по repeater-полю application_area
+  if (!empty($_POST['application_area'])) {
+    // Если пришел массив, используем его, если строка - преобразуем в массив
+    $application_areas = is_array($_POST['application_area']) ? $_POST['application_area'] : [$_POST['application_area']];
 
+    // Получаем все посты, которые содержат хотя бы одну из выбранных областей применения
+    global $wpdb;
+    $area_conditions = [];
 
-  $query = new WP_Query($args);
+    foreach ($application_areas as $area) {
+      $area_conditions[] = $wpdb->prepare("meta_value = %s", sanitize_text_field($area));
+    }
 
-  if (!empty($_POST['application_area']) && is_array($_POST['application_area'])) {
-    $filtered_posts = filter_by_application_area($query->posts, $_POST['application_area']);
-  } else {
-    $filtered_posts = $query->posts;
+    if (!empty($area_conditions)) {
+      $area_condition_string = implode(' OR ', $area_conditions);
+
+      $post_ids = $wpdb->get_col("
+        SELECT DISTINCT post_id
+        FROM {$wpdb->postmeta}
+        WHERE meta_key LIKE 'product_application_areas_%_product_application_areas_item'
+        AND ({$area_condition_string})
+      ");
+
+      if (!empty($post_ids)) {
+        $args['post__in'] = $post_ids;
+      } else {
+        // Если не найдено ни одного поста, возвращаем пустой результат
+        $args['post__in'] = [0];
+      }
+    }
   }
 
-  if (!empty($filtered_posts)) : ?>
+  $query = new WP_Query($args);
+  $posts = $query->posts;
+
+  if (!empty($posts)) : ?>
     <ul class="selection__product-list">
       <?php global $post; ?>
-      <?php foreach ($filtered_posts as $post) : setup_postdata($post); ?>
+      <?php foreach ($posts as $post) : setup_postdata($post); ?>
         <li class="page-catalog__item catalog-card">
           <a href="<?php the_permalink(); ?>" class="catalog-card__link">
             <div class="catalog-card__cover">
               <?php
               $image = get_field('product_image');
               if ($image) {
-                echo wp_get_attachment_image($image, 'full', false, array('class' => 'catalog-card__image'));
+                echo wp_get_attachment_image($image, 'full', false, ['class' => 'catalog-card__image']);
               }
               ?>
             </div>
@@ -327,51 +356,22 @@ function enqueue_catalog_filter_scripts()
   ]);
 }
 
-function filter_by_application_area($posts, $selected_areas)
-{
-  if (empty($posts) || empty($selected_areas) || !is_array($selected_areas)) {
-    return $posts;
-  }
-
-  $selected_areas = array_map('sanitize_text_field', $selected_areas);
-  $filtered = [];
-
-  foreach ($posts as $post) {
-    $matched = false;
-
-    if (have_rows('product_application_areas', $post->ID)) {
-      while (have_rows('product_application_areas', $post->ID)) {
-        the_row();
-        $item = get_sub_field('product_application_areas_item');
-        if (in_array($item, $selected_areas)) {
-          $matched = true;
-          break;
-        }
-      }
-    }
-
-    if ($matched) {
-      $filtered[] = $post;
-    }
-  }
-
-  return $filtered;
-}
 
 add_action('wp_ajax_get_filter_options', 'handle_get_filter_options');
 add_action('wp_ajax_nopriv_get_filter_options', 'handle_get_filter_options');
 
 function handle_get_filter_options()
 {
-  $args = [
+  // Начинаем с базового запроса
+  $base_args = [
     'post_type' => 'catalog',
     'posts_per_page' => -1,
     'meta_query' => ['relation' => 'AND'],
   ];
 
-  // Добавляем фильтры только если они заполнены
+  // Добавляем фильтры для получения пересечения результатов
   if (!empty($_POST['voltage'])) {
-    $args['meta_query'][] = [
+    $base_args['meta_query'][] = [
       'key' => 'product_rated_voltage',
       'value' => sanitize_text_field($_POST['voltage']),
       'compare' => '=',
@@ -379,7 +379,7 @@ function handle_get_filter_options()
   }
 
   if (!empty($_POST['power'])) {
-    $args['meta_query'][] = [
+    $base_args['meta_query'][] = [
       'key' => 'product_rated_power',
       'value' => sanitize_text_field($_POST['power']),
       'compare' => '=',
@@ -387,22 +387,54 @@ function handle_get_filter_options()
   }
 
   if (!empty($_POST['service-life'])) {
-    $args['meta_query'][] = [
+    $base_args['meta_query'][] = [
       'key' => 'product_service_life',
       'value' => sanitize_text_field($_POST['service-life']),
       'compare' => '=',
     ];
   }
 
-  $query = new WP_Query($args);
-  $posts = $query->posts;
+  // Фильтрация по repeater-полю "Область применения"
+  if (!empty($_POST['application_area'])) {
+    $application_areas = is_array($_POST['application_area']) ? $_POST['application_area'] : [$_POST['application_area']];
 
-  // Дополнительная фильтрация по сферам применения (если есть)
-  if (!empty($_POST['application_area']) && is_array($_POST['application_area'])) {
-    $posts = filter_by_application_area($posts, $_POST['application_area']);
+    global $wpdb;
+    $area_conditions = [];
+
+    foreach ($application_areas as $area) {
+      $area_conditions[] = $wpdb->prepare("meta_value = %s", sanitize_text_field($area));
+    }
+
+    if (!empty($area_conditions)) {
+      $area_condition_string = implode(' OR ', $area_conditions);
+
+      $post_ids = $wpdb->get_col("
+        SELECT DISTINCT post_id
+        FROM {$wpdb->postmeta}
+        WHERE meta_key LIKE 'product_application_areas_%_product_application_areas_item'
+        AND ({$area_condition_string})
+      ");
+
+      if (!empty($post_ids)) {
+        $base_args['post__in'] = array_map('intval', $post_ids);
+      } else {
+        // Если не найдено ни одного поста, возвращаем пустые массивы
+        wp_send_json([
+          'voltage' => [],
+          'power'   => [],
+          'life'    => [],
+          'areas'   => [],
+        ]);
+        return;
+      }
+    }
   }
 
-  // Сбор уникальных значений по найденным товарам
+  // Выполняем запрос
+  $query = new WP_Query($base_args);
+  $posts = $query->posts;
+
+  // Сбор уникальных значений по фильтруемым полям
   $voltage = [];
   $power = [];
   $life = [];
@@ -410,8 +442,8 @@ function handle_get_filter_options()
 
   foreach ($posts as $post) {
     $voltage[] = get_field('product_rated_voltage', $post->ID);
-    $power[] = get_field('product_rated_power', $post->ID);
-    $life[] = get_field('product_service_life', $post->ID);
+    $power[]   = get_field('product_rated_power', $post->ID);
+    $life[]    = get_field('product_service_life', $post->ID);
 
     if (have_rows('product_application_areas', $post->ID)) {
       while (have_rows('product_application_areas', $post->ID)) {
@@ -424,6 +456,7 @@ function handle_get_filter_options()
     }
   }
 
+  // Отправляем JSON
   wp_send_json([
     'voltage' => array_values(array_unique(array_filter($voltage))),
     'power'   => array_values(array_unique(array_filter($power))),
