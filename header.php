@@ -37,8 +37,6 @@ if (is_front_page() || get_field('is_show_hero')) {
         </a>
         <div class="header-menu">
           <div class="container header-menu__inner">
-
-
             <?php
 
             wp_nav_menu([
@@ -89,10 +87,6 @@ if (is_front_page() || get_field('is_show_hero')) {
             <span class="header-menu-toggle__line"></span>
           </button>
         </div>
-
       </div>
-
-
-    </div>
     </div>
   </header>

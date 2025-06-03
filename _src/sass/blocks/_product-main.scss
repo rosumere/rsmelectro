@@ -18,12 +18,7 @@
     @media (min-width: $screen-xl) {
       gap: 0;
       grid-template-columns: $padding-left-xl 1fr;
-    }
-
-    @media (min-width: $screen-xxl) {
-      gap: 0;
-      grid-template-columns: $padding-left-xxl 1fr;
-      padding-bottom: 90px;
+      padding-bottom: 40px;
 
       &::after {
         content: "";
@@ -35,6 +30,12 @@
         background-color: $color-gray-light;
         bottom: 0;
       }
+    }
+
+    @media (min-width: $screen-xxl) {
+      gap: 0;
+      grid-template-columns: $padding-left-xxl 1fr;
+      padding-bottom: 90px;
     }
   }
 
@@ -123,6 +124,7 @@
 
   &__char {
     display: flex;
+    gap: 22px;
     flex-direction: column;
 
     @media (min-width: $screen-lg) {

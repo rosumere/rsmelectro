@@ -4,11 +4,11 @@
   @media (min-width: $screen-xl) {
     display: grid;
     grid-template-columns: 320px 1fr;
-    padding: 90px 0;
   }
 
   @media (min-width: $screen-xxl) {
     grid-template-columns: 422px 1fr;
+    padding: 90px 0;
   }
 
   &__passport {

@@ -9,7 +9,7 @@
   & .section-line {
     display: none;
 
-    @media (min-width: $screen-xxl) {
+    @media (min-width: $screen-xl) {
       display: block;
     }
   }

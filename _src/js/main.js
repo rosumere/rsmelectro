@@ -421,34 +421,82 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const toggleButton = document.querySelector(".page-catalog__filters-btn");
   const filterForm = document.querySelector(".page-catalog__filters-form");
-  const btnText = toggleButton.querySelector(".page-catalog__filters-btn-text");
 
-  let isOpen = false;
+  if (toggleButton && filterForm) {
+    const btnText = toggleButton.querySelector(".page-catalog__filters-btn-text");
 
-  toggleButton.addEventListener("click", () => {
-    if (!isOpen) {
-      const fullHeight = filterForm.scrollHeight + "px";
-      filterForm.style.height = fullHeight;
-      filterForm.classList.add("open");
-      toggleButton.classList.add("active");
-      btnText.textContent = "Скрыть фильтры";
-    } else {
-      filterForm.style.height = filterForm.scrollHeight + "px";
-      requestAnimationFrame(() => {
-        filterForm.style.height = "0";
-      });
-      filterForm.classList.remove("open");
-      toggleButton.classList.remove("active");
-      btnText.textContent = "Показать фильтры";
-    }
-    isOpen = !isOpen;
+    let isOpen = false;
+
+    toggleButton.addEventListener("click", () => {
+      if (!isOpen) {
+        const fullHeight = filterForm.scrollHeight + "px";
+        filterForm.style.height = fullHeight;
+        filterForm.classList.add("open");
+        toggleButton.classList.add("active");
+        btnText.textContent = "Скрыть фильтры";
+      } else {
+        filterForm.style.height = filterForm.scrollHeight + "px";
+        requestAnimationFrame(() => {
+          filterForm.style.height = "0";
+        });
+        filterForm.classList.remove("open");
+        toggleButton.classList.remove("active");
+        btnText.textContent = "Показать фильтры";
+      }
+      isOpen = !isOpen;
+    });
+
+    filterForm.addEventListener("transitionend", () => {
+      if (isOpen) {
+        filterForm.style.height = "auto";
+      }
+    });
+  }
+
+
+  /**
+   * Уведомпление о куках
+   */
+
+  const cookieNotification = document.getElementById('cookie-notification');
+  const cookieAcceptBtn = document.getElementById('cookie-accept');
+
+  // Проверяем, было ли уже принято уведомление
+  if (!getCookie('cookieAccepted')) {
+    cookieNotification.style.display = 'block';
+  }
+
+  // Обработчик клика на кнопку "Принять"
+  cookieAcceptBtn.addEventListener('click', function () {
+    setCookie('cookieAccepted', 'true', 365);
+    cookieNotification.style.display = 'none';
   });
 
-  filterForm.addEventListener("transitionend", () => {
-    if (isOpen) {
-      filterForm.style.height = "auto";
+  // Функция для установки куки
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
+
+  // Функция для получения куки
+  function getCookie(name) {
+    const cookieName = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(cookieName) === 0) {
+        return cookie.substring(cookieName.length, cookie.length);
+      }
     }
-  });
+    return "";
+  }
 
 
 
