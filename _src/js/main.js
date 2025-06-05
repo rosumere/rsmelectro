@@ -1,61 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  /**
-   * Главная навигация header
-   */
-
-  // const header = document.querySelector('.header');
-  // const headerMenuToggle = document.querySelector('.header-menu-toggle');
-  // const headerMenu = document.querySelector('.header-menu');
-
-  // if (header && headerMenuToggle && headerMenu && window.matchMedia('(max-width: 1199.98px)').matches) {
-
-  //   headerMenuToggle.addEventListener('click', function () {
-  //     this.classList.toggle('header-menu-toggle--active');
-  //     header.classList.toggle('header--active');
-  //   });
-
-  //   headerMenuToggle.addEventListener('click', () => {
-  //     if (headerMenu.classList.contains('header-menu--active')) {
-  //       // Закрытие
-  //       headerMenu.style.height = `${headerMenu.scrollHeight}px`;
-  //       requestAnimationFrame(() => {
-  //         headerMenu.style.height = '0px';
-  //         headerMenu.classList.remove('header-menu--active');
-  //       });
-  //     } else {
-  //       // Открытие
-  //       headerMenu.classList.add('header-menu--active');
-  //       const fullHeight = headerMenu.scrollHeight;
-  //       headerMenu.style.height = '0px';
-  //       requestAnimationFrame(() => {
-  //         headerMenu.style.height = `${fullHeight}px`;
-  //       });
-  //     }
-  //   });
-  // }
-
-  /**
-   * Раскрывающееся подменю в header-menu на мобильных
-   */
-
-  // const submenuItems = document.querySelectorAll('.header-menu__item--submenu');
-
-  // submenuItems.forEach(item => {
-  //   item.addEventListener('click', function (e) {
-  //     if (window.innerWidth < 992) {
-  //       e.preventDefault(); // отключим переход по ссылке
-
-  //       // Переключаем класс на самом li
-  //       item.classList.toggle('active');
-
-  //       // Переключаем класс на вложенном ul
-  //       const submenu = item.querySelector('.header-menu__submenu');
-  //       if (submenu) {
-  //         submenu.classList.toggle('header-menu__submenu--active');
-  //       }
-  //     }
-  //   });
-  // });
 
   const header = document.querySelector('.header');
   const headerMenuToggle = document.querySelector('.header-menu-toggle');
@@ -499,12 +442,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 
-
-});
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
+  /**
+   * Табы на странице "О компании"
+   */
   const items = document.querySelectorAll(".about-info__item");
 
   function collapseAll() {
