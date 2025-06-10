@@ -100,44 +100,43 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * Табы для страницы документация
+   * Скрипт для табов
    */
-  const buttons = document.querySelectorAll('.tabs__btn');
-  const contents = document.querySelectorAll('.tabs__content');
 
-  if (buttons && contents) {
+  function initTabsFromHTML() {
+    const tabContainers = document.querySelectorAll('[data-tabs-container]');
 
-    // По умолчанию активен "Паспорта"
-    const defaultTab = 'passport';
+    tabContainers.forEach(container => {
+      const defaultTab = container.dataset.tabsDefault;
+      const buttons = container.querySelectorAll('.tabs__btn');
+      const contents = container.querySelectorAll('.tabs__content');
 
-    function activateTab(tabName) {
-      contents.forEach(content => {
-        if (content.dataset.tab === tabName) {
-          content.classList.add('active');
-        } else {
-          content.classList.remove('active');
-        }
+      if (buttons.length === 0 || contents.length === 0) return;
+
+      const activeTab = defaultTab || buttons[0].dataset.tab;
+
+      function activateTab(tabName) {
+        contents.forEach(content => {
+          content.classList.toggle('active', content.dataset.tab === tabName);
+        });
+
+        buttons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+      }
+
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          activateTab(button.dataset.tab);
+        });
       });
 
-      buttons.forEach(btn => {
-        if (btn.dataset.tab === tabName) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-    }
-
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        const target = button.dataset.tab;
-        activateTab(target);
-      });
+      activateTab(activeTab);
     });
-
-    // Инициализация
-    activateTab(defaultTab);
   }
+
+  // Инициализация
+  initTabsFromHTML();
 
   /**
    * Аккордеон для вакансий

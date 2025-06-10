@@ -27,7 +27,7 @@ get_header();
     </div>
     <div class="page-hero__wrapper section-light">
       <div class="container">
-        <div class="page-hero__inner tabs">
+        <div class="page-hero__inner tabs" data-tabs-container data-tabs-default="passport">
           <div class="page-hero__sidebar page-docs__sidebar">
             <div class="tabs__buttons">
               <button class="tabs__btn" data-tab="catalog">Каталоги</button>

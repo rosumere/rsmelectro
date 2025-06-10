@@ -44,8 +44,10 @@ function rsmtheme_scripts()
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.min.js', array(), _VER, true);
 }
 
-require_once(get_template_directory() . '/inc/class-rsmelectro-header-nav.php');
+require_once(get_template_directory() . '/inc/register-taxonomy.php');
 require_once(get_template_directory() . '/inc/register-post-type.php');
+require_once(get_template_directory() . '/inc/class-rsmelectro-header-nav.php');
+
 require_once(get_template_directory() . '/inc/remove-trash.php');
 
 /**
