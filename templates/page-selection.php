@@ -34,7 +34,7 @@ get_header();
             </div>
 
             <div class="tabs__content" data-tab="models-selection">
-              Подбор по модели ИБП
+              <?php echo do_shortcode(' [ups_filter_form]'); ?>
             </div>
           </div>
         </div>

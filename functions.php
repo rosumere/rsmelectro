@@ -140,6 +140,20 @@ function change_catalog_breadcrumb_label_everywhere($links)
 }
 
 /**
+ * Изменим выдачу на archive-catalog.php - отсортируем товары по кастомну полю product_rated_power от большего к меньшему
+ */
+
+function sort_catalog_by_power($query)
+{
+  if (!is_admin() && $query->is_main_query() && is_post_type_archive('catalog')) {
+    $query->set('meta_key', 'product_rated_power');
+    $query->set('orderby', 'meta_value_num');
+    $query->set('order', 'ASC');
+  }
+}
+add_action('pre_get_posts', 'sort_catalog_by_power');
+
+/**
  * Форма подбора АКБ
  */
 
@@ -343,7 +357,7 @@ function handle_catalog_filter()
     </ul>
   <?php else : ?>
     <p>Ничего не найдено.</p>
-<?php endif;
+  <?php endif;
 
   wp_die();
 }
@@ -467,19 +481,218 @@ function handle_get_filter_options()
   ]);
 }
 
-
-
-
 /**
- * Изменим выдачу на archive-catalog.php - отсортируем товары по кастомну полю product_rated_power от большего к меньшему
+ * Форма подбора АКБ по ИБП
  */
 
-function sort_catalog_by_power($query)
+// ШОРТКОД ДЛЯ ФОРМЫ ФИЛЬТРА
+function ups_filter_shortcode()
 {
-  if (!is_admin() && $query->is_main_query() && is_post_type_archive('catalog')) {
-    $query->set('meta_key', 'product_rated_power');
-    $query->set('orderby', 'meta_value_num');
-    $query->set('order', 'ASC');
-  }
+  ob_start();
+  ?>
+
+  <section class="selection">
+    <h2 class="selection__title">Заполните условия выбора</h2>
+    <div id="ups-filter">
+      <form id="upsFilterForm" class="selection__form">
+        <div class="selection__item-wrapper">
+          <select name="brand" id="brandSelect">
+            <option value="">Марка</option>
+          </select>
+        </div>
+
+        <div class="selection__item-wrapper">
+          <select name="series" id="seriesSelect">
+            <option value="">Серия</option>
+          </select>
+        </div>
+
+        <div class="selection__item-wrapper">
+          <select name="ups_set" id="upsSetSelect">
+            <option value="">Комплект батарей производ...</option>
+          </select>
+        </div>
+
+        <button class="btn" type="submit">Подобрать</button>
+      </form>
+      <div id="filterResults"></div>
+    </div>
+  </section>
+  <?php
+  return ob_get_clean();
 }
-add_action('pre_get_posts', 'sort_catalog_by_power');
+add_shortcode('ups_filter_form', 'ups_filter_shortcode');
+
+
+// === AJAX: ЗАГРУЗКА МАРОК UPS ===
+add_action('wp_ajax_load_ups_brands', 'load_ups_brands');
+add_action('wp_ajax_nopriv_load_ups_brands', 'load_ups_brands');
+function load_ups_brands()
+{
+  $brands = get_terms([
+    'taxonomy' => 'ups_hierarchy',
+    'hide_empty' => false,
+    'parent' => 0
+  ]);
+
+  $result = [];
+  foreach ($brands as $term) {
+    $result[] = ['id' => $term->term_id, 'name' => $term->name];
+  }
+
+  wp_send_json($result);
+}
+
+
+// === AJAX: ЗАГРУЗКА СЕРИЙ ПО МАРКЕ ===
+add_action('wp_ajax_load_ups_series', 'load_ups_series');
+add_action('wp_ajax_nopriv_load_ups_series', 'load_ups_series');
+function load_ups_series()
+{
+  $brand_id = intval($_POST['brand_id']);
+  $series = get_terms([
+    'taxonomy' => 'ups_hierarchy',
+    'hide_empty' => false,
+    'parent' => $brand_id
+  ]);
+
+  $result = [];
+  foreach ($series as $term) {
+    $result[] = ['id' => $term->term_id, 'name' => $term->name];
+  }
+
+  wp_send_json($result);
+}
+
+
+// === AJAX: ЗАГРУЗКА UPS_SET ПО СЕРИИ ===
+add_action('wp_ajax_load_sets_by_series', 'load_sets_by_series');
+add_action('wp_ajax_nopriv_load_sets_by_series', 'load_sets_by_series');
+function load_sets_by_series()
+{
+  $series_id = intval($_POST['series_id']);
+
+  $posts = get_posts([
+    'post_type' => 'catalog',
+    'posts_per_page' => -1,
+    'tax_query' => [[
+      'taxonomy' => 'ups_hierarchy',
+      'field' => 'term_id',
+      'terms' => $series_id,
+    ]]
+  ]);
+
+  $set_ids = [];
+  foreach ($posts as $post) {
+    $terms = wp_get_post_terms($post->ID, 'ups_set');
+    foreach ($terms as $term) {
+      $set_ids[$term->term_id] = $term->name;
+    }
+  }
+
+  $result = [];
+  foreach ($set_ids as $id => $name) {
+    $result[] = ['id' => $id, 'name' => $name];
+  }
+
+  wp_send_json($result);
+}
+
+
+// === AJAX: ФИЛЬТРАЦИЯ ТОВАРОВ ===
+add_action('wp_ajax_filter_ups_catalog', 'filter_ups_catalog');
+add_action('wp_ajax_nopriv_filter_ups_catalog', 'filter_ups_catalog');
+function filter_ups_catalog()
+{
+  $tax_query = ['relation' => 'AND'];
+
+  if (!empty($_POST['brand'])) {
+    $tax_query[] = [
+      'taxonomy' => 'ups_hierarchy',
+      'field' => 'term_id',
+      'terms' => intval($_POST['brand']),
+      'include_children' => true,
+    ];
+  }
+
+  if (!empty($_POST['series'])) {
+    $tax_query[] = [
+      'taxonomy' => 'ups_hierarchy',
+      'field' => 'term_id',
+      'terms' => intval($_POST['series']),
+    ];
+  }
+
+  if (!empty($_POST['ups_set'])) {
+    $tax_query[] = [
+      'taxonomy' => 'ups_set',
+      'field' => 'term_id',
+      'terms' => intval($_POST['ups_set']),
+    ];
+  }
+
+  $query = new WP_Query([
+    'post_type' => 'catalog',
+    'posts_per_page' => -1,
+    'tax_query' => $tax_query,
+  ]);
+
+  $query = new WP_Query([
+    'post_type' => 'catalog',
+    'posts_per_page' => -1,
+    'tax_query' => $tax_query,
+  ]);
+  $posts = $query->posts;
+
+  if (!empty($posts)) : ?>
+    <ul class="page-catalog__list">
+      <?php global $post; ?>
+      <?php foreach ($posts as $post) : setup_postdata($post); ?>
+        <li class="page-catalog__item catalog-card">
+          <a href="<?php the_permalink(); ?>" class="catalog-card__link">
+            <div class="catalog-card__cover">
+              <?php
+              $image = get_field('product_image');
+              if ($image) {
+                echo wp_get_attachment_image($image, 'full', false, ['class' => 'catalog-card__image']);
+              }
+              ?>
+            </div>
+            <div class="catalog-card__content">
+              <h2 class="catalog-card__title"><?php the_title(); ?></h2>
+              <div class="catalog-card__property">
+                <?= get_field('product_rated_voltage') . ' В ' . get_field('product_rated_power') . ' Ач'; ?>
+              </div>
+            </div>
+          </a>
+          <button class="btn catalog-card__cta" data-form="true" data-title="<?php echo esc_attr(get_the_title()); ?>"
+            data-info="<?php echo esc_attr($voltage . ' В ' . $power . ' Ач'); ?>">Оставить заявку</button>
+        </li>
+      <?php endforeach; ?>
+      <?php wp_reset_postdata(); ?>
+    </ul>
+  <?php else : ?>
+    <div class="selection__empty">По вашему запросу ничего не найдено.</div>
+<?php endif;
+
+  // if ($query->have_posts()) {
+  //   while ($query->have_posts()) {
+  //     $query->the_post();
+  //     echo '<div class="ups-item"><h3>' . get_the_title() . '</h3></div>';
+  //   }
+  // } else {
+  //   echo '<p>Ничего не найдено</p>';
+  // }
+
+  wp_die();
+}
+
+// Подключаем JS и локализацию
+function ups_enqueue_filter_scripts()
+{
+  wp_enqueue_script('ups-filter-script', get_template_directory_uri() . '/assets/js/ups-filter.js', ['jquery'], null, true);
+  wp_localize_script('ups-filter-script', 'ups_ajax', [
+    'ajax_url' => admin_url('admin-ajax.php'),
+  ]);
+}
+add_action('wp_enqueue_scripts', 'ups_enqueue_filter_scripts');
