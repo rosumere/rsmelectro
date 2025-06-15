@@ -125,12 +125,8 @@
       </div>
     </div>
   </div>
-  <div id="cookie-notification" class="cookie-notification">
-    <div class="cookie-content">
-      <p>Мы используем файлы cookie для улучшения работы сайта. Оставаясь на сайте, вы соглашаетесь с <a href="/privacy-policy" target="_blank">Политикой конфиденциальности</a>.</p>
-      <button id="cookie-accept" class="cookie-btn">Принять</button>
-    </div>
-  </div>
+  <?php get_template_part('template-parts/cookie-notification'); ?>
+
   <div class="contact-form" id="contact-form" style="display:none">
     <h2 class="contact-form__title">Форма обратной связи</h2>
     <?php echo do_shortcode('[contact-form-7 id="119c600" title="form-contact"]'); ?>

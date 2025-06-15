@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111137');
+  define('_VER', '0.111111139');
 }
 
 // Add theme support
@@ -674,15 +674,6 @@ function filter_ups_catalog()
   <?php else : ?>
     <div class="selection__empty">По вашему запросу ничего не найдено.</div>
 <?php endif;
-
-  // if ($query->have_posts()) {
-  //   while ($query->have_posts()) {
-  //     $query->the_post();
-  //     echo '<div class="ups-item"><h3>' . get_the_title() . '</h3></div>';
-  //   }
-  // } else {
-  //   echo '<p>Ничего не найдено</p>';
-  // }
 
   wp_die();
 }

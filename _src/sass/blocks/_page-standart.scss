@@ -12,6 +12,10 @@
   }
 
   &__sidebar {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 24px;
+
     @media (min-width: $screen-xl) {
       padding-right: 23px;
     }
@@ -32,7 +36,7 @@
     }
 
     @media (min-width: $screen-xl) {
-      font-size: 48px;
+      font-size: 44px;
     }
 
     @media (min-width: $screen-xxl) {
@@ -66,5 +70,13 @@
 
   &--light .page-standart__line {
     background-color: $color-gray-light;
+  }
+
+  & .section-line {
+    width: 0;
+
+    @media (min-width: $screen-xl) {
+      width: 1px;
+    }
   }
 }

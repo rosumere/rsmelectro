@@ -23,7 +23,7 @@
     display: inline-flex;
     border: 1px solid $color-gray-light;
     padding: 18px 24px;
-    font-size: 24px;
+    font-size: 20px;
     color: $color-body;
     transition: background-color $transition;
 
@@ -31,6 +31,10 @@
       &:hover {
         background-color: $color-accent-light;
       }
+    }
+
+    @media (min-width: $screen-xxl) {
+      font-size: 24px;
     }
 
     &.active {
