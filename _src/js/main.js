@@ -55,8 +55,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Обработка клика по подменю
+    // submenuItems.forEach(item => {
+    //   item.addEventListener('click', function (e) {
+    //     if (window.innerWidth < 1200) {
+    //       e.preventDefault();
+
+    //       const submenu = item.querySelector('.header-menu__submenu');
+    //       if (!submenu) return;
+
+    //       item.classList.toggle('active');
+    //       toggleSubmenu(submenu);
+
+    //       // Пересчитать высоту основного меню
+    //       setTimeout(updateHeaderMenuHeight, 250); // подождать завершения анимации
+    //     }
+    //   });
+    // });
     submenuItems.forEach(item => {
       item.addEventListener('click', function (e) {
+        // Если клик был по ссылке в подменю — разрешаем переход
+        const isLink = e.target.closest('.submenu__link');
+        if (isLink) return;
+
         if (window.innerWidth < 1200) {
           e.preventDefault();
 
@@ -66,11 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
           item.classList.toggle('active');
           toggleSubmenu(submenu);
 
-          // Пересчитать высоту основного меню
-          setTimeout(updateHeaderMenuHeight, 250); // подождать завершения анимации
+          setTimeout(updateHeaderMenuHeight, 250);
         }
       });
     });
+
   }
 
   /**
@@ -399,6 +419,9 @@ document.addEventListener('DOMContentLoaded', function () {
   /**
    * Уведомпление о куках
    */
+
+  document.body.appendChild(document.getElementById("cookie-notification"));
+
 
   const cookieNotification = document.getElementById('cookie-notification');
   const cookieAcceptBtn = document.getElementById('cookie-accept');
