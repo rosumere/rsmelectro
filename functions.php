@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111141');
+  define('_VER', '0.111111144');
 }
 
 // Add theme support
@@ -267,6 +267,9 @@ function handle_catalog_filter()
     'post_type' => 'catalog',
     'posts_per_page' => -1,
     'meta_query' => ['relation' => 'AND'],
+    'orderby' => 'meta_value_num',
+    'meta_key' => 'product_rated_power',
+    'order' => 'ASC',
   ];
 
   if (!empty($_POST['voltage'])) {
@@ -325,6 +328,8 @@ function handle_catalog_filter()
     }
   }
 
+
+
   $query = new WP_Query($args);
   $posts = $query->posts;
 
@@ -378,15 +383,17 @@ add_action('wp_ajax_nopriv_get_filter_options', 'handle_get_filter_options');
 
 function handle_get_filter_options()
 {
-  // Начинаем с базового запроса
+  // Получаем поля, которые будем исключать из фильтрации (те, для которых хотим получить опции)
+  $exclude_fields = ['voltage', 'power', 'service-life'];
+
   $base_args = [
     'post_type' => 'catalog',
     'posts_per_page' => -1,
     'meta_query' => ['relation' => 'AND'],
   ];
 
-  // Добавляем фильтры для получения пересечения результатов
-  if (!empty($_POST['voltage'])) {
+  // Добавляем в meta_query только те поля, которые НЕ исключены
+  if (!empty($_POST['voltage']) && !in_array('voltage', $exclude_fields)) {
     $base_args['meta_query'][] = [
       'key' => 'product_rated_voltage',
       'value' => sanitize_text_field($_POST['voltage']),
@@ -394,7 +401,7 @@ function handle_get_filter_options()
     ];
   }
 
-  if (!empty($_POST['power'])) {
+  if (!empty($_POST['power']) && !in_array('power', $exclude_fields)) {
     $base_args['meta_query'][] = [
       'key' => 'product_rated_power',
       'value' => sanitize_text_field($_POST['power']),
@@ -402,7 +409,7 @@ function handle_get_filter_options()
     ];
   }
 
-  if (!empty($_POST['service-life'])) {
+  if (!empty($_POST['service-life']) && !in_array('service-life', $exclude_fields)) {
     $base_args['meta_query'][] = [
       'key' => 'product_service_life',
       'value' => sanitize_text_field($_POST['service-life']),
@@ -413,7 +420,6 @@ function handle_get_filter_options()
   // Фильтрация по repeater-полю "Область применения"
   if (!empty($_POST['application_area'])) {
     $application_areas = is_array($_POST['application_area']) ? $_POST['application_area'] : [$_POST['application_area']];
-
     global $wpdb;
     $area_conditions = [];
 
@@ -423,7 +429,6 @@ function handle_get_filter_options()
 
     if (!empty($area_conditions)) {
       $area_condition_string = implode(' OR ', $area_conditions);
-
       $post_ids = $wpdb->get_col("
         SELECT DISTINCT post_id
         FROM {$wpdb->postmeta}
@@ -434,7 +439,6 @@ function handle_get_filter_options()
       if (!empty($post_ids)) {
         $base_args['post__in'] = array_map('intval', $post_ids);
       } else {
-        // Если не найдено ни одного поста, возвращаем пустые массивы
         wp_send_json([
           'voltage' => [],
           'power'   => [],
@@ -450,7 +454,7 @@ function handle_get_filter_options()
   $query = new WP_Query($base_args);
   $posts = $query->posts;
 
-  // Сбор уникальных значений по фильтруемым полям
+  // Сбор уникальных значений
   $voltage = [];
   $power = [];
   $life = [];
@@ -472,7 +476,6 @@ function handle_get_filter_options()
     }
   }
 
-  // Отправляем JSON
   wp_send_json([
     'voltage' => array_values(array_unique(array_filter($voltage))),
     'power'   => array_values(array_unique(array_filter($power))),
@@ -480,6 +483,7 @@ function handle_get_filter_options()
     'areas'   => array_values(array_unique(array_filter($areas))),
   ]);
 }
+
 
 /**
  * Форма подбора АКБ по ИБП
@@ -641,7 +645,11 @@ function filter_ups_catalog()
     'post_type' => 'catalog',
     'posts_per_page' => -1,
     'tax_query' => $tax_query,
+    'orderby' => 'meta_value_num',
+    'meta_key' => 'product_rated_power',
+    'order' => 'ASC',
   ]);
+
   $posts = $query->posts;
 
   if (!empty($posts)) : ?>

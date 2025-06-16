@@ -20,21 +20,16 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(response => response.text())
       .then(data => {
         resultsContainer.innerHTML = data;
-        // Скрываем оригинальный список и показываем результаты фильтрации
-        if (originalCatalogList) {
-          originalCatalogList.style.display = 'none';
-        }
+        if (originalCatalogList) originalCatalogList.style.display = 'none';
         resultsContainer.style.display = 'block';
 
         updateFilterOptions(collectFormData());
         checkResetButtonVisibility();
       })
-      .catch(error => {
-        console.error('Ошибка при загрузке товаров:', error);
-      });
+      .catch(error => console.error('Ошибка при загрузке товаров:', error));
   });
 
-  // Обновление фильтров при изменении любого поля (кроме множественного выбора)
+  // Обновление фильтров при изменении любого поля (кроме многовыборного)
   form.querySelectorAll('select:not([multiple]), input').forEach(input => {
     input.addEventListener('change', () => {
       const formData = collectFormData();
@@ -43,10 +38,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Отдельная обработка для множественного выбора (только проверка кнопки сброса)
+  // Обработка множественного выбора — application_area
   const multiSelect = document.getElementById('application_area');
   if (multiSelect) {
     multiSelect.addEventListener('change', () => {
+      const powerSelect = document.getElementById('power');
+      if (powerSelect) powerSelect.selectedIndex = 0;
+
+      const formData = collectFormData();
+      updateFilterOptions(formData);
       checkResetButtonVisibility();
     });
   }
@@ -58,12 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const formData = collectFormData();
       updateFilterOptions(formData);
 
-      // Очищаем результаты фильтрации и показываем оригинальный список
       resultsContainer.innerHTML = '';
       resultsContainer.style.display = 'none';
-      if (originalCatalogList) {
-        originalCatalogList.style.display = 'block';
-      }
+      if (originalCatalogList) originalCatalogList.style.display = 'block';
 
       checkResetButtonVisibility();
     });
@@ -71,18 +68,15 @@ document.addEventListener('DOMContentLoaded', function () {
     checkResetButtonVisibility();
   }
 
-  // Проверка видимости кнопки сброса
   function checkResetButtonVisibility() {
     const hasValue = Array.from(form.elements).some(el => {
       if (el.tagName === 'SELECT' && el.multiple) {
-        // Для множественного выбора проверяем, есть ли выбранные опции
         return Array.from(el.selectedOptions).some(opt => opt.value !== '');
       }
       return (el.tagName === 'SELECT' || el.tagName === 'INPUT') &&
         el.type !== 'submit' &&
         el.type !== 'hidden' &&
-        el.value &&
-        el.value !== '';
+        el.value && el.value !== '';
     });
 
     if (resetButton) {
@@ -90,25 +84,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Очистка пустых значений из FormData
   function cleanFormData(formData) {
     const cleaned = new FormData();
     for (const [key, value] of formData.entries()) {
-      if (value !== '') {
-        cleaned.append(key, value);
-      }
+      if (value !== '') cleaned.append(key, value);
     }
     return cleaned;
   }
 
-  // Обновление опций фильтров
-  function updateFilterOptions(formData) {
-    // Создаем копию formData для отправки
-    const requestData = new FormData();
+  function collectFormData() {
+    const formData = new FormData();
+    const elements = form.querySelectorAll('select, input');
 
-    // Копируем все данные из переданного formData
+    elements.forEach(el => {
+      if (el.tagName === 'SELECT' && el.multiple) {
+        Array.from(el.selectedOptions).forEach(option => {
+          if (option.value !== '') formData.append(el.name, option.value);
+        });
+      } else if (el.type !== 'submit' && el.type !== 'hidden' && el.value !== '') {
+        formData.append(el.name, el.value);
+      }
+    });
+
+    return formData;
+  }
+
+  function updateFilterOptions(formData) {
+    const requestData = new FormData();
+    const excluded = ['voltage', 'power', 'service-life'];
+
     for (const [key, value] of formData.entries()) {
-      requestData.append(key, value);
+      if (!excluded.includes(key)) {
+        requestData.append(key, value);
+      }
     }
 
     requestData.set('action', 'get_filter_options');
@@ -124,29 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSelectOptions('service-life', data.life);
         updateMultiSelect('application_area', data.areas);
       })
-      .catch(err => {
-        console.error('Ошибка при обновлении фильтров:', err);
-      });
-  }
-
-  function collectFormData() {
-    const formData = new FormData();
-    const elements = form.querySelectorAll('select, input');
-
-    elements.forEach(el => {
-      if (el.tagName === 'SELECT' && el.multiple) {
-        // Для множественного выбора добавляем каждое выбранное значение
-        Array.from(el.selectedOptions).forEach(option => {
-          if (option.value !== '') {
-            formData.append(el.name, option.value);
-          }
-        });
-      } else if (el.type !== 'submit' && el.type !== 'hidden' && el.value !== '') {
-        formData.append(el.name, el.value);
-      }
-    });
-
-    return formData;
+      .catch(err => console.error('Ошибка при обновлении фильтров:', err));
   }
 
   function updateSelectOptions(selectId, options) {
@@ -159,26 +145,37 @@ document.addEventListener('DOMContentLoaded', function () {
     select.innerHTML = '';
     if (placeholder) select.appendChild(placeholder);
 
+    let foundCurrent = false;
+
     options.forEach(option => {
       const opt = document.createElement('option');
       opt.value = option;
-      opt.textContent = option;
+
+      if (selectId === 'power') {
+        opt.textContent = option + ' Ач';
+      } else if (selectId === 'voltage') {
+        opt.textContent = option + ' В';
+      } else {
+        opt.textContent = option;
+      }
+
       if (option === currentValue) {
         opt.selected = true;
+        foundCurrent = true;
       }
       select.appendChild(opt);
     });
+
+    if (!foundCurrent && select.options.length > 0) {
+      select.selectedIndex = 0;
+    }
   }
 
   function updateMultiSelect(selectId, options) {
     const select = document.getElementById(selectId);
     if (!select) return;
 
-    // Получаем выбранные значения ДО очистки
-    const previouslySelected = Array.from(select.options)
-      .filter(opt => opt.selected)
-      .map(opt => opt.value);
-
+    const previouslySelected = Array.from(select.selectedOptions).map(opt => opt.value);
     select.innerHTML = '';
 
     options.forEach(option => {
@@ -191,5 +188,4 @@ document.addEventListener('DOMContentLoaded', function () {
       select.appendChild(opt);
     });
   }
-
 });

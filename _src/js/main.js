@@ -465,17 +465,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   /**
-   * Табы на странице "О компании"
+   * Табы на странице "О компании" - при выборе активного все остальные закрываются
    */
-  const items = document.querySelectorAll(".about-info__item");
+  // const items = document.querySelectorAll(".about-info__item");
 
-  function collapseAll() {
-    items.forEach(item => {
-      const content = item.querySelector(".about-info__content");
-      item.classList.remove("about-info__item--active");
-      content.style.maxHeight = "0px";
-    });
-  }
+  // function collapseAll() {
+  //   items.forEach(item => {
+  //     const content = item.querySelector(".about-info__content");
+  //     item.classList.remove("about-info__item--active");
+  //     content.style.maxHeight = "0px";
+  //   });
+  // }
+
+  // items.forEach(item => {
+  //   const header = item.querySelector(".about-info__head");
+  //   const content = item.querySelector(".about-info__content");
+
+  //   // Установим max-height на активный по умолчанию
+  //   if (item.classList.contains("about-info__item--active")) {
+  //     content.style.maxHeight = content.scrollHeight + "px";
+  //   }
+
+  //   header.addEventListener("click", function () {
+  //     const isActive = item.classList.contains("about-info__item--active");
+
+  //     collapseAll(); // Скрыть все
+
+  //     if (!isActive) {
+  //       item.classList.add("about-info__item--active");
+  //       const scrollHeight = content.scrollHeight;
+  //       content.style.maxHeight = scrollHeight + "px";
+  //     }
+  //   });
+  // });
+
+  /**
+   * Табы на странице "О компании" - открываются и закрывается независимо от остальных
+   */
+
+  const items = document.querySelectorAll(".about-info__item");
 
   items.forEach(item => {
     const header = item.querySelector(".about-info__head");
@@ -489,12 +517,14 @@ document.addEventListener('DOMContentLoaded', function () {
     header.addEventListener("click", function () {
       const isActive = item.classList.contains("about-info__item--active");
 
-      collapseAll(); // Скрыть все
-
-      if (!isActive) {
+      if (isActive) {
+        // Закрыть таб
+        item.classList.remove("about-info__item--active");
+        content.style.maxHeight = "0px";
+      } else {
+        // Открыть таб
         item.classList.add("about-info__item--active");
-        const scrollHeight = content.scrollHeight;
-        content.style.maxHeight = scrollHeight + "px";
+        content.style.maxHeight = content.scrollHeight + "px";
       }
     });
   });
