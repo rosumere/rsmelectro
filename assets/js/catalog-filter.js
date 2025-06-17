@@ -128,7 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(res => res.json())
       .then(data => {
         updateSelectOptions('voltage', data.voltage);
-        updateSelectOptions('power', data.power);
+        // сортировка по числовому значению
+        const sortedPower = data.power.slice().sort((a, b) => parseFloat(a) - parseFloat(b));
+        updateSelectOptions('power', sortedPower);
         updateSelectOptions('service-life', data.life);
         updateMultiSelect('application_area', data.areas);
       })

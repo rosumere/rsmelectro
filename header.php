@@ -24,6 +24,7 @@ if (is_front_page() || get_field('is_show_hero')) {
 ?>
 
 <body <?php body_class(); ?>>
+  <div id="oneum-chat"></div>
   <header class="header <?php echo esc_attr($header_type); ?>">
     <div class="container header__container">
       <div class="header__inner">

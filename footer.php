@@ -135,6 +135,40 @@
 
 <?php wp_footer(); ?>
 
+<script>
+  const oneumCSS = document.createElement('link');
+  oneumCSS.rel = "stylesheet";
+  oneumCSS.href = "https://chat.oneum.io/eChat.css";
+  document.head.insertBefore(oneumCSS, document.head.childNodes[document.head.childNodes.length - 1].nextSibling);
+
+  function loadOneumScript(url, callback) {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.defer = true;
+    if (script.readyState) {
+      script.onreadystatechange = function() {
+        if (script.readyState === "loaded" || script.readyState === "complete") {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = function() {
+        callback();
+      };
+    }
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+  loadOneumScript("https://chat.oneum.io/eChat.js", function() {
+    const chat = new window.eChat({
+      key: '68503b2a378d24d52f94c15b',
+    });
+    chat.initialize();
+  });
+</script>
+
 </body>
 
 </html>
