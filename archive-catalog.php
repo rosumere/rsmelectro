@@ -45,7 +45,7 @@
                   <div class="catalog-card__cover">
                     <?php
                     if ($image) {
-                      echo wp_get_attachment_image($image, 'full', false, array('class' => 'catalog-card__image'));
+                      echo wp_get_attachment_image($image, 'full', false, ['class' => 'catalog-card__image', 'alt' => get_the_title()]);
                     }
                     ?>
                   </div>
