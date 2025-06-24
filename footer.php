@@ -164,15 +164,16 @@
   loadOneumScript("https://chat.oneum.io/eChat.js", function() {
     const chat = new window.eChat({
       key: '68503b2a378d24d52f94c15b',
+      customization: 'electro'
     });
     chat.initialize();
   });
 </script>
+<!-- Yandex.Metrika counter -->
 <script type="text/javascript">
   (function(m, e, t, r, i, k, a) {
-    m[i] = m[i]
-    function() {
-      (m[i].a = m[i].a[]).push(arguments)
+    m[i] = m[i] || function() {
+      (m[i].a = m[i].a || []).push(arguments)
     };
     m[i].l = 1 * new Date();
     for (var j = 0; j < document.scripts.length; j++) {
@@ -194,7 +195,7 @@
 <noscript>
   <div><img src="https://mc.yandex.ru/watch/102715743" style="position:absolute; left:-9999px;" alt="" /></div>
 </noscript>
-<!-- /Yandex.Metrika counter -->
+<!-- /Yandex.Metrika counter -->
 
 </body>
 

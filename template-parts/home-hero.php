@@ -11,7 +11,7 @@
       <div class="home-hero__buttons">
         <a href="/catalog" class="btn home-hero__btn">Подробнее</a>
         <a href="/dokumentacziya" class="btn home-hero__btn btn--outline-white">
-          <img aria-hidden="treu" src="/wp-content/uploads/2025/05/documentation-icon.svg" alt="Иконка документации">
+          <img aria-hidden="true" src="/wp-content/uploads/2025/05/documentation-icon.svg" alt="Иконка документации">
           Документация
         </a>
       </div>
