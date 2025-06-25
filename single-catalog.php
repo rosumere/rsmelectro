@@ -42,6 +42,7 @@ get_header();
 
           </div>
           <div class="product-main__char">
+
             <ul class="product-main__char-list">
               <?php if (get_field('product_rated_voltage')): ?>
                 <li class="product-main__char-item">
@@ -69,6 +70,18 @@ get_header();
                 </li>
               <?php endif; ?>
             </ul>
+
+            <div class="product-main__char-descr">
+              <div class="product-main__char-descr-column">
+                <?php the_field('product_head_descr_left'); ?>
+              </div>
+              <div class="product-main__char-descr-column">
+                <?php the_field('product_head_descr_right'); ?>
+              </div>
+
+            </div>
+
+
             <div class="product-main__char-buttons">
               <button class="btn product-main__char-cta" data-form="true" data-title="<?php echo esc_attr(wp_get_document_title()); ?>" data-info="Заявка со страницы товара">Оставить заявку</button>
               <?php if (get_field('product_passport')): ?>
