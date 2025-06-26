@@ -228,3 +228,16 @@ div#ez-toc-container {
     }
   }
 }
+
+table {
+  width: 100%;
+}
+
+table td {
+  border: 1px solid $color-gray-light;
+  padding: 1rem;
+
+  & p {
+    margin: 0;
+  }
+}
