@@ -9,7 +9,6 @@ if (get_field('is_show_hero')) {
 
 ?>
 
-
 <?php if ($hero): ?>
   <main class="main page-hero">
     <?php while (have_posts()) : the_post(); ?>
@@ -62,10 +61,12 @@ if (get_field('is_show_hero')) {
           </div>
           <div class="page-standart__inner">
             <div class="page-standart__sidebar">
-              <h1 class="page-standart__title"><?php the_title(); ?></h1>
+              <div class="contact-form">
+                <?php echo do_shortcode('[contact-form-7 id="119c600" title="form-contact"]'); ?>
+              </div>
             </div>
             <div class="page-standart__content">
-
+              <h1 class="page-standart__title"><?php the_title(); ?></h1>
               <div class="user-content">
                 <?php the_content(); ?>
               </div>

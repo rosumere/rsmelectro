@@ -5,7 +5,7 @@
  */
 get_header();
 ?>
-<main class="main page-privacy page-standart page-standart--light">
+<main class="main page-privacy page-standart page-standart--light section-light">
   <div class="page-standart__wrapper">
     <div class="container">
       <?php while (have_posts()) : the_post(); ?>
@@ -37,7 +37,7 @@ get_header();
             </div>
           </div>
         </div>
-        <div class="page-standart__line"></div>
+        <div class="section-line"></div>
     </div>
   <?php endwhile; ?>
   </div>

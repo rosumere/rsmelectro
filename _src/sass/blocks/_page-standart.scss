@@ -1,12 +1,12 @@
 .page-standart {
   &__inner {
+    display: grid;
+
     @media (min-width: $screen-xl) {
-      display: grid;
       grid-template-columns: 320px 1fr;
     }
 
     @media (min-width: $screen-xxl) {
-      display: grid;
       grid-template-columns: 422px 1fr;
     }
   }
@@ -15,9 +15,11 @@
     position: relative;
     z-index: 2;
     margin-bottom: 24px;
+    order: 1;
 
     @media (min-width: $screen-xl) {
       padding-right: 23px;
+      order: unset;
     }
   }
 
@@ -30,17 +32,18 @@
   &__title {
     font-size: 24px;
     text-transform: uppercase;
+    // hyphens: auto;
 
     @media (min-width: $screen-md) {
       font-size: 32px;
     }
 
     @media (min-width: $screen-xl) {
-      font-size: 44px;
+      font-size: 40px;
     }
 
     @media (min-width: $screen-xxl) {
-      font-size: 52px;
+      font-size: 46px;
     }
   }
 

@@ -49,3 +49,35 @@
     z-index: 1;
   }
 }
+
+.wpcf7-list-item {
+  margin: 0;
+}
+
+.wpcf7 input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid $color-accent;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.wpcf7 input[type="checkbox"]:checked {
+  background-color: $color-accent;
+}
+
+.wpcf7 input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
