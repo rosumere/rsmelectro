@@ -3,25 +3,28 @@ get_header();
 ?>
 
 
-<main class="main page page-archive">
+<main class="main page archive">
+  <div class="breadcrumbs" typeof="BreadcrumbList" vocab="https://schema.org/">
+    <div class="container">
+      <?php
+      if (function_exists('yoast_breadcrumb')) {
+        yoast_breadcrumb('<p class="breadcrumbs__row" id="breadcrumbs-row">', '</p>');
+      }
+      ?>
+    </div>
+  </div>
+
   <div class="container">
     <?php
-    the_archive_title('<h1 class="page__title">', '</h1>');
-    the_archive_description('<div class="page-archive__descr">', '</div>');
+    the_archive_title('<h1 class="archive__title">', '</h1>');
+    the_archive_description('<div class="parchive__descr">', '</div>');
 
     if (have_posts()) {
-      echo '<ul class="page__list">';
+      echo '<div class="archive__list">';
       while (have_posts()) {
         the_post();
     ?>
-        <li class="page__item">
-          <article id="post-<?php the_ID(); ?>" class="article">
-            <h2 class="page__subtitle"><?php the_title(); ?></h2>
-            <a href="<? the_permalink(); ?>" class="link">
-              Перейти
-            </a>
-          </article>
-        </li>
+        <?php get_template_part('template-parts/post-card'); ?>
     <?php
       }
       echo '</ul>';

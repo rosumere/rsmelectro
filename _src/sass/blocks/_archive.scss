@@ -1,0 +1,16 @@
+.archive {
+  &__list {
+    padding: 32px 0;
+    display: grid;
+    gap: 32px;
+    grid-template-columns: repeat(1, 1fr);
+
+    @media (min-width: $screen-md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: $screen-lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

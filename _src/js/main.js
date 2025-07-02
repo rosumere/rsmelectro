@@ -529,3 +529,146 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+
+/**
+ * Ajax фильтр для постов и записей
+ */
+
+document.addEventListener('DOMContentLoaded', function () {
+  const postContainer = document.getElementById('ajax-posts');
+  const paginationContainer = document.querySelector('.pagination');
+  let currentPage = 1;
+  let currentCat = null;
+
+  function loadMorePosts() {
+    currentPage++;
+
+    fetch(ajaxData.ajaxUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        action: 'load_more_posts',
+        page: currentPage,
+        category_id: currentCat
+      })
+    })
+      .then(response => response.text())
+      .then(data => {
+        const parser = new DOMParser();
+        const html = parser.parseFromString(data, 'text/html');
+
+        const newCards = html.querySelector('.ajax-cards');
+        const newBtnWrapper = html.querySelector('.ajax-load-more');
+
+        // ✅ Вставляем новые карточки (без обёртки .ajax-cards)
+        if (newCards) {
+          postContainer.insertAdjacentHTML('beforeend', newCards.innerHTML);
+        }
+
+        // ✅ Удаляем старую кнопку
+        const oldBtn = document.getElementById('load-more');
+        if (oldBtn) oldBtn.remove();
+
+        // ✅ Добавляем новую кнопку, если она пришла
+        if (newBtnWrapper) {
+          const btn = newBtnWrapper.querySelector('#load-more');
+          if (btn) {
+            paginationContainer.appendChild(btn);
+            btn.addEventListener('click', loadMorePosts);
+          }
+        }
+      });
+  }
+
+  // ✅ Кнопка "Показать ещё" при первой загрузке
+  const loadMoreBtn = document.getElementById('load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', loadMorePosts);
+  }
+
+  // ✅ Фильтрация по категориям
+  document.querySelectorAll('.category-filter__btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      currentCat = this.dataset.cat;
+      currentPage = 1;
+
+      fetch(ajaxData.ajaxUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          action: 'filter_posts_by_category',
+          category_id: currentCat
+        })
+      })
+        .then(response => response.text())
+        .then(data => {
+          const parser = new DOMParser();
+          const html = parser.parseFromString(data, 'text/html');
+
+          const newCards = html.querySelector('.ajax-cards');
+          const newBtnWrapper = html.querySelector('.ajax-load-more');
+
+          // ✅ Обновляем карточки
+          postContainer.innerHTML = newCards ? newCards.innerHTML : '';
+
+          // ✅ Удаляем старую кнопку
+          const oldBtn = document.getElementById('load-more');
+          if (oldBtn) oldBtn.remove();
+
+          // ✅ Добавляем новую кнопку, если она есть
+          if (newBtnWrapper) {
+            const btn = newBtnWrapper.querySelector('#load-more');
+            if (btn) {
+              paginationContainer.appendChild(btn);
+              btn.addEventListener('click', loadMorePosts);
+            }
+          }
+
+          // ✅ Активный класс на кнопку категории
+          document.querySelectorAll('.category-filter__btn').forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+        });
+    });
+  });
+
+  // Кнопка показать / скрыть категории
+
+  const toggleBtn = document.querySelector('.single-archive__show-cat');
+  const filterBlock = document.querySelector('.single-archive__filter');
+  if (toggleBtn && filterBlock) {
+
+
+    let isOpen = false;
+
+    toggleBtn.addEventListener('click', function () {
+      if (isOpen) {
+        // Закрыть
+        filterBlock.style.height = filterBlock.scrollHeight + 'px'; // установить текущую высоту
+        requestAnimationFrame(() => {
+          filterBlock.style.height = '0px';
+        });
+        toggleBtn.textContent = 'Показать категории';
+      } else {
+        // Открыть
+        filterBlock.style.height = filterBlock.scrollHeight + 'px';
+        toggleBtn.textContent = 'Скрыть категории';
+      }
+
+      isOpen = !isOpen;
+    });
+
+    // Сбросить инлайн-стили при ресайзе выше 1200px
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 1200) {
+        filterBlock.style.height = '';
+        isOpen = false;
+        toggleBtn.textContent = 'Показать категории';
+      }
+    });
+  }
+});

@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.111111147');
+  define('_VER', '0.111111148');
 }
 
 // Add theme support
@@ -11,6 +11,7 @@ function rsmtheme_setup()
 {
   add_theme_support('menus');
   add_theme_support('title-tag');
+  add_theme_support('post-thumbnails');
   register_nav_menus(
     [
       'header_menu' => 'Меню в шапке',
@@ -42,6 +43,10 @@ function rsmtheme_scripts()
 
   wp_enqueue_script('glightbox', get_template_directory_uri() . '/assets/js/glightbox.min.js', array(), '3.3.1', true);
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.min.js', array(), _VER, true);
+
+  wp_localize_script('main', 'ajaxData', array(
+    'ajaxUrl' => admin_url('admin-ajax.php')
+  ));
 }
 
 require_once(get_template_directory() . '/inc/register-taxonomy.php');
@@ -372,6 +377,7 @@ add_action('wp_enqueue_scripts', 'enqueue_catalog_filter_scripts');
 function enqueue_catalog_filter_scripts()
 {
   wp_enqueue_script('catalog-filter-js', get_template_directory_uri() . '/assets/js/catalog-filter.js', ['jquery'], null, true);
+
   wp_localize_script('catalog-filter-js', 'catalog_filter_vars', [
     'ajax_url' => admin_url('admin-ajax.php'),
   ]);
@@ -695,3 +701,90 @@ function ups_enqueue_filter_scripts()
   ]);
 }
 add_action('wp_enqueue_scripts', 'ups_enqueue_filter_scripts');
+
+
+/**
+ * Ajax фильтр для обычных постов (статей)
+ */
+
+add_action('wp_ajax_filter_posts_by_category', 'filter_posts_by_category');
+add_action('wp_ajax_nopriv_filter_posts_by_category', 'filter_posts_by_category');
+
+function filter_posts_by_category()
+{
+  $cat_id = intval($_POST['category_id']);
+
+  $args = array(
+    'post_type' => 'post',
+    'posts_per_page' => 10,
+    'paged' => 1,
+    'cat' => $cat_id
+  );
+
+  $query = new WP_Query($args);
+
+  if ($query->have_posts()) {
+    // 🔹 Карточки
+    echo '<div class="ajax-cards">';
+    while ($query->have_posts()) : $query->the_post();
+      get_template_part('template-parts/post-card');
+    endwhile;
+    echo '</div>';
+
+    // 🔹 Кнопка, только если есть ещё посты
+    if ($query->max_num_pages > 1) {
+      echo '<div class="ajax-load-more">';
+      echo '<button id="load-more" class="btn single-archive__pagination-more load-more-btn">Показать ещё</button>';
+      echo '</div>';
+    }
+  } else {
+    echo '<p>Записей не найдено.</p>';
+  }
+
+  wp_die();
+}
+
+
+
+/**
+ * Показать ещё для записей постов
+ */
+
+add_action('wp_ajax_load_more_posts', 'load_more_posts');
+add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts');
+
+function load_more_posts()
+{
+  $paged = isset($_POST['page']) ? intval($_POST['page']) : 1;
+  $cat_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+
+  $args = array(
+    'post_type' => 'post',
+    'posts_per_page' => 10,
+    'paged' => $paged,
+  );
+
+  if ($cat_id) {
+    $args['cat'] = $cat_id;
+  }
+
+  $query = new WP_Query($args);
+
+  if ($query->have_posts()) {
+    // 🔹 Карточки
+    echo '<div class="ajax-cards">';
+    while ($query->have_posts()) : $query->the_post();
+      get_template_part('template-parts/post-card');
+    endwhile;
+    echo '</div>';
+
+    // 🔹 Кнопка, если есть ещё посты
+    if ($paged < $query->max_num_pages) {
+      echo '<div class="ajax-load-more">';
+      echo '<button id="load-more" class="btn single-archive__pagination-more load-more-btn">Показать ещё</button>';
+      echo '</div>';
+    }
+  }
+
+  wp_die();
+}
