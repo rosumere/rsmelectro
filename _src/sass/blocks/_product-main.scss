@@ -183,6 +183,7 @@
 
   &__char-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 16px;
   }
 
@@ -193,7 +194,16 @@
     @media (min-width: $screen-md) {
       order: unset;
       width: auto;
-      min-width: 195px;
+      min-width: 237px;
+    }
+  }
+
+  &__buy-btn {
+    width: 100%;
+
+    @media (min-width: $screen-md) {
+      width: auto;
+      min-width: 237px;
     }
   }
 

@@ -84,6 +84,9 @@ get_header();
 
             <div class="product-main__char-buttons">
               <button class="btn product-main__char-cta" data-form="true" data-title="<?php echo esc_attr(wp_get_document_title()); ?>" data-info="Заявка со страницы товара">Оставить заявку</button>
+              <?php if (get_field('product_buy_link')): ?>
+                <a class="btn product-main__buy-btn" href="<?php the_field('product_buy_link'); ?>" target="_blank">Купить во ВсеИнструменты</a>
+              <?php endif; ?>
               <?php if (get_field('product_passport')): ?>
                 <a download href="<?php the_field('product_passport'); ?>" class="product-main__char-passport btn btn--outline-accent">
                   <svg aria-hidden="true">
