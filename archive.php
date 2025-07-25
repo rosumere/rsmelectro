@@ -20,7 +20,7 @@ get_header();
     the_archive_description('<div class="parchive__descr">', '</div>');
 
     if (have_posts()) {
-      echo '<div class="archive__list">';
+      echo '<ul class="archive__list">';
       while (have_posts()) {
         the_post();
     ?>

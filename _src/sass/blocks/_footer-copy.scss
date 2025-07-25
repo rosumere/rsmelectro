@@ -27,4 +27,11 @@
     color: rgba(256, 256, 256, 0.75);
     text-decoration: underline;
   }
+
+  &__offer {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: $color-wihite-dark;
+  }
 }
