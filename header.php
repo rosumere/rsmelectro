@@ -85,7 +85,7 @@ if (is_front_page() || get_field('is_show_hero')) {
 
           <button class="btn btn--dark header-contacts__cta" data-form="true" data-title="<?php echo esc_attr(wp_get_document_title()); ?>"
             data-info="Заявка из кнопки в шапке сайта">Связаться с нами</button>
-          <button class="btn header-menu-toggle">
+          <button class="btn header-menu-toggle" aria-label="Открыть меню сайта">
             <span class="header-menu-toggle__line"></span>
             <span class="header-menu-toggle__line"></span>
           </button>
