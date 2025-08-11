@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '0.11111118');
+  define('_VER', '0.11111121');
 }
 
 // Add theme support
@@ -717,6 +717,7 @@ function filter_posts_by_category()
   $args = array(
     'post_type' => 'post',
     'posts_per_page' => 10,
+    'post_status'    => 'publish',
     'paged' => 1,
     'cat' => $cat_id
   );
@@ -760,6 +761,7 @@ function load_more_posts()
 
   $args = array(
     'post_type' => 'post',
+    'post_status'    => 'publish',
     'posts_per_page' => 10,
     'paged' => $paged,
   );
