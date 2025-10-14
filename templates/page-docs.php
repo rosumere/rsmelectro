@@ -32,8 +32,7 @@ get_header();
             <div class="tabs__buttons">
               <button class="tabs__btn" data-tab="catalog">Каталоги</button>
               <button class="tabs__btn" data-tab="passport">Паспорта</button>
-              <button class="tabs__btn" data-tab="manual">Инструкция по эксплуатации 1</button>
-              <button class="tabs__btn" data-tab="manual-editor">Инструкция по эксплуатации 2</button>
+              <button class="tabs__btn" data-tab="manual">Инструкция по эксплуатации</button>
             </div>
 
           </div>
@@ -81,7 +80,7 @@ get_header();
 
             <div class="tabs__content" data-tab="manual">
               <?php if (get_field('docs_manual_title') && get_field('docs_manual_file')): ?>
-                <ul class="tabs__content-list">
+                <ul class="tabs__content-list tabs__content-list--fullwidth">
                   <li class="tabs__content-item">
                     <a href="<?php the_field('docs_manual_file'); ?>" download class="link tabs__link">
                       <svg aria-hidden="true">
@@ -92,12 +91,6 @@ get_header();
                   </li>
                 </ul>
               <?php endif; ?>
-            </div>
-
-            <div class="tabs__content" data-tab="manual-editor">
-              <div class="tabs__editor-content user-content">
-                <?php the_field('docs_manual_redact'); ?>
-              </div>
             </div>
 
 

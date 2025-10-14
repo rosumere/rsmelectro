@@ -82,6 +82,10 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px 24px;
     }
+
+    &--fullwidth {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__content-item {
