@@ -16,6 +16,7 @@
     z-index: 2;
     background-color: #fff;
     padding-top: 16px;
+    min-width: 0; // prevents horizontal overflow inside grid layout
 
     @media (min-width: $screen-lg) {
       padding-top: 0;

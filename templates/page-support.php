@@ -46,16 +46,14 @@ get_header();
           <ul class="page-support__list">
             <li class="page-support__item">
               <a href="/dokumentacziya" class="page-support__link">
-                <?php if (get_field('service_inner_icon')): ?>
-                  <img class="page-support__cover" src="<?php the_field('service_inner_icon'); ?>" alt="<?php echo 'Иконка - ' . get_the_title(); ?>">
-                <?php endif; ?>
+
+                <img class="page-support__cover" src="https://electro-batt.ru/wp-content/uploads/2025/05/pasporta-icon.svg" alt="Иконка - документация">
+
                 <div class="page-support__link-head">
-                  <h2><?php the_title(); ?></h2>
-                  <?php if (get_field('service_inner_descr')): ?>
-                    <div class="page-support__link-descr">
-                      <?php the_field('service_inner_descr'); ?>
-                    </div>
-                  <?php endif; ?>
+                  <h2>Документация</h2>
+                  <div class="page-support__link-descr">
+                    В этом разделе представлены технические паспорта и прочая документация на нашу продукцию
+                  </div>
                 </div>
                 <span class="page-support__link-more">Подробнее
                   <svg aria-hidden="true">

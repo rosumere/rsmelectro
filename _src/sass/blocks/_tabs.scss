@@ -114,8 +114,9 @@
   }
 
   &__editor-content {
-    padding-left: 24px;
     padding-top: 56px;
+    width: 100%;
+    box-sizing: border-box;
 
     // Основные стили для ограничения контента
     max-width: 100%;
@@ -123,6 +124,22 @@
     word-wrap: break-word;
     word-break: break-word;
     overflow-x: hidden;
+
+    @media (max-width: $screen-lg) {
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 40px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+
+      & > * {
+        max-width: 100% !important;
+      }
+
+      [style*="width"] {
+        max-width: 100% !important;
+      }
+    }
 
     // Таблицы
     table {
@@ -178,9 +195,15 @@
     li {
       word-break: break-word;
     }
+
+    @media (min-width: $screen-lg) {
+      margin-left: 24px;
+    }
   }
 
   &__passports-list {
-    padding-left: 24px !important;
+    @media (min-width: $screen-lg) {
+      padding-left: 24px !important;
+    }
   }
 }
