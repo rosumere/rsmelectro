@@ -25,6 +25,7 @@
     padding: 18px 24px;
     font-size: 20px;
     color: $color-body;
+    text-align: left;
     transition: background-color $transition;
 
     @media (hover: hover) {
@@ -113,6 +114,73 @@
   }
 
   &__editor-content {
-    padding-left: 20px;
+    padding-left: 24px;
+    padding-top: 56px;
+
+    // Основные стили для ограничения контента
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-x: hidden;
+
+    // Таблицы
+    table {
+      max-width: 100% !important;
+      width: auto !important;
+      border-collapse: collapse;
+
+      @media (max-width: $screen-lg) {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+
+    // Изображения
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    // Код и преформатированный текст
+    pre,
+    code {
+      white-space: pre-wrap;
+      max-width: 100%;
+      overflow-x: auto;
+      background: #f5f5f5;
+      padding: 8px;
+      border-radius: 4px;
+    }
+
+    // Ссылки
+    a {
+      word-break: break-all; // Для длинных URL
+    }
+
+    // iframe и видео
+    iframe,
+    video,
+    object,
+    embed {
+      max-width: 100%;
+      height: auto;
+    }
+
+    // Списки
+    ul,
+    ol {
+      padding-left: 20px;
+    }
+
+    li {
+      word-break: break-word;
+    }
+  }
+
+  &__passports-list {
+    padding-left: 24px !important;
   }
 }

@@ -241,3 +241,27 @@ table td {
     margin: 0;
   }
 }
+
+.wp-editor-content {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  table {
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  pre,
+  code {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}

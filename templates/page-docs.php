@@ -59,21 +59,61 @@ get_header();
             </div>
 
             <div class="tabs__content" data-tab="passport" class="active">
-              <?php if (have_rows('docs_passport_repeater')) : ?>
-                <ul class="tabs__content-list">
-                  <?php while (have_rows('docs_passport_repeater')) : the_row();
-                    $title = get_sub_field('docs_passport_title');
-                    $link = get_sub_field('docs_passport_file');
+              <?php
+              $args = [
+                'post_type'      => 'catalog',
+                'posts_per_page' => -1,
+                'meta_key'       => 'product_rated_power', // Указываем мета-поле для сортировки
+                'orderby'       => 'meta_value_num',      // Сортируем как числовое значение
+                'order'         => 'ASC',                // Сортировка по убыванию (от большего к меньшему)
+                'meta_query'    => [                      // Опционально: только если поле существует
+                  [
+                    'key'     => 'product_rated_power',
+                    'compare' => 'EXISTS',
+                  ]
+                ]
+              ];
+
+              $query = new WP_Query($args); ?>
+
+              <?php if ($query->have_posts()) : ?>
+                <ul class="page-passports__list tabs__passports-list">
+
+                  <?php while ($query->have_posts()) : $query->the_post();
+                    $image = get_field('product_image');
+                    $voltage = get_field('product_rated_voltage');
+                    $power = get_field('product_rated_power');
+                    $passport_link = get_field('product_passport');
                   ?>
-                    <li class="tabs__content-item">
-                      <a href="<?php echo $link; ?>" download class="link tabs__link">
-                        <svg aria-hidden="true">
-                          <use href="<?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.2#icon-pdf'; ?>"></use>
-                        </svg>
-                        <?php echo $title; ?>
+                    <li class="page-catalog__item catalog-card passport-card">
+                      <a href="<?php echo $passport_link; ?>" class="catalog-card__link">
+                        <div class="catalog-card__cover">
+                          <?php
+                          if ($image) {
+                            echo wp_get_attachment_image($image, 'full', false, array('class' => 'catalog-card__image'));
+                          }
+                          ?>
+                        </div>
+                        <div class="catalog-card__content passport-card__content">
+                          <svg aria-hidden="true" class="passport-card__icon">
+                            <use href=" <?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.3#icon-pdf'; ?>"></use>
+                          </svg>
+                          <div class="passport-card__info">
+                            <h2 class="catalog-card__title passport-card__title">
+                              <?php the_title(); ?>
+                            </h2>
+                            <div class="catalog-card__property">
+                              <?php echo $voltage . ' В ' . $power . ' Ач'; ?>
+                            </div>
+                          </div>
+
+                        </div>
                       </a>
                     </li>
                   <?php endwhile; ?>
+
+                  <?php wp_reset_postdata(); ?>
+
                 </ul>
               <?php endif; ?>
             </div>
@@ -91,8 +131,12 @@ get_header();
                   </li>
                 </ul>
               <?php endif; ?>
+              <?php if (get_field('docs_manual_redact')): ?>
+                <div class="tabs__editor-content wp-editor-content">
+                  <?php the_field('docs_manual_redact'); ?>
+                </div>
+              <?php endif; ?>
             </div>
-
 
           </div>
         </div>

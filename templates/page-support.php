@@ -44,6 +44,26 @@ get_header();
 
         <?php if ($query->have_posts()) : ?>
           <ul class="page-support__list">
+            <li class="page-support__item">
+              <a href="/dokumentacziya" class="page-support__link">
+                <?php if (get_field('service_inner_icon')): ?>
+                  <img class="page-support__cover" src="<?php the_field('service_inner_icon'); ?>" alt="<?php echo 'Иконка - ' . get_the_title(); ?>">
+                <?php endif; ?>
+                <div class="page-support__link-head">
+                  <h2><?php the_title(); ?></h2>
+                  <?php if (get_field('service_inner_descr')): ?>
+                    <div class="page-support__link-descr">
+                      <?php the_field('service_inner_descr'); ?>
+                    </div>
+                  <?php endif; ?>
+                </div>
+                <span class="page-support__link-more">Подробнее
+                  <svg aria-hidden="true">
+                    <use href="<?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.2#arrow-right-double'; ?>"></use>
+                  </svg>
+                </span>
+              </a>
+            </li>
 
             <?php while ($query->have_posts()) : $query->the_post(); ?>
               <li class="page-support__item">
