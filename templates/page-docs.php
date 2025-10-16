@@ -33,6 +33,7 @@ get_header();
               <button class="tabs__btn" data-tab="catalog">Каталоги</button>
               <button class="tabs__btn" data-tab="passport">Паспорта</button>
               <button class="tabs__btn" data-tab="manual">Инструкция по эксплуатации</button>
+              <button class="tabs__btn" data-tab="declaration">Декларация соответствия</button>
             </div>
 
           </div>
@@ -135,6 +136,21 @@ get_header();
                 <div class="tabs__editor-content wp-editor-content">
                   <?php the_field('docs_manual_redact'); ?>
                 </div>
+              <?php endif; ?>
+            </div>
+
+            <div class="tabs__content" data-tab="declaration">
+              <?php if (get_field('docs_declaration_title') && get_field('docs_declaration_file')): ?>
+                <ul class="tabs__content-list tabs__content-list--fullwidth">
+                  <li class="tabs__content-item">
+                    <a href="<?php the_field('docs_declaration_file'); ?>" download class="link tabs__link">
+                      <svg aria-hidden="true">
+                        <use href=" <?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.3#icon-pdf'; ?>"></use>
+                      </svg>
+                      <?php the_field('docs_declaration_title'); ?>
+                    </a>
+                  </li>
+                </ul>
               <?php endif; ?>
             </div>
 
