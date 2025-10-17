@@ -1,7 +1,7 @@
 <?php
 // Define version
 if (!defined('_VER')) {
-  define('_VER', '1.0.1');
+  define('_VER', '1.0.2');
 }
 
 // Add theme support
