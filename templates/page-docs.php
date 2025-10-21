@@ -160,7 +160,7 @@ get_header();
               <?php if (get_field('docs_manual_title') && get_field('docs_manual_file')): ?>
                 <ul class="tabs__content-list tabs__content-list--fullwidth">
                   <li class="tabs__content-item">
-                    <a href="<?php the_field('docs_gauarantee_file'); ?>" download class="link tabs__link">
+                    <a href="<?php the_field('docs_guarantee_file'); ?>" download class="link tabs__link">
                       <svg aria-hidden="true">
 
                         <use href=" <?php echo get_template_directory_uri() . '/assets/media/sprite.svg?ver=1.3#icon-pdf'; ?>"></use>
